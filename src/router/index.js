@@ -1,4 +1,3 @@
-import Hello from '@/components/Hello'
 import Layout from '@/components/Layout'
 
 const routes = [
