@@ -1,0 +1,234 @@
+*, *:before, *:after {
+  box-sizing: border-box;
+}
+body {
+  font-family: 'Microsoft Yahei', Helvetica, Arial, sans-serif;
+  margin: 0;
+  color: #333;
+  background: #ccc
+}
+h1, h2, h3, h4, h5, h6 {
+  font-family: inherit;
+  font-weight: 500;
+  line-height: 1.1;
+  color: inherit;
+}
+h1, h2, h3, ul, p {
+  margin: 0;
+  padding: 0
+}
+li {
+  list-style: none
+}
+a {
+  text-decoration: none;
+  color: #337ab7;
+}
+a:focus, a:hover {
+  color: #23527c;
+}
+input[type="text"],
+input[type="password"] {
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075);
+  transition: all .3s;
+}
+input:focus {
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(102,175,233,.6);
+}
+.is-error input:focus {
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 6px #c76161;
+}
+.clearfix:after,
+.clearfix:before,
+.container:after,
+.container:before,
+.container-fluid:after,
+.container-fluid:before {
+  display: table;
+  content: '';
+}
+.clearfix:after,
+.container:after,
+.container-fluid:after {
+  clear: both
+}
+.container-fluid {
+  padding-right: 15px;
+  padding-left: 15px;
+  margin-right: auto;
+  margin-left: auto;
+}
+.pull-right {
+  float: right
+}
+.pull-left {
+  float: left
+}
+.m-t {
+  margin-top: 15px
+}
+.m-t-lg {
+  margin-top: 30px
+}
+.m-b-5 {
+  margin-bottom: 5px
+}
+.m-b {
+  margin-bottom: 15px
+}
+.m-r {
+  margin-right: 15px;
+}
+.m-l-xs {
+  margin-left: 5px
+}
+.m-l {
+  margin-left: 15px;
+}
+.border {
+  border: 1px solid #ccc
+}
+.border-top {
+  border-top: 1px solid #ccc
+}
+.border-left {
+  border-left: 1px solid #ccc
+}
+.border-right {
+  border-right: 1px solid #ccc
+}
+.border-bottom {
+  border-bottom: 1px solid #ccc
+}
+.text-center {
+  text-align: center
+}
+.text-right {
+  text-align: right
+}
+.text-left {
+  text-align: left
+}
+.ellipsis {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.transition {
+  transition: all .3s ease;
+}
+.toolbar {
+  margin: 10px 0px;
+  .el-form-item {
+    margin-bottom: 10px;
+  }
+  .el-pagination {
+    float: right
+  }
+}
+.text-danger {
+  color: #f00
+}
+.bg-white {
+  background: #fff
+}
+.page-header {
+  padding-bottom: 9px;
+  margin: 0 0 20px;
+  border-bottom: 1px solid #eee;
+}
+table {
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+.table {
+  width: 100%;
+  overflow-x: scroll;
+  border: 1px solid #dfe6ec;
+}
+.table tbody {
+   background: #fff
+}
+.table th, .table td {
+  height: 40px;
+  padding: 5px 15px;
+  font-size: 14px;
+  text-align: left;
+  border-right: 1px solid #dfe6ec;
+}
+.table th {
+  background: #eef1f6;
+  border-bottom: 1px solid #dfe6ec;
+}
+.table td {
+  border-bottom: 1px solid #dfe6ec;
+}
+.table.hover tr:hover {
+  background: #eef1f6
+} 
+/***** element-ui style *****/
+.uploader .el-upload {
+  border: 1px dashed #d9d9d9;
+  border-radius: 6px;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+}
+.uploader .el-upload:hover {
+  border-color: #20a0ff;
+}
+.uploader .el-icon-plus {
+  width: 150px;
+  height: 150px;
+  line-height: 150px;
+  text-align: center;
+  font-size: 28px;
+  color: #8c939d;
+}
+.uploader .upload-image {
+  display: block;
+  width: 150px;
+  height: 150px;
+}
+.multiple-uploader .el-upload--picture-card {
+  width: 80px;
+  height: 80px;
+  line-height: 80px;
+}
+.multiple-uploader .el-upload-list__item {
+  width: 80px;
+  height: 80px;
+}
+.steps-bar {
+  margin-bottom: 15px;
+  padding-top: 3px;
+  background: #f9f9f9
+}
+.el-step__title {
+  line-height: 26px
+}
+.el-step__icon {
+  line-height: 25px
+}
+.el-card {
+  padding: 10px
+}
+.card-title {
+  line-height: 36px; 
+  font-size: 20px; 
+  font-weight: bold
+}
+.el-tabs--border-card > .el-tabs__content {
+  min-height: 400px;
+}
+.select-width {
+  width: 217px;
+}
+.text-center .el-form-item__content {
+  margin-left: 0!important
+}
+.el-button--block,
+.el-select--block,
+.el-input--block {
+  width: 100%
+}
