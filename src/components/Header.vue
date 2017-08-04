@@ -1,55 +1,47 @@
 <template>
-  <section>
-		<header>
-			<div class="topbar clearfix">
-				<div class="topbar-left">
-					<div class="top-logo">
-						<router-link to="/" class="logo">logo</router-link>
-					</div>
-				</div>
-				<div class="topbar-right">
-					<div class="search">
-						<el-input placeholder="悦视觉全球摄影" icon="search" v-model="searchContent" :on-icon-click="handleSearch" @focus="handleFocus" @blur="handleBlur" v-bind:style="{ width: inputWidth }" class="transition"/>
-					</div>
-					<div class="link">
-						<p>国内：010-56143517</p>
-					</div>
-					<div class="welcome">
-						<p>欢迎，Transform</p>
-					</div>
+	<header class="header">
+		<div class="topbar clearfix">
+			<div class="topbar-left">
+				<div class="top-logo">
+					<router-link to="/" class="logo">logo</router-link>
 				</div>
 			</div>
-			<div class="navbar clearfix">
-				<div class="nav-menu">
-					<h3>全球旅拍</h3>
-					<ul class="menu-list">
-						<li v-for="(item, index) in menuList" :key="index" class="menu-item">
-							<a href="#" class="title">{{item.name}}</a>
-							<div class="submenu-list">
-								<a href="#" v-for="(item, index) in item.children" :key="index" class="submenu-item">
-									{{item.name}}
-								</a>
-							</div>
-						</li>
-					</ul>
+			<div class="topbar-right">
+				<div class="search">
+					<el-input placeholder="悦视觉全球摄影" icon="search" v-model="searchContent" :on-icon-click="handleSearch" @focus="handleFocus" @blur="handleBlur" v-bind:style="{ width: inputWidth }" class="transition"/>
 				</div>
-				<ul class="nav-list">
-					<li v-for="(item, index) in navList" :key="index" class="nav-item">
-						<router-link :to="item.to">{{item.name}}</router-link>
+				<div class="link">
+					<p>国内：010-56143517</p>
+				</div>
+				<div class="welcome">
+					<p>欢迎，Transform</p>
+				</div>
+			</div>
+		</div>
+		<div class="navbar clearfix">
+			<div class="nav-menu">
+				<h3>全球旅拍</h3>
+				<ul class="menu-list">
+					<li v-for="(item, index) in menuList" :key="index" class="menu-item">
+						<a href="#" class="title">
+							{{item.name}}
+							<i class="fa fa-angle-right"></i>
+						</a>
+						<div class="submenu-list">
+							<a href="#" v-for="(item, index) in item.children" :key="index" class="submenu-item">
+								{{item.name}}
+							</a>
+						</div>
 					</li>
 				</ul>
 			</div>
-		</header>
-		<div class="banner">
-			<el-carousel indicator-position height="400px">
-		    <el-carousel-item v-for="(item, index) in bannerList" :key="index">
-		      <router-link :to="item.url" :title="item.title">
-		      	<img :src="item.imgUrl" :alt="item.title">
-		      </router-link>
-		    </el-carousel-item>
-		  </el-carousel>
+			<ul class="nav-list">
+				<li v-for="(item, index) in navList" :key="index" class="nav-item">
+					<router-link :to="item.to">{{item.name}}</router-link>
+				</li>
+			</ul>
 		</div>
-  </section>
+	</header>
 </template>
 <script>
 	export default {
@@ -73,28 +65,6 @@
 					{
 						name: '旅游',
 						to: 'travel'
-					},
-				],
-				bannerList: [
-					{
-						title: '巴厘岛婚纱摄影',
-						url: '/balidao',
-						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/banner2.jpg'
-					},
-					{
-						title: '圣托里尼婚纱摄影',
-						url: '/balidao',
-						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/banner3.jpg'
-					},
-					{
-						title: '塞班岛婚纱摄影',
-						url: '/balidao',
-						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/banner4.jpg'
-					},
-					{
-						title: '巴黎婚纱摄影',
-						url: '/balidao',
-						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/banner6.jpg'
 					},
 				],
 				menuList: [
@@ -326,7 +296,7 @@
 	}
 </script>
 <style scoped lang="scss">
-	header {
+	.header {
 		background: #fff
 	}
 	.topbar {
@@ -404,10 +374,16 @@
 				line-height: 50px;
 				.title {
 					display: inline-block;
+					position: relative;
 					width: 100%;
 					padding-left: 20px;
 					color: #fff;
 					letter-spacing: 2px;
+					.fa {
+						position: absolute;
+						top: 17px;
+						right: 10px;
+					}
 				}
 				&:hover {
 					background: #0094DA;
@@ -467,25 +443,4 @@
 			}
 		}
 	}
-	.banner {
-		width: 100%;
-		overflow: hidden;
-	}
-	.el-carousel {
-		width: 100%;
-	}
-	.el-carousel__container {
-		height: 400px
-	}
-  .el-carousel__item {
-  	a {
-  		display: inline-block;
-  		width: 100%;
-  		height: 100%;
-  		img {
-  			width: 100%;
-  			height: 100%;
-  		}
-  	}
-  }
 </style>
