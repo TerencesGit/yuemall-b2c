@@ -42,7 +42,7 @@ export default {
     	let timer = null;
       let gotoTop = () => {
         let currentPosition = document.documentElement.scrollTop || document.body.scrollTop;
-        currentPosition -= 10;
+        currentPosition -= 50;
         if (currentPosition > 0) {
           window.scrollTo(0, currentPosition);
         } else {
@@ -70,8 +70,7 @@ export default {
 	    min-height: 100%;
 	    height: auto !important;
 	    height: 100%;
-	    margin-bottom: -40px;
-	    background: #f5f5f5;
+	    margin-bottom: -145px;
 	  }
 	}
 	.main.spread {
@@ -87,7 +86,7 @@ export default {
 		font-size: 14px;
   }
   .wrap-footer {
-		height: 40px;
+		height: 145px;
 	}
 	.btn-top {
 		position: fixed;
