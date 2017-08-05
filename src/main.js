@@ -12,6 +12,7 @@ import 'font-awesome/css/font-awesome.min.css'
 import '@/assets/css/main.scss'
 Vue.use(Router)
 Vue.use(ElementUI)
+Vue.prototype.$nprogress = NProgress;
 NProgress.configure({ ease: 'ease', speed: 500, minimum: 0.5, showSpinner: false})
 Vue.config.productionTip = false
 const router = new Router({

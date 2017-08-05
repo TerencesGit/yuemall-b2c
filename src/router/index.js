@@ -1,5 +1,6 @@
 import Layout from '@/components/Layout'
 import Home from '@/pages/home'
+import List from '@/pages/list'
 const routes = [
 	{
 		path: '/',
@@ -11,7 +12,12 @@ const routes = [
     name: 'Hello',
     component: Layout,
     children: [
-    	{ path: 'home', name: 'home', component: Home }
+    	{ path: 'home', name: 'home', component: Home },
+    	{ path: 'list', name: 'list', component: List },
+    	{ path: 'native', name: 'native', component: List },
+    	{ path: 'oversea', name: 'oversea', component: List },
+    	{ path: 'travel', name: 'travel', component: List },
+    	{ path: 'detail', name: 'detail', component: List },
     ]
   },
 

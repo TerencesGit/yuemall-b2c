@@ -123,6 +123,6 @@ export default {
 	}
 	.fade-enter, .fade-leave-active {
 	  opacity: 0;
-		transform: translateX(30px);
+		// transform: translateX(30px);
 	}
 </style>

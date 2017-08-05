@@ -7,8 +7,16 @@
 				</div>
 			</div>
 			<div class="topbar-right">
-				<div class="search">
-					<el-input placeholder="悦视觉全球摄影" icon="search" v-model="searchContent" :on-icon-click="handleSearch" @focus="handleFocus" @blur="handleBlur" v-bind:style="{ width: inputWidth }" class="transition"/>
+				<div class="search" @click="searchEvent">
+					<el-input placeholder="悦视觉全球摄影" icon="search" v-model.trim="searchContent" :on-icon-click="handleSearch" @focus="handleFocus" @blur="handleBlur" @input="handleInput" v-bind:style="{ width: inputWidth }" class="transition"/>
+					<div class="search-suggest" v-show="suggestShow">
+						<ul v-loading="loading">
+							<li v-for="(item, index) in searchList" ref="suggest" @click="suggestSearch(index)">
+								<i class="fa fa-search"></i>
+								<span>搜索“{{searchContent}}”{{item}}</span>
+							</li>
+						</ul>
+					</div>
 				</div>
 				<div class="link">
 					<p>国内：010-56143517</p>
@@ -23,14 +31,14 @@
 				<h3>全球旅拍</h3>
 				<ul class="menu-list">
 					<li v-for="(item, index) in menuList" :key="index" class="menu-item">
-						<a href="#" class="title">
+						<router-link to="/list" class="title">
 							{{item.name}}
 							<i class="fa fa-angle-right"></i>
-						</a>
+						</router-link>
 						<div class="submenu-list">
-							<a href="#" v-for="(item, index) in item.children" :key="index" class="submenu-item">
+							<router-link to="/list" v-for="(item, index) in item.children" :key="index" class="submenu-item">
 								{{item.name}}
-							</a>
+							</router-link>
 						</div>
 					</li>
 				</ul>
@@ -49,10 +57,12 @@
 			return {
 				inputWidth: '200px',
 				searchContent: '',
+				suggestShow: false,
+				loading: false,
 				navList: [
 					{
 						name: '首页',
-						to: '/'
+						to: '/home'
 					},
 					{
 						name: '国内摄影',
@@ -60,11 +70,11 @@
 					},
 					{
 						name: '海外摄影',
-						to: '/outsea'
+						to: '/oversea'
 					},
 					{
 						name: '旅游',
-						to: 'travel'
+						to: '/travel'
 					},
 				],
 				menuList: [
@@ -73,47 +83,47 @@
 						children: [
 							{
 								name: '三亚',
-								url: '/sanya',
+								url: '/list',
 							},
 							{
 								name: '丽江',
-								url: '/sanya',
+								url: '/list',
 							},
 							{
 								name: '厦门',
-								url: '/sanya',
+								url: '/list',
 							},
 							{
 								name: '大理',
-								url: '/sanya',
+								url: '/list',
 							},
 							{
 								name: '普吉岛',
-								url: '/sanya',
+								url: '/list',
 							},
 							{
 								name: '巴厘岛',
-								url: '/sanya',
+								url: '/list',
 							},
 							{
 								name: '马尔代夫',
-								url: '/sanya',
+								url: '/list',
 							},
 							{
 								name: '巴黎',
-								url: '/sanya',
+								url: '/list',
 							},
 							{
 								name: '塞班',
-								url: '/sanya',
+								url: '/list',
 							},
 							{
 								name: '圣托里尼',
-								url: '/sanya',
+								url: '/list',
 							},
 							{
 								name: '济州岛',
-								url: '/sanya',
+								url: '/list',
 							},
 						]	
 					},
@@ -277,27 +287,65 @@
 
 						]
 					},
-				]
+				],
+				searchList: ['相关的景点', '相关的拍摄','相关的攻略','相关的旅游','相关的金融','相关的门票','相关的团购'],
 			}
 		},
 		methods: {
+			searchEvent(e) {
+				e.stopPropagation()
+			},
 			handleSearch() {
-				console.log(this.searchContent)
+				if(!this.searchContent) return;
+				this.loading = true;
+				setTimeout(() => {
+					this.$notify.warning({
+	          title: '搜索失败',
+	          message: `抱歉，未找到 “${this.searchContent}”相关内容`,
+	        })
+	        this.loading = false;
+	        this.suggestShow = false;
+				}, 2000)
 			},
 			handleFocus() {
-				this.inputWidth = '300px'
+				this.inputWidth = '300px';
+				this.suggestShow = this.searchContent ? true : false;
+				return false;
 			},
 			handleBlur() {
-				if(!this.searchContent) {
-					this.inputWidth = '200px'
-				}
+				if(this.searchContent) return;
+				this.inputWidth = '200px'
+			},
+			handleInput() {
+				this.suggestShow = this.searchContent ? true : false
+			},
+			suggestSearch(index) {
+				let content = this.$refs.suggest[index].innerText.substr(3,)
+				this.loading = true;
+				setTimeout(() => {
+					this.$notify.warning({
+	          title: '搜索失败',
+	          message: `抱歉，未找到${content}内容`,
+	        })
+	        this.loading = false
+	        this.suggestShow = false
+				}, 2000)
 			}
+		},
+		mounted() {
+			document.body.addEventListener('click', (e) => {
+				this.suggestShow = false
+			})
+			let searchInput = document.querySelectorAll('.el-input__inner')[0];
+    	searchInput.addEventListener('keydown', (e) => {
+    		e.keyCode === 13 && this.handleSearch()
+    	})
 		}
 	}
 </script>
 <style scoped lang="scss">
 	.header {
-		background: #fff
+		background: #333
 	}
 	.topbar {
 		height: 50px;
@@ -331,12 +379,38 @@
 			}
 		}
 	}
+	.search {
+		position: relative;
+		.search-suggest {
+			position: absolute;
+			top: 42px;
+			left: 0;
+			right: 15px;
+			z-index: 999;
+			color: #666;
+			background: #fff;
+			box-shadow: 0 3px 5px 3px rgba(0,0,0,.3);
+			li {
+				padding: 5px 15px;
+				line-height: 1.5;
+				cursor: pointer;
+				word-wrap: break-word;
+				&:hover {
+					color: #fff;
+					background: #0094DA
+				}
+				i {
+					margin-right: 5px
+				}
+			}
+		}
+	}
 	.navbar {
 		width: 1180px;
 		height: 60px;
 		margin: 0 auto;
 		line-height: 60px;
-		background: #fff
+		background: #333
 	}
 	.nav-menu, .nav-list {
 		float: left;
@@ -349,16 +423,14 @@
 			.menu-list{
 				display: block;
 			}
-			h3 {
-				color: #0094DA
-			}
 		}
 		h3 {
 			width: 200px;
 			text-align: center;
 			line-height: 60px;
 			cursor: pointer;
-			background: rgba(0,0,0,.1);
+			color: #fff;
+			background: rgba(255,255,255,.2);
 		}
 		.menu-list {
 			display: none;
@@ -429,10 +501,10 @@
 				display: inline-block;
 				width: 100%;
 				padding: 0 30px;
-				color: #666;
+				color: #fff;
 				font-size: 16px;
 				&:hover {
-					background: rgba(0,0,0,.05);
+					background: rgba(255,255,255,.3);
 				}
 				&.router-link-active {
 					height: 60px;
