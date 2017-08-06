@@ -4,14 +4,17 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import App from './App'
 import routes from './router'
+import moment from 'moment'
 import ElementUI from 'element-ui'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import 'element-ui/lib/theme-default/index.css'
-import 'font-awesome/css/font-awesome.min.css'
+// import 'font-awesome/css/font-awesome.min.css'
 import '@/assets/css/main.scss'
+import FullCalendar from '@/components/fullcalendar'
 Vue.use(Router)
 Vue.use(ElementUI)
+Vue.use(FullCalendar)
 Vue.prototype.$nprogress = NProgress;
 NProgress.configure({ ease: 'ease', speed: 500, minimum: 0.5, showSpinner: false})
 Vue.config.productionTip = false

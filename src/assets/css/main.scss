@@ -5,7 +5,7 @@ body {
   font-family: 'Microsoft Yahei', Helvetica, Arial, sans-serif;
   margin: 0;
   color: #333;
-  // background: #f0f0f0
+  font-size: 14px
 }
 h1, h2, h3, h4, h5, h6 {
   font-family: inherit;
@@ -26,6 +26,9 @@ a {
 }
 a:focus, a:hover {
   color: #23527c;
+}
+i, em {
+  font-style: normal
 }
 input[type="text"],
 input[type="password"] {
@@ -117,9 +120,9 @@ input:focus {
 .transition {
   transition: all .3s ease;
 }
-.main-width {
+.main-wrap {
   width: 1180px;
-  margin: auto;
+  margin: 20px auto;
 }
 .toolbar {
   margin: 10px 0px;
@@ -245,4 +248,15 @@ table {
 .el-radio-button:last-child .el-radio-button__inner {
   border-left: 1px solid #bfcbd9;
   border-radius: 0;
+}
+.el-carousel {
+  width: 100%;
+  img {
+    width: 100%;
+    height: 100%;
+  }
+}
+.fa-rmb {
+  margin-right: -3px;
+  font-size: 13px;
 }

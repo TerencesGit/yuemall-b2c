@@ -1,6 +1,6 @@
 <template>
 	<section>
-		<div class="page-main main-width">
+		<div class="main-wrap">
 			<div class="searchbar">
 				<div class="filter-item">
 					<label>产品类型：</label>
@@ -23,7 +23,7 @@
 			</div>
 			<el-row :gutter="30" class="m-t m-b">
 				<el-col :span="18">
-					<el-tabs v-model="activeName" type="card" @tab-click="handleClick">
+					<el-tabs v-model="activeName" type="card" @tab-click="tabClick">
 				    <el-tab-pane label="综合排序" name="first">
 				    </el-tab-pane>
 				    <el-tab-pane label="销量优先" name="second"></el-tab-pane>
@@ -52,9 +52,9 @@
 		    					商品品牌：{{item.wareBrandName}}
 		    				</div>
 		    				<div class="ware-price">
-		    					<i class="fa fa-rmb"></i>
+		    					<i class="fa fa-rmb">￥</i>
 		    					<em>{{item.warePrice}}</em>起
-		    					<el-button :plain="true" type="reserve" class="pull-right">立即预定</el-button>
+		    					<el-button :plain="true" type="reserve" class="pull-right" @click="btnClick(item.wareId, item.wareName)">立即预定</el-button>
 		    				</div>
 		    			</el-col>
 		    		</el-row>
@@ -101,7 +101,7 @@
 				filter: {
 					type: 0,
 					month: 0,
-					dayNum: 1,
+					dayNum: 0,
 				},
 				typeList: [
 					{ label: 0, text: '不限'},
@@ -252,7 +252,7 @@
 				}, 500)
 				// console.log(Object.assign({},this.filter))
 			},
-			handleClick(tab, event) {
+			tabClick(tab, event) {
         // console.log(tab)
         this.loading = true;
         if(tab.index == 0) {
@@ -526,6 +526,11 @@
         } else {
         	return;
         }
+      },
+      btnClick(wareId, wareName) {
+      	this.$router.push({
+      		path: `detail?wareId=${wareId}&&wareName=${wareName}`
+      	})
       }
 		}
 	}

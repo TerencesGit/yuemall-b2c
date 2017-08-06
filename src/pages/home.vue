@@ -3,14 +3,14 @@
 		<div class="banner">
 			<el-carousel indicator-position height="400px">
 		    <el-carousel-item v-for="(item, index) in bannerList" :key="index">
-		      <router-link :to="item.url" :title="item.title">
-		      	<img :src="item.imgUrl" :alt="item.title">
+		      <router-link :to='item.url' :title="item.wareName">
+		      	<img :src="item.imgUrl" :alt="item.wareName">
 		      </router-link>
 		    </el-carousel-item>
 		  </el-carousel>
 		</div>
 		<div class="main-wrap">
-			<section>
+			<section> 
 				<div class="title">
 					<h3>热门推荐</h3>
 					<h3>hot recommendation</h3>
@@ -23,26 +23,26 @@
 					<el-row :gutter="15">
 						<el-col :span="9">
 							<router-link :to="hotImgList[0].url">
-								<img :src="hotImgList[0].imgUrl" :alt="hotImgList[0].title"/>
+								<img :src="hotImgList[0].imgUrl" :alt="hotImgList[0].wareName"/>
 								<div class="text transition">
-									<span>{{hotImgList[0].title}}</span>
+									<span>{{hotImgList[0].wareName}}</span>
 								</div>
 							</router-link>
 						</el-col>
 						<el-col :span="8">
 							<el-row v-for="(item, index) in hotSmallImgList" :key="index">
 								<router-link :to="item.url">
-									<img :src="item.imgUrl" :alt="item.title"/>
+									<img :src="item.imgUrl" :alt="item.wareName"/>
 									<div class="text transition">
-										<span>{{item.title}}</span>
+										<span>{{item.wareName}}</span>
 									</div>
 								</router-link>
 							</el-row>
 						</el-col>
 						<el-col :span="7">
 							<router-link :to="hotImgList[1].url">
-								<img :src="hotImgList[1].imgUrl" :alt="hotImgList[1].title"/>
-								<div class="text transition"><span>{{hotImgList[1].title}}</span></div>
+								<img :src="hotImgList[1].imgUrl" :alt="hotImgList[1].wareName"/>
+								<div class="text transition"><span>{{hotImgList[1].wareName}}</span></div>
 							</router-link>
 						</el-col>
 					</el-row>
@@ -61,18 +61,18 @@
 					<el-row :gutter="15">
 						<el-col :span="12" v-for="(item, index) in nationwideLargeImgList" :key="index">
 							<router-link to="/detail">
-								<img :src="item.imgUrl" :alt="item.title"/>
+								<img :src="item.imgUrl" :alt="item.wareName"/>
 								<div class="text transition">
-									<span>{{item.title}}</span>
+									<span>{{item.wareName}}</span>
 								</div>
 							</router-link>
 						</el-col>
 					</el-row>
 					<el-row :gutter="15">
 						<el-col :span="6" v-for="(item, index) in nationwideImgList" :key="index">
-							<a :href="item.url" :title="item.title">
-								<img :src="item.imgUrl" :alt="item.title"/>
-								<div class="text transition"><span>{{item.title}}</span></div>
+							<a :href="item.url" :title="item.wareName">
+								<img :src="item.imgUrl" :alt="item.wareName"/>
+								<div class="text transition"><span>{{item.wareName}}</span></div>
 							</a>
 						</el-col>
 					</el-row>
@@ -91,9 +91,9 @@
 					<el-row :gutter="15">
 						<el-col :span="12">
 							<router-link to="/detail">
-								<img :src="overseasList[0].imgUrl" :alt="overseasList[0].title"/>
+								<img :src="overseasList[0].imgUrl" :alt="overseasList[0].wareName"/>
 								<div class="text transition">
-									<span>{{overseasList[0].title}}</span>
+									<span>{{overseasList[0].wareName}}</span>
 								</div>
 							</router-link>
 						</el-col>
@@ -101,9 +101,9 @@
 							<el-row :gutter="15">
 								<el-col :span="12" v-for="(item, index) in overseasList" :key="index">
 									<router-link :to="item.url">
-										<img :src="item.imgUrl" :alt="item.title"/>
+										<img :src="item.imgUrl" :alt="item.wareName"/>
 										<div class="text transition">
-											<span>{{item.title}}</span>
+											<span>{{item.wareName}}</span>
 										</div>
 									</router-link>
 								</el-col>
@@ -115,9 +115,9 @@
 							<el-row :gutter="15">
 								<el-col :span="24" v-for="(item, index) in hotImgList" :key="index">
 									<router-link :to="item.url">
-										<img :src="item.imgUrl" :alt="item.title"/>
+										<img :src="item.imgUrl" :alt="item.wareName"/>
 										<div class="text transition">
-											<span>{{item.title}}</span>
+											<span>{{item.wareName}}</span>
 										</div>
 									</router-link>
 								</el-col>
@@ -125,9 +125,9 @@
 						</el-col>
 						<el-col :span="12">
 							<router-link to="/detail">
-								<img :src="hotImgList[0].imgUrl" :alt="hotImgList[0].title"/>
+								<img :src="hotImgList[0].imgUrl" :alt="hotImgList[0].wareName"/>
 								<div class="text transition">
-									<span>{{hotImgList[0].title}}</span>
+									<span>{{hotImgList[0].wareName}}</span>
 								</div>
 							</router-link>
 						</el-col>
@@ -135,9 +135,9 @@
 							<el-row :gutter="15">
 								<el-col :span="24" v-for="(item, index) in hotImgList" :key="index">
 									<router-link :to="item.url">
-										<img :src="item.imgUrl" :alt="item.title"/>
+										<img :src="item.imgUrl" :alt="item.wareName"/>
 										<div class="text transition">
-											<span>{{item.title}}</span>
+											<span>{{item.wareName}}</span>
 										</div>
 									</router-link>
 								</el-col>
@@ -159,9 +159,9 @@
 					<el-row :gutter="15">
 						<el-col :span="6" v-for="(item, index) in samplesImgList" :key="index">
 							<router-link to="/detail">
-								<img :src="item.imgUrl" :alt="item.title"/>
+								<img :src="item.imgUrl" :alt="item.wareName"/>
 								<div class="text transition">
-									<span>{{item.title}}</span>
+									<span>{{item.wareName}}</span>
 								</div>
 							</router-link>
 						</el-col>
@@ -180,150 +180,177 @@
 			return {
 				bannerList: [
 					{
-						title: '巴厘岛婚纱摄影',
-						url: '/detail',
+						wareId: 1000000020170801,
+						wareName: '巴厘岛婚纱摄影',
+						url: '/detail?wareId=1000000020170801',
 						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/banner2.jpg'
 					},
 					{
-						title: '圣托里尼婚纱摄影',
-						url: '/detail',
+						wareId: 1000000020170802,
+						wareName: '圣托里尼婚纱摄影',
+						url: '/detail?wareId=1000000020170802',
 						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/banner3.jpg'
 					},
 					{
-						title: '塞班岛婚纱摄影',
-						url: '/detail',
+						wareId: 1000000020170803,
+						wareName: '塞班岛婚纱摄影',
+						url: '/detail?wareId=1000000020170803',
 						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/banner4.jpg'
 					},
 					{
-						title: '巴黎婚纱摄影',
-						url: '/detail',
+						wareId: 1000000020170804,
+						wareName: '巴黎婚纱摄影',
+						url: '/detail?wareId=1000000020170804',
 						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/banner6.jpg'
 					},
 					{
-						title: '三亚婚纱摄影',
-						url: '/detail',
+						wareId: 1000000020170805,
+						wareName: '三亚婚纱摄影',
+						url: '/detail?wareId=1000000020170805',
 						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/banner12.jpg'
 					}
 				],
 				hotImgList: [
 					{
-						title: '三亚婚纱摄影',
-						url: '/detail',
+						wareId: 1000000020170806,
+						wareName: '三亚婚纱摄影',
+						url: '/detail?wareId=1000000020170806',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/151231/1-151231141H0F1.jpg',
 					},
 					{
-						title: '厦门婚纱摄影',
-						url: '/detail',
+						wareId: 1000000020170807,
+						wareName: '厦门婚纱摄影',
+						url: '/detail?wareId=1000000020170807',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/160112/1-1601121Q620301.jpg',
 					},
 				],
 				hotSmallImgList: [
 					{
-						title: '马尔代夫婚纱摄影',
-						url: '/detail',
+						wareId: 1000000020170808,
+						wareName: '马尔代夫婚纱摄影',
+						url: '/detail?wareId=1000000020170808',
 						imgUrl: 'http://www.fookvision.com//Public/Wwwfookvisioncom/images/index/box02-7.jpg',
 					},
 					{
-						title: '巴厘岛婚纱摄影',
-						url: '/detail',
+						wareId: 1000000020170809,
+						wareName: '巴厘岛婚纱摄影',
+						url: '/detail?wareId=1000000020170809',
 						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-9.jpg',
 					},
 				],
 				nationwideLargeImgList: [
 					{
-						title: '厦门鼓浪屿',
-						url: '/detail',
+						wareId: 1000000020170810,
+						wareName: '厦门鼓浪屿',
+						url: '/detail?wareId=1000000020170810',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/170424/1-1F42414225S00.jpg',
 					},
 					{
-						title: '三亚旅拍',
-						url: '/detail',
+						wareId: 1000000020170811,
+						wareName: '三亚旅拍',
+						url: '/detail?wareId=1000000020170811',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/170526/1-1F5261059454T.jpg',
 					}
 				],
 				nationwideImgList: [
 					{
-						title: '马尔代夫·莉莉岛婚纱摄影',
-						url: '/detail',
+						wareId: 1000000020170812,
+						wareName: '马尔代夫·莉莉岛婚纱摄影',
+						url: '/detail?wareId=1000000020170812',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/160112/1-1601121Q620301.jpg',
 					},
 					{
-						title: '马尔代夫·双鱼岛',
-						url: '/detail',
+						wareId: 1000000020170813,
+						wareName: '马尔代夫·双鱼岛',
+						url: '/detail?wareId=1000000020170813',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/160309/1-160309195553M1.jpg',
 					},
 					{
-						title: '马尔代夫·JD岛',
-						url: '/detail',
+						wareId: 1000000020170814,
+						wareName: '马尔代夫·JD岛',
+						url: '/detail?wareId=1000000020170814',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/160309/1-160309192HO15.jpg',
 					},
 					{
-						title: '马尔代夫·双鱼岛',
-						url: '/detail',
+						wareId: 1000000020170815,
+						wareName: '马尔代夫·双鱼岛',
+						url: '/detail?wareId=1000000020170815',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/160112/1-160112160212P2.jpg',
 					},
 				],
 				overseasList: [
 					{
-						title: '法国巴黎',
-						url: '/detail',
+						wareId: 1000000020170816,
+						wareName: '法国巴黎',
+						url: '/detail?wareId=1000000020170816',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/170317/1-1F31GA510L2.jpg',
 					},
 					{
-						title: '普吉岛',
-						url: '/detail',
+						wareId: 1000000020170817,
+						wareName: '普吉岛',
+						url: '/detail?wareId=1000000020170817',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/170504/1-1F50409521IL.jpg',
 					},
 					{
-						title: '全球旅拍·普吉岛',
-						url: '/detail',
+						wareId: 1000000020170818,
+						wareName: '全球旅拍·普吉岛',
+						url: '/detail?wareId=1000000020170818',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/161123/1-161123143IRP.jpg',
 					},
 					{
-						title: '全球旅拍·普吉岛',
-						url: '/detail',
+						wareId: 1000000020170819,
+						wareName: '全球旅拍·普吉岛',
+						url: '/detail?wareId=1000000020170819',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/160520/1-1605201U959A5.jpg',
 					},
 				],
 				samplesImgList: [
 					{
-						title: '马尔代夫·神仙珊瑚岛',
-						url: '/detail',
+						wareId: 1000000020170820,
+						wareName: '马尔代夫·神仙珊瑚岛',
+						url: '/detail?wareId=1000000020170820',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/151109/1-15110920091BO.jpg',
 					},
 					{
-						title: '马尔代夫·莉莉岛婚纱摄影',
-						url: '/detail',
+						wareId: 1000000020170821,
+						wareName: '马尔代夫·莉莉岛婚纱摄影',
+						url: '/detail?wareId=1000000020170821',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/160112/1-1601121Q620301.jpg',
 					},
 					{
-						title: '马尔代夫·双鱼岛',
-						url: '/detail',
+						wareId: 1000000020170822,
+						wareName: '马尔代夫·双鱼岛',
+						url: '/detail?wareId=1000000020170822',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/160309/1-160309195553M1.jpg',
 					},
 					{
-						title: '马尔代夫·JD岛',
-						url: '/detail',
+						wareId: 1000000020170823,
+						wareName: '马尔代夫·JD岛',
+						url: '/detail?wareId=1000000020170823',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/160309/1-160309192HO15.jpg',
 					},
 					{
-						title: '马尔代夫·满月岛',
-						url: '/detail',
+						wareId: 1000000020170824,
+						wareName: '马尔代夫·满月岛',
+						url: '/detail?wareId=1000000020170824',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/160309/1-16030919314A48.jpg',
 					},
 					{
-						title: '马尔代夫·波杜希蒂岛',
-						url: '/detail',
+						wareId: 1000000020170825,
+						wareName: '马尔代夫·波杜希蒂岛',
+						url: '/detail?wareId=1000000020170825',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/160309/1-160309191IY41.jpg',
 					},
 					{
-						title: '马尔代夫·圣塔拉富士岛',
-						url: '/detail',
+						wareId: 1000000020170826,
+						wareName: '马尔代夫·圣塔拉富士岛',
+						url: '/detail?wareId=1000000020170826',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/160309/1-160309194532240.jpg',
 					},
 					{
-						title: '马尔代夫·香格里拉岛婚纱',
-						url: '/detail',
+						wareId: 1000000020170827,
+						wareName: '马尔代夫·香格里拉岛婚纱',
+						url: '/detail?wareId=1000000020170827',
 						imgUrl: 'http://www.fookshoot.com/v2/uploads/151231/1-151231141H0F1.jpg',
 					},
 				],
@@ -336,21 +363,11 @@
 		width: 100%;
 		overflow: hidden;
 	}
-	.el-carousel {
-		width: 100%;
-	}
-	.el-carousel__container {
-		height: 400px
-	}
   .el-carousel__item {
   	a {
   		display: inline-block;
   		width: 100%;
   		height: 100%;
-  		img {
-  			width: 100%;
-  			height: 100%;
-  		}
   	}
   }
   .main-wrap {
