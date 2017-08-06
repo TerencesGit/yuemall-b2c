@@ -11,23 +11,25 @@
 		</div>
 		<div class="main-wrap">
 			<section>
-				<h3 class="title">
-					<em>热门推荐</em>
-					<router-link to="list">更多
-						<i class="fa fa-angle-double-right"></i>
+				<div class="title">
+					<h3>热门推荐</h3>
+					<h3>hot recommendation</h3>
+					<router-link to="list" class="transition">
+						show more
+						<i class="el-icon-d-arrow-right"></i>
 					</router-link>
-				</h3>
+				</div>
 				<div class="hot image-list">
-					<el-row :gutter="20">
+					<el-row :gutter="15">
 						<el-col :span="9">
-							<router-link to="/detail">
+							<router-link :to="hotImgList[0].url">
 								<img :src="hotImgList[0].imgUrl" :alt="hotImgList[0].title"/>
 								<div class="text transition">
 									<span>{{hotImgList[0].title}}</span>
 								</div>
 							</router-link>
 						</el-col>
-						<el-col :span="9">
+						<el-col :span="8">
 							<el-row v-for="(item, index) in hotSmallImgList" :key="index">
 								<router-link :to="item.url">
 									<img :src="item.imgUrl" :alt="item.title"/>
@@ -37,8 +39,8 @@
 								</router-link>
 							</el-row>
 						</el-col>
-						<el-col :span="6">
-							<router-link to="/detail">
+						<el-col :span="7">
+							<router-link :to="hotImgList[1].url">
 								<img :src="hotImgList[1].imgUrl" :alt="hotImgList[1].title"/>
 								<div class="text transition"><span>{{hotImgList[1].title}}</span></div>
 							</router-link>
@@ -47,14 +49,16 @@
 				</div>
 			</section>
 			<section>
-				<h3 class="title">
-					<em>国内旅拍</em>
-					<router-link to="list">更多
-						<i class="fa fa-angle-double-right"></i>
+				<div class="title">
+					<h3>国内旅拍</h3>
+					<h3>native travel</h3>
+					<router-link to="list" class="transition">
+						show more
+						<i class="el-icon-d-arrow-right"></i>
 					</router-link>
-				</h3>
+				</div>
 				<div class="nationwide image-list">
-					<el-row :gutter="20">
+					<el-row :gutter="15">
 						<el-col :span="12" v-for="(item, index) in nationwideLargeImgList" :key="index">
 							<router-link to="/detail">
 								<img :src="item.imgUrl" :alt="item.title"/>
@@ -64,7 +68,7 @@
 							</router-link>
 						</el-col>
 					</el-row>
-					<el-row :gutter="20">
+					<el-row :gutter="15">
 						<el-col :span="6" v-for="(item, index) in nationwideImgList" :key="index">
 							<a :href="item.url" :title="item.title">
 								<img :src="item.imgUrl" :alt="item.title"/>
@@ -75,14 +79,16 @@
 				</div>
 			</section>
 			<section>
-				<h3 class="title">
-					<em>海外摄影</em>
-					<router-link to="list">更多
-						<i class="fa fa-angle-double-right"></i>
+				<div class="title">
+					<h3>海外摄影</h3>
+					<h3>overseas photography</h3>
+					<router-link to="list" class="transition">
+						show more
+						<i class="el-icon-d-arrow-right"></i>
 					</router-link>
-				</h3>
+				</div>
 				<div class="overseas image-list">
-					<el-row :gutter="20">
+					<el-row :gutter="15">
 						<el-col :span="12">
 							<router-link to="/detail">
 								<img :src="overseasList[0].imgUrl" :alt="overseasList[0].title"/>
@@ -92,7 +98,7 @@
 							</router-link>
 						</el-col>
 						<el-col :span="12">
-							<el-row :gutter="20">
+							<el-row :gutter="15">
 								<el-col :span="12" v-for="(item, index) in overseasList" :key="index">
 									<router-link :to="item.url">
 										<img :src="item.imgUrl" :alt="item.title"/>
@@ -104,9 +110,9 @@
 							</el-row>
 						</el-col>
 					</el-row>
-					<el-row :gutter="20">
+					<el-row :gutter="15">
 						<el-col :span="6">
-							<el-row :gutter="20">
+							<el-row :gutter="15">
 								<el-col :span="24" v-for="(item, index) in hotImgList" :key="index">
 									<router-link :to="item.url">
 										<img :src="item.imgUrl" :alt="item.title"/>
@@ -126,7 +132,7 @@
 							</router-link>
 						</el-col>
 						<el-col :span="6">
-							<el-row :gutter="20">
+							<el-row :gutter="15">
 								<el-col :span="24" v-for="(item, index) in hotImgList" :key="index">
 									<router-link :to="item.url">
 										<img :src="item.imgUrl" :alt="item.title"/>
@@ -141,14 +147,16 @@
 				</div>
 			</section>
 			<section>
-				<h3 class="title">
-					<em>景点/客片展示</em>
-					<router-link to="list">更多
-						<i class="fa fa-angle-double-right"></i>
+				<div class="title">
+					<h3>景点/客片展示</h3>
+					<h3>samples show</h3>
+					<router-link to="list" class="transition">
+						show more
+						<i class="el-icon-d-arrow-right"></i>
 					</router-link>
-				</h3>
+				</div>
 				<div class="samples image-list">
-					<el-row :gutter="20">
+					<el-row :gutter="15">
 						<el-col :span="6" v-for="(item, index) in samplesImgList" :key="index">
 							<router-link to="/detail">
 								<img :src="item.imgUrl" :alt="item.title"/>
@@ -348,39 +356,54 @@
   .main-wrap {
   	width: 1180px;
   	margin: 20px auto;
-  	// section {
-  	// 	margin: 40px 0;
-  	// }
+  	section {
+  		margin: 60px 0;
+  	}
   	.title {
   		position: relative;
-  		margin: 40px 0;
+  		margin: 30px 0;
   		text-align: center;
-  		em {
-  			font-style: normal;
+  		// em {
+  		// 	font-style: normal;
+  		// 	font-weight: bold;
+  		// 	&::before, &::after {
+  		// 		content: '';
+				// 	position: absolute;
+				// 	top: 10px;
+				// 	width: 200px;
+  		// 		height: 2px;
+  		// 		background: #eee
+  		// 	}
+  		// 	&::before {
+  		// 		margin-left: -220px;
+  		// 	}
+  		// 	&::after {
+				// 	margin-left: 20px;
+  		// 	}
+  		// }
+  		h3 {
+  			margin: 20px 0;
   			font-weight: bold;
-  			&::before, &::after {
-  				content: '';
-					position: absolute;
-					top: 10px;
-					width: 200px;
-  				height: 2px;
-  				background: #eee
-  			}
-  			&::before {
-  				margin-left: -220px;
-  			}
-  			&::after {
-					margin-left: 20px;
-  			}
   		}
+  		h3:nth-child(2) {
+  			color: #0095d9;
+  			text-transform: uppercase;
+  		} 
   		a {
   			position: absolute;
-  			top: 0;
-  			right: 5px;
-  			padding: 5px 15px;
-  			font-size: 14px;
-  			color: #fff;
-  			background: #0094DA
+  			right: 10px;
+  			bottom: -20px;
+  			font-size: 13px;
+  			color: #0094DA;
+  			font-weight: bold;
+  			text-transform: uppercase;
+  			&:hover {
+  				right: 0;
+  				color: #0095d9;
+  			}
+  			i {
+  				font-size: 12px
+  			}
   		}
   	}
   	.image-list {
@@ -423,42 +446,49 @@
   	margin-bottom: 20px;
   	.el-col {
   		height: 100%;
-  		margin-bottom: 20px
   	}
 	}
   .hot {
   	.el-col {
-			height: 260px
+			height: 275px
   	}
   	.el-col:nth-child(2) {
   		.el-row {
-  			height: 120px;
+  			height: 130px;
   			&:first-child {
-  				margin-bottom: 20px;
+  				margin-bottom: 15px;
   			}
   		}
   	}
   }
   .nationwide {
+  	.el-row {
+  		margin-bottom: 15px
+  	}
   	.el-col {
   		height: 260px
   	}
   }
   .overseas {
+  	.el-row {
+  		margin-bottom: 15px;
+  	}
   	.el-col {
-			height: 340px;
+			height: 355px;
 			.el-row {
 				.el-col {
-					height: 160px;
-					margin-bottom: 20px
+					height: 170px;
+					margin-bottom: 15px
 				}
 			}
   	}
   }
   .samples {
   	.el-row {
+  		margin-bottom: -20px;
   		.el-col{
-				height: 200px
+				height: 200px;
+				margin-bottom: 15px;
   		}
   	}
   }
