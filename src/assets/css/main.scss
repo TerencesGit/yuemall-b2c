@@ -17,7 +17,7 @@ h1, h2, h3, ul, p {
   margin: 0;
   padding: 0
 }
-li {
+ul li {
   list-style: none
 }
 a {
@@ -121,6 +121,7 @@ input:focus {
   transition: all .3s ease;
 }
 .main-wrap {
+  position: relative;
   width: 1180px;
   margin: 20px auto;
 }
@@ -259,4 +260,13 @@ table {
 .fa-rmb {
   margin-right: -3px;
   font-size: 13px;
+}
+.el-input-number--small .el-input-number__decrease, 
+.el-input-number--small .el-input-number__increase {
+    line-height: 29px;
+}
+.el-input-number {
+  .el-input__inner {
+    border-radius: 0
+  }
 }
