@@ -1,5 +1,6 @@
 <template>
 	<section>
+		<div v-title :data-title="pageTitle"></div>
 		<div class="main-wrap">
 			<el-breadcrumb separator=">" class="breadcrumb-inner">
 				<el-breadcrumb-item v-for="(item, index) in navList" :key="index">
@@ -112,7 +113,7 @@
 					</ul>
 				</div>
 			</div>
-			<div ref="intro" class="ware-intro tab-panel">
+			<div id="intro" ref="intro" class="ware-intro tab-panel">
 				<div class="panel-body">
 					<div class="title">
 						产品介绍
@@ -122,7 +123,7 @@
 					</div>
 				</div>
 			</div>
-			<div ref="cost" class="ware-cost tab-panel">
+			<div id="cost" ref="cost" class="ware-cost tab-panel">
 				<div class="panel-body">
 					<div class="title">
 						费用说明
@@ -157,7 +158,7 @@
 					</div>
 				</div>
 			</div>
-			<div ref="reserve" class="ware-reserve tab-panel">
+			<div id="reserve" ref="reserve" class="ware-reserve tab-panel">
 				<div class="panel-body">
 					<div class="title">
 						预定须知
@@ -191,7 +192,7 @@
 					</div>
 				</div>
 			</div>
-			<div ref="visa" class="ware-visa tab-panel">
+			<div id="visa" ref="visa" class="ware-visa tab-panel">
 				<div class="panel-body">
 					<div class="title">
 						签证/签注
@@ -216,6 +217,7 @@
 	export default {
 		data() {
 			return {
+				pageTitle: '悦视觉全球旅拍',
 				serviceShow: false,
 				navList: [
 					{
@@ -448,12 +450,16 @@
 			},
 			scrollEvent () {
 				this.isTabFixed = document.body.scrollTop > 945 ? true : false;
-				let top = document.body.scrollTop
-				if (top > this.$refs['visa'].offsetTop) {
+				let top = document.body.scrollTop;
+				let visaTop = document.getElementById('visa').offsetTop;
+				let reserveTop = document.getElementById('reserve').offsetTop;
+				let costTop = document.getElementById('cost').offsetTop;
+				// console.log(this.$refs['visa'].offsetTop)
+				if (top > visaTop) {
 					this.tabIndex = 3
-				} else if (top > this.$refs['reserve'].offsetTop) {
+				} else if (top > reserveTop) {
 					this.tabIndex = 2
-				} else if (top > this.$refs['cost'].offsetTop) {
+				} else if (top > costTop) {
 					this.tabIndex = 1
 				} else {
 					this.tabIndex = 0
@@ -467,6 +473,9 @@
 			isDisabled() {
 				return parseInt(this.totalPrice) ? false : true;
 			}
+		},
+		created() {
+			this.pageTitle = this.$route.query.wareName || '悦视觉全球旅拍'
 		},
 		mounted() {
 			this.scrollEvent()

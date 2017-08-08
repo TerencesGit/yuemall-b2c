@@ -1,22 +1,23 @@
 <template>
 	<section>
+		<div v-title :data-title="pageTitle"></div>
 		<div class="main-wrap">
 			<div class="searchbar">
 				<div class="filter-item">
 					<label>产品类型：</label>
-					<el-radio-group v-model="filter.type" @change="typeChange">
+					<el-radio-group v-model="filter.type" @change="handleChange">
 				    <el-radio-button v-for="item in typeList" :key="item.label" :label="item.label">{{item.text}}</el-radio-button>
 				  </el-radio-group>
 			  </div>
 			  <div class="filter-item">
 					<label>出行日期：</label>
-					<el-radio-group v-model="filter.month" @change="monthChange">
+					<el-radio-group v-model="filter.month" @change="handleChange">
 				    <el-radio-button v-for="item in monthList" :key="item.label" :label="item.label">{{item.text}}</el-radio-button>
 				  </el-radio-group>
 			  </div>
 			  <div class="filter-item">
 					<label>行程天数：</label>
-					<el-radio-group v-model="filter.dayNum" @change="dayNumChange">
+					<el-radio-group v-model="filter.dayNum" @change="handleChange">
 				    <el-radio-button v-for="item in dayNumList" :key="item.label" :label="item.label">{{item.text}}</el-radio-button>
 				  </el-radio-group>
 			  </div>
@@ -33,7 +34,7 @@
 		  		<div class="ware-list" v-loading="loading">
 		    		<el-row :gutter="15" class="ware-item" v-for="(item, index) in wareList" :key="index">
 		    			<el-col :span="7" class="ware-img">
-			    			<img :src="item.wareImgUrl" alt="">
+			    			<img :src="item.wareImgUrl">
 		    			</el-col>
 		    			<el-col :span="17" class="ware-detail">
 		    				<h3 class="ware-name">
@@ -54,10 +55,20 @@
 		    				<div class="ware-price">
 		    					<i class="fa fa-rmb">￥</i>
 		    					<em>{{item.warePrice}}</em>起
-		    					<el-button :plain="true" type="reserve" class="pull-right" @click="btnClick(item.wareId, item.wareName)">立即预定</el-button>
+		    					<!-- <el-button :plain="true" type="reserve" class="pull-right" @click="btnClick(item.wareId, item.wareName)">立即预定</el-button> -->
 		    				</div>
 		    			</el-col>
+		    			<div class="mask" @click="showDetail(item)"></div>
 		    		</el-row>
+		    	</div>
+		    	<div class="pagination">
+		    		<el-pagination
+				      @current-change="handleCurrentChange"
+				      :current-page.sync="pageNo"
+				      :page-size="20"
+				      layout="prev, pager, next, jumper"
+				      :total="200">
+				    </el-pagination>
 		    	</div>
 				</el-col>
 				<el-col :span="6">
@@ -97,6 +108,8 @@
 	export default {
 		data () {
 			return {
+				pageTitle: '悦视觉全球旅拍',
+				pageNo: 1,
 				loading: false,
 				filter: {
 					type: 0,
@@ -142,7 +155,7 @@
 				activeName: 'first',
 				wareList: [
 					{
-						wareId: '1000000002',
+						wareId: '100000020170801',
 						wareName: '【巴厘岛蜜月旅拍婚纱摄影6天4晚游】一对一司导+接送机+一日全天拍摄+国际五星',
 						wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-9.jpg',
 						wareTag: ['赠送拍摄用车', '酒店接送', '国际五星'],
@@ -152,7 +165,7 @@
 						warePrice: 12999,
 					},
 					{
-						wareId: '1000000001',
+						wareId: '100000020170802',
 						wareName: '【泰国普吉岛旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
 						wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-6.jpg',
 						wareTag: ['赠送拍摄用车', '酒店接送', '一对一服务'],
@@ -162,7 +175,7 @@
 						warePrice: 12999,
 					},
 					{
-						wareId: '1000000004',
+						wareId: '100000020170803',
 						wareName: '【马尔代夫JA岛婚纱照2天1晚】马代特色水屋+碧海蓝天',
 						wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-7.jpg',
 						wareTag: ['马代特色水屋', '碧海蓝天'],
@@ -172,7 +185,7 @@
 						warePrice: 12999,
 					},
 					{
-						wareId: '1000000003',
+						wareId: '100000020170804',
 						wareName: '【圣托里尼旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
 						wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-10.jpg',
 						wareTag: ['赠送拍摄用车', '酒店接送', '一对一服务'],
@@ -182,9 +195,9 @@
 						warePrice: 12999,
 					},
 					{
-						wareId: '1000000001',
-						wareName: '【泰国普吉岛旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
-						wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-6.jpg',
+						wareId: '100000020170805',
+						wareName: '【泰国苏梅岛旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
+						wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-3.jpg',
 						wareTag: ['赠送拍摄用车', '酒店接送', '一对一服务'],
 						wareDayNum: 2,
 						wareStartDate: 8,
@@ -192,9 +205,9 @@
 						warePrice: 12999,
 					},
 					{
-						wareId: '1000000004',
-						wareName: '【马尔代夫JA岛婚纱照2天1晚】马代特色水屋+碧海蓝天',
-						wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-7.jpg',
+						wareId: '100000020170806',
+						wareName: '【美国塞班岛婚纱照2天1晚】碧海蓝天+悬崖码头+凤凰花',
+						wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-1.jpg',
 						wareTag: ['马代特色水屋', '碧海蓝天'],
 						wareDayNum: 2,
 						wareStartDate: 8,
@@ -231,308 +244,30 @@
 			}
 		},
 		methods: {
-			typeChange(val) {
+			handleChange(val) {
 				this.loading = true;
-				setTimeout(() => {
-					this.loading = false;
-				}, 500)
-				// console.log(Object.assign({},this.filter))
-			},
-			monthChange(val) {
-				this.loading = true;
-				setTimeout(() => {
-					this.loading = false;
-				}, 500)
-				// console.log(Object.assign({},this.filter))
-			},
-			dayNumChange(val) {
-				this.loading = true;
-				setTimeout(() => {
-					this.loading = false;
-				}, 500)
-				// console.log(Object.assign({},this.filter))
+      	setTimeout(() => {
+      		this.wareList.sort(() => {
+      			return 0.5 - Math.random()
+      		})
+      		this.loading = false;
+      	}, 500)
 			},
 			tabClick(tab, event) {
         // console.log(tab)
-        this.loading = true;
-        if(tab.index == 0) {
-        	setTimeout(() => {
-        		this.loading = false;
-        		let wareList = [
-							{
-								wareId: '1000000002',
-								wareName: '【巴厘岛蜜月旅拍婚纱摄影6天4晚游】一对一司导+接送机+一日全天拍摄+国际五星',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-9.jpg',
-								wareTag: ['赠送拍摄用车', '酒店接送', '国际五星'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000001',
-								wareName: '【泰国普吉岛旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-6.jpg',
-								wareTag: ['赠送拍摄用车', '酒店接送', '一对一服务'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000004',
-								wareName: '【马尔代夫JA岛婚纱照2天1晚】马代特色水屋+碧海蓝天',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-7.jpg',
-								wareTag: ['马代特色水屋', '碧海蓝天'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000003',
-								wareName: '【圣托里尼旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-10.jpg',
-								wareTag: ['赠送拍摄用车', '酒店接送', '一对一服务'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000001',
-								wareName: '【泰国普吉岛旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-6.jpg',
-								wareTag: ['赠送拍摄用车', '酒店接送', '一对一服务'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000004',
-								wareName: '【马尔代夫JA岛婚纱照2天1晚】马代特色水屋+碧海蓝天',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-7.jpg',
-								wareTag: ['马代特色水屋', '碧海蓝天'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-						];
-        		this.wareList = wareList;
-        	}, 500)
-        } else if (tab.index == 1) {
-        	setTimeout(() => {
-        		this.loading = false;
-		        let wareList = [
-							{
-								wareId: '1000000001',
-								wareName: '【泰国普吉岛旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-6.jpg',
-								wareTag: ['赠送拍摄用车', '酒店接送', '一对一服务'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000004',
-								wareName: '【马尔代夫JA岛婚纱照2天1晚】马代特色水屋+碧海蓝天',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-7.jpg',
-								wareTag: ['马代特色水屋', '碧海蓝天'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000003',
-								wareName: '【圣托里尼旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-10.jpg',
-								wareTag: ['赠送拍摄用车', '酒店接送', '一对一服务'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000001',
-								wareName: '【泰国普吉岛旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-6.jpg',
-								wareTag: ['赠送拍摄用车', '酒店接送', '一对一服务'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000004',
-								wareName: '【马尔代夫JA岛婚纱照2天1晚】马代特色水屋+碧海蓝天',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-7.jpg',
-								wareTag: ['马代特色水屋', '碧海蓝天'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000002',
-								wareName: '【巴厘岛蜜月旅拍婚纱摄影6天4晚游】一对一司导+接送机+一日全天拍摄+国际五星',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-9.jpg',
-								wareTag: ['赠送拍摄用车', '酒店接送', '国际五星'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-						];
-        		this.wareList = wareList;
-        	}, 500)
-        } else if (tab.index == 2) {
-        	setTimeout(() => {
-        		this.loading = false;
-        		let wareList = [
-							{
-								wareId: '1000000003',
-								wareName: '【圣托里尼旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-10.jpg',
-								wareTag: ['赠送拍摄用车', '酒店接送', '一对一服务'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000001',
-								wareName: '【泰国普吉岛旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-6.jpg',
-								wareTag: ['赠送拍摄用车', '酒店接送', '一对一服务'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000001',
-								wareName: '【泰国普吉岛旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-6.jpg',
-								wareTag: ['赠送拍摄用车', '酒店接送', '一对一服务'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000004',
-								wareName: '【马尔代夫JA岛婚纱照2天1晚】马代特色水屋+碧海蓝天',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-7.jpg',
-								wareTag: ['马代特色水屋', '碧海蓝天'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000004',
-								wareName: '【马尔代夫JA岛婚纱照2天1晚】马代特色水屋+碧海蓝天',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-7.jpg',
-								wareTag: ['马代特色水屋', '碧海蓝天'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000002',
-								wareName: '【巴厘岛蜜月旅拍婚纱摄影6天4晚游】一对一司导+接送机+一日全天拍摄+国际五星',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-9.jpg',
-								wareTag: ['赠送拍摄用车', '酒店接送', '国际五星'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-						];
-        		this.wareList = wareList;
-        	}, 500)
-        } else if (tab.index == 3) {
-        	setTimeout(() => {
-        		this.loading = false;
-        		let wareList = [
-        			{
-								wareId: '1000000004',
-								wareName: '【马尔代夫JA岛婚纱照2天1晚】马代特色水屋+碧海蓝天',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-7.jpg',
-								wareTag: ['马代特色水屋', '碧海蓝天'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000002',
-								wareName: '【巴厘岛蜜月旅拍婚纱摄影6天4晚游】一对一司导+接送机+一日全天拍摄+国际五星',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-9.jpg',
-								wareTag: ['赠送拍摄用车', '酒店接送', '国际五星'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000001',
-								wareName: '【泰国普吉岛旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-6.jpg',
-								wareTag: ['赠送拍摄用车', '酒店接送', '一对一服务'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000004',
-								wareName: '【马尔代夫JA岛婚纱照2天1晚】马代特色水屋+碧海蓝天',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-7.jpg',
-								wareTag: ['马代特色水屋', '碧海蓝天'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000003',
-								wareName: '【圣托里尼旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-10.jpg',
-								wareTag: ['赠送拍摄用车', '酒店接送', '一对一服务'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-							{
-								wareId: '1000000001',
-								wareName: '【泰国普吉岛旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
-								wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-6.jpg',
-								wareTag: ['赠送拍摄用车', '酒店接送', '一对一服务'],
-								wareDayNum: 2,
-								wareStartDate: 8,
-								wareBrandName: '天长地久',
-								warePrice: 12999,
-							},
-						];
-        		this.wareList = wareList;
-        	}, 500)
-        } else {
-        	return;
-        }
+        this.handleChange()
       },
-      btnClick(wareId, wareName) {
-      	this.$router.push({
-      		path: `detail?wareId=${wareId}&&wareName=${wareName}`
-      	})
+      showDetail(item) {
+      	window.open(`#/detail?wareId=${item.wareId}&&wareName=${item.wareName}`)
+      },
+      handleCurrentChange(val) {
+      	this.handleChange()
       }
-		}
+		},
+		created() {
+    	let title = this.$route.query.title || '';
+    	this.pageTitle = title ? '悦视觉全球旅拍-' + title : '悦视觉全球旅拍'
+    }
 	}
 </script>
 <style scoped lang="scss">
@@ -555,8 +290,22 @@
 		overflow: hidden;
 	}
 	.ware-item {
-		padding: 15px;
+		position: relative;
+		padding: 15px 10px;
+		cursor: pointer;
+		border-bottom: 1px solid #f3f3f3;
 		&:hover {
+			.mask {
+				display: block;
+			}
+		}
+		.mask {
+			display: none;
+			position: absolute;
+			top: 0;
+			left: 0;
+			bottom: 0;
+			width: 100%;
 			background: rgba(0,0,0,.05)
 		}
 		.ware-img {
@@ -618,9 +367,6 @@
 	.recommend-item {
 		padding: 10px;
 		overflow:hidden;
-		&:hover {
-			background: rgba(0,0,0,.05)
-		}
 		.ware-img {
 			float: left;
 			width: 48%;
@@ -641,5 +387,10 @@
 	}
 	.activity-item {
 		padding: 5px 10px;
+	}
+	.pagination {
+		display: flex;
+		justify-content: flex-end;
+		padding-top: 20px;
 	}
 </style>

@@ -18,6 +18,11 @@ Vue.use(FullCalendar)
 Vue.prototype.$nprogress = NProgress;
 NProgress.configure({ ease: 'ease', speed: 500, minimum: 0.5, showSpinner: false})
 Vue.config.productionTip = false
+Vue.directive('title', {
+  inserted (el, binding) {
+    document.title = el.dataset.title
+  }
+})
 const router = new Router({
 	routes
 })

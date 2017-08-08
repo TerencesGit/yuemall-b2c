@@ -3,7 +3,7 @@
 		<div class="banner">
 			<el-carousel indicator-position height="400px">
 		    <el-carousel-item v-for="(item, index) in bannerList" :key="index">
-		      <router-link :to='item.url' :title="item.wareName">
+		      <router-link :to='item.url+"&&wareName="+item.wareName' :title="item.wareName" target="_blank">
 		      	<img :src="item.imgUrl" :alt="item.wareName">
 		      </router-link>
 		    </el-carousel-item>
@@ -14,7 +14,7 @@
 				<div class="title">
 					<h3>热门推荐</h3>
 					<h3>hot recommendation</h3>
-					<router-link to="list" class="transition">
+					<router-link to="list?title=热门推荐" class="transition" target="_blank">
 						show more
 						<i class="el-icon-d-arrow-right"></i>
 					</router-link>
@@ -22,7 +22,7 @@
 				<div class="hot image-list">
 					<el-row :gutter="15">
 						<el-col :span="9">
-							<router-link :to="hotImgList[0].url">
+							<router-link to="list?title=热门推荐" target="_blank">
 								<img :src="hotImgList[0].imgUrl" :alt="hotImgList[0].wareName"/>
 								<div class="text transition">
 									<span>{{hotImgList[0].wareName}}</span>
@@ -31,7 +31,7 @@
 						</el-col>
 						<el-col :span="8">
 							<el-row v-for="(item, index) in hotSmallImgList" :key="index">
-								<router-link :to="item.url">
+								<router-link :to="item.url" target="_blank">
 									<img :src="item.imgUrl" :alt="item.wareName"/>
 									<div class="text transition">
 										<span>{{item.wareName}}</span>
@@ -40,7 +40,7 @@
 							</el-row>
 						</el-col>
 						<el-col :span="7">
-							<router-link :to="hotImgList[1].url">
+							<router-link to="list?title=热门推荐" target="_blank">
 								<img :src="hotImgList[1].imgUrl" :alt="hotImgList[1].wareName"/>
 								<div class="text transition"><span>{{hotImgList[1].wareName}}</span></div>
 							</router-link>
@@ -52,7 +52,7 @@
 				<div class="title">
 					<h3>国内旅拍</h3>
 					<h3>native travel</h3>
-					<router-link to="list" class="transition">
+					<router-link to="list?title=国内旅拍" class="transition" target="_blank">
 						show more
 						<i class="el-icon-d-arrow-right"></i>
 					</router-link>
@@ -60,7 +60,7 @@
 				<div class="nationwide image-list">
 					<el-row :gutter="15">
 						<el-col :span="12" v-for="(item, index) in nationwideLargeImgList" :key="index">
-							<router-link to="/detail">
+							<router-link to="list?title=国内旅拍" target="_blank">
 								<img :src="item.imgUrl" :alt="item.wareName"/>
 								<div class="text transition">
 									<span>{{item.wareName}}</span>
@@ -70,10 +70,10 @@
 					</el-row>
 					<el-row :gutter="15">
 						<el-col :span="6" v-for="(item, index) in nationwideImgList" :key="index">
-							<a :href="item.url" :title="item.wareName">
+							<router-link :to="item.url+'&&wareName='+item.wareName" :title="item.wareName" target="_blank">
 								<img :src="item.imgUrl" :alt="item.wareName"/>
 								<div class="text transition"><span>{{item.wareName}}</span></div>
-							</a>
+							</router-link>
 						</el-col>
 					</el-row>
 				</div>
@@ -82,7 +82,7 @@
 				<div class="title">
 					<h3>海外摄影</h3>
 					<h3>overseas photography</h3>
-					<router-link to="list" class="transition">
+					<router-link to="list?title=海外摄影" class="transition" target="_blank">
 						show more
 						<i class="el-icon-d-arrow-right"></i>
 					</router-link>
@@ -90,7 +90,7 @@
 				<div class="overseas image-list">
 					<el-row :gutter="15">
 						<el-col :span="12">
-							<router-link to="/detail">
+							<router-link to="list?title=海外摄影" target="_blank">
 								<img :src="overseasList[0].imgUrl" :alt="overseasList[0].wareName"/>
 								<div class="text transition">
 									<span>{{overseasList[0].wareName}}</span>
@@ -100,7 +100,7 @@
 						<el-col :span="12">
 							<el-row :gutter="15">
 								<el-col :span="12" v-for="(item, index) in overseasList" :key="index">
-									<router-link :to="item.url">
+									<router-link :to="item.url" target="_blank">
 										<img :src="item.imgUrl" :alt="item.wareName"/>
 										<div class="text transition">
 											<span>{{item.wareName}}</span>
@@ -114,7 +114,7 @@
 						<el-col :span="6">
 							<el-row :gutter="15">
 								<el-col :span="24" v-for="(item, index) in hotImgList" :key="index">
-									<router-link :to="item.url">
+									<router-link :to="item.url" target="_blank">
 										<img :src="item.imgUrl" :alt="item.wareName"/>
 										<div class="text transition">
 											<span>{{item.wareName}}</span>
@@ -124,7 +124,7 @@
 							</el-row>
 						</el-col>
 						<el-col :span="12">
-							<router-link to="/detail">
+							<router-link to="list?title=海外摄影" target="_blank">
 								<img :src="hotImgList[0].imgUrl" :alt="hotImgList[0].wareName"/>
 								<div class="text transition">
 									<span>{{hotImgList[0].wareName}}</span>
@@ -134,7 +134,7 @@
 						<el-col :span="6">
 							<el-row :gutter="15">
 								<el-col :span="24" v-for="(item, index) in hotImgList" :key="index">
-									<router-link :to="item.url">
+									<router-link :to="item.url" target="_blank">
 										<img :src="item.imgUrl" :alt="item.wareName"/>
 										<div class="text transition">
 											<span>{{item.wareName}}</span>
@@ -150,7 +150,7 @@
 				<div class="title">
 					<h3>景点/客片展示</h3>
 					<h3>samples show</h3>
-					<router-link to="list" class="transition">
+					<router-link to="list?title=景点/客片展示" class="transition" target="_blank">
 						show more
 						<i class="el-icon-d-arrow-right"></i>
 					</router-link>
@@ -158,7 +158,7 @@
 				<div class="samples image-list">
 					<el-row :gutter="15">
 						<el-col :span="6" v-for="(item, index) in samplesImgList" :key="index">
-							<router-link to="/detail">
+							<router-link :to="item.url+'&wareName='+item.wareName" target="_blank">
 								<img :src="item.imgUrl" :alt="item.wareName"/>
 								<div class="text transition">
 									<span>{{item.wareName}}</span>
@@ -169,7 +169,7 @@
 				</div>
 			</section>
 			<section>
-				<img src="http://www.fookvision.com//Public/Wwwfookvisioncom/images/index/advent.jpg" alt="">
+				<img src="http://www.fookvision.com//Public/Wwwfookvisioncom/images/index/advent.jpg">
 			</section>
 		</div>
 	</section>
