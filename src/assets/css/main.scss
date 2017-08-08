@@ -219,7 +219,10 @@ table {
   line-height: 25px
 }
 .el-card {
-  padding: 10px
+  padding: 15px;
+  .el-card__header {
+    padding: 0 10px 10px;
+  }
 }
 .card-title {
   line-height: 36px; 
@@ -269,4 +272,32 @@ table {
   .el-input__inner {
     border-radius: 0
   }
+}
+.el-card__header {
+  padding: 10px 20px;
+}
+.name-input {
+  .el-form-item__content {
+    display: flex;
+    justify-content: space-between;
+    .el-input {
+      &:first-child {
+        width: 40%;
+        margin-right: 10px;
+      }
+      &:last-child {
+        flex: 1
+      }
+    }
+  }
+}
+.ware-card {
+  padding: 0;
+  .el-card__body {
+    padding: 0
+  }
+}
+.el-checkbox__input.is-checked .el-checkbox__inner {
+  background-color: #f90;
+  border-color: #f90;
 }

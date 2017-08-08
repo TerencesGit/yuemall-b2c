@@ -2,6 +2,7 @@ import Layout from '@/components/Layout'
 import Home from '@/pages/home'
 import List from '@/pages/list'
 import Detail from '@/pages/detail'
+import Book from '@/pages/book'
 const routes = [
 	{
 		path: '/',
@@ -19,6 +20,7 @@ const routes = [
     	{ path: 'oversea', name: 'oversea', component: List },
     	{ path: 'travel', name: 'travel', component: List },
     	{ path: 'detail', name: 'detail', component: Detail },
+    	{ path: 'book', name: 'book', component: Book },
     ]
   },
 

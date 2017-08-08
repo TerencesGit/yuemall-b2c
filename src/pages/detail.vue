@@ -4,7 +4,7 @@
 		<div class="main-wrap">
 			<el-breadcrumb separator=">" class="breadcrumb-inner">
 				<el-breadcrumb-item v-for="(item, index) in navList" :key="index">
-					<router-link :to="item.url">{{ item.name }}</router-link>
+					<router-link :to="item.url" replace>{{ item.name }}</router-link>
 				</el-breadcrumb-item>
 			</el-breadcrumb>
 			<div class="ware-main">
@@ -53,7 +53,7 @@
 							</div>
 							<div>
 								<label>出发日期：</label>
-								<span>{{selectedDay || '2017-08-15'}}</span>
+								<span>{{selectedDay || skuList[0].start }}</span>
 							</div>
 							<div class="tourist-number">
 								<label>出游人数：</label>
@@ -75,7 +75,7 @@
 									<i class="fa fa-rmb">￥</i>
 									<strong>{{totalPrice}}</strong>
 								</div>
-								<el-button type="warning" size="large" class="btn-reserve" :disabled="isDisabled">立即预定</el-button>
+								<el-button type="warning" size="large" class="btn-reserve" :disabled="isDisabled" @click="handleBook">立即预定</el-button>
 							</div>
 						</div>
 					</el-col>
@@ -113,7 +113,7 @@
 					</ul>
 				</div>
 			</div>
-			<div id="intro" ref="intro" class="ware-intro tab-panel">
+			<div ref="intro" class="ware-intro tab-panel">
 				<div class="panel-body">
 					<div class="title">
 						产品介绍
@@ -123,7 +123,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="cost" ref="cost" class="ware-cost tab-panel">
+			<div ref="cost" class="ware-cost tab-panel">
 				<div class="panel-body">
 					<div class="title">
 						费用说明
@@ -158,7 +158,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="reserve" ref="reserve" class="ware-reserve tab-panel">
+			<div ref="reserve" class="ware-reserve tab-panel">
 				<div class="panel-body">
 					<div class="title">
 						预定须知
@@ -192,7 +192,7 @@
 					</div>
 				</div>
 			</div>
-			<div id="visa" ref="visa" class="ware-visa tab-panel">
+			<div ref="visa" class="ware-visa tab-panel">
 				<div class="panel-body">
 					<div class="title">
 						签证/签注
@@ -263,115 +263,115 @@
 					{
 						start: '2017-08-10',
 						adultPrice: 12999,
-						childPrice: 11990,
+						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
 						start: '2017-08-11',
 						adultPrice: 12999,
-						childPrice: 11990,
+						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
 						start: '2017-08-12',
 						adultPrice: 12999,
-						childPrice: 11990,
+						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
 						start: '2017-08-13',
 						adultPrice: 12999,
-						childPrice: 11990,
+						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
 						start: '2017-08-14',
 						adultPrice: 12999,
-						childPrice: 11990,
+						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
 						start: '2017-08-15',
 						adultPrice: 12999,
-						childPrice: 11990,
+						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
 						start: '2017-08-16',
 						adultPrice: 12999,
-						childPrice: 11990,
+						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
 						start: '2017-08-17',
 						adultPrice: 12999,
-						childPrice: 11990,
+						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
 						start: '2017-08-18',
 						adultPrice: 12999,
-						childPrice: 11990,
+						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
 						start: '2017-08-19',
 						adultPrice: 12999,
-						childPrice: 11990,
+						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
 						start: '2017-08-20',
 						adultPrice: 12999,
-						childPrice: 11990,
+						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
 						start: '2017-08-21',
 						adultPrice: 12999,
-						childPrice: 11990,
+						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
 						start: '2017-08-22',
 						adultPrice: 12999,
-						childPrice: 11990,
+						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
 						start: '2017-08-23',
 						adultPrice: 12999,
-						childPrice: 11990,
+						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
 						start: '2017-08-31',
 						adultPrice: 12999,
-						childPrice: 11990,
+						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
 						start: '2017-09-01',
 						adultPrice: 12999,
-						childPrice: 11990,
+						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
 						start: '2017-09-02',
 						adultPrice: 12999,
-						childPrice: 11990,
+						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
 						start: '2017-09-03',
 						adultPrice: 12999,
-						childPrice: 11990,
+						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
 						start: '2017-09-04',
 						adultPrice: 12999,
-						childPrice: 11990,
+						childPrice: 12000,
 						storageNum: 1590
 					},
 				],
@@ -451,19 +451,20 @@
 			scrollEvent () {
 				this.isTabFixed = document.body.scrollTop > 945 ? true : false;
 				let top = document.body.scrollTop;
-				let visaTop = document.getElementById('visa').offsetTop;
-				let reserveTop = document.getElementById('reserve').offsetTop;
-				let costTop = document.getElementById('cost').offsetTop;
-				// console.log(this.$refs['visa'].offsetTop)
-				if (top > visaTop) {
+				if (top > this.$refs['visa'].offsetTop) {
 					this.tabIndex = 3
-				} else if (top > reserveTop) {
+				} else if (top > this.$refs['reserve'].offsetTop) {
 					this.tabIndex = 2
-				} else if (top > costTop) {
+				} else if (top > this.$refs['cost'].offsetTop) {
 					this.tabIndex = 1
 				} else {
 					this.tabIndex = 0
 				}
+			},
+			handleBook () {
+				this.$router.push({
+					path: `book?wareName=${this.wareName}`
+				})
 			}
 		},
 		computed: {
@@ -475,11 +476,16 @@
 			}
 		},
 		created() {
-			this.pageTitle = this.$route.query.wareName || '悦视觉全球旅拍'
+			if (this.$route.query.wareName) {
+				this.wareName = this.pageTitle = this.$route.query.wareName;
+			}
 		},
 		mounted() {
 			this.scrollEvent()
 			document.addEventListener('scroll', this.scrollEvent)
+		},
+		beforeDestroy() {
+			document.removeEventListener('scroll', this.scrollEvent)
 		}
 	}
 </script>
