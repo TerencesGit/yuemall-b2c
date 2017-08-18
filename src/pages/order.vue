@@ -64,20 +64,20 @@
 							</div>
 							<div class="price-main">
 								<div class="price-title">
-									{{ wareInfo.wareName }}
+									{{ order.wareName }}
 								</div>
 								<div class="tourist-info">
 									<div class="depart-city">
 										<label>出发城市</label>
-										<span>北京</span>
+										<span>{{order.srcCity}}</span>
 									</div>
 									<div class="depart-city">
 										<label>出发日期</label>
-										<span>2017-08-15</span>
+										<span>{{order.startDate}}</span>
 									</div>
 									<div class="depart-city">
 										<label>出发人数</label>
-										<span>成人：2  儿童： 0</span>
+										<span>成人：{{order.adultNum}}  儿童： {{order.childNum}}</span>
 									</div>
 								</div>
 								<div class="price-info"></div>
@@ -86,7 +86,7 @@
 								<label>总价</label>
 								<span>
 									<i class="fa fa-rmb">￥</i>
-									<strong>25998</strong>
+									<strong>{{order.totalPrice}}</strong>
 								</span>
 							</div>
 						</div>
@@ -106,9 +106,58 @@
 <script>
 	export default {
 		data() {
+			const validateMobile = (rule, value, callback) => {
+        if (!value) {
+          return callback(new Error('请输入手机号码'));
+        }
+        setTimeout(() => {
+          if (!value.match(/^(13|14|15|17|18)\d{9}$/)) {
+            callback(new Error('请输入正确手机号码'));
+          } else {
+          	callback()
+          }
+        }, 0);
+      };
+      const validateChinese = (rule, value, callback) => {
+      	if (!value) {
+      		return callback(new Error('请输入中文姓名'));
+      	}
+      	if (!value.match(/^[\u4e00-\u9fa5]{2,}$/)) {
+          callback(new Error('请输入正确中文姓名'));
+        } else {
+        	callback()
+        }
+      }
+      const validateEnglish = (rule, value, callback) => {
+      	if (!value) {
+      		return callback(new Error('请输入英文姓名'));
+      	}
+      	if (!value.match(/^[A-Za-z]+$/)) {
+          callback(new Error('请输入正确英文姓名'));
+        } else {
+        	callback()
+        }
+      }
+      const validateIdCard = (rule, value, callback) => {
+      	if (!value) {
+      		return callback(new Error('请输入身份证号'));
+      	}
+      	if (!value.match(/(^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)/)) {
+          callback(new Error('请输入正确身份证号'));
+        } else {
+        	callback()
+        }
+      }
 			return {
-				wareInfo: {
-					wareName: '【巴厘岛蜜月旅拍婚纱摄影6天4晚游】一对一司导+接送机+一日全天拍摄+国际五星'
+				order: {
+					wareName: '',
+					startDate: '',
+					srcCity: '',
+					adultPrice: '',
+					adultNum: '',
+					childPrice: '',
+					childNum: '',
+					totalPrice: ''
 				},
 				contacts: {
 					name: '',
@@ -128,19 +177,19 @@
 						{ required: true, message: '请输入联系人姓名', trigger: 'blur' },
 					],
 					mobile: [
-						{ required: true, message: '请输入手机号码', trigger: 'blur' },
+						{ required: true, validator: validateMobile, trigger: 'blur' },
 					],
 					zhName: [
-						{ required: true, message: '请输入中文姓名', trigger: 'blur' },
+						{ required: true, validator: validateChinese, trigger: 'blur' },
 					],
 					enName: [
-						{ required: true, message: '请输入英文名', trigger: 'blur' },
+						{ required: true, validator: validateEnglish, trigger: 'blur' },
 					],
 					enSurName: [
-						{ required: true, message: '请输入英文姓', trigger: 'blur' },
+						{ required: true, validator: validateEnglish, trigger: 'blur' },
 					],
 					idcard: [
-						{ required: true, message: '请输入身份证号', trigger: 'blur' },
+						{ required: true, validator: validateIdCard, trigger: 'blur' },
 					],
 					gender: [
 						{ required: true, message: '请选择性别', trigger: 'blur' },
@@ -164,16 +213,34 @@
 				this.isFooterUp = document.body.scrollTop > 360 ? true : false;
 			},
 			submitForm() {
-				this.$notify.warning({
-					title: '提示',
-					message: '请将订单填写完整'
+				this.$refs.contacts.validate(valid =>  {
+					if(valid) {
+						console.log(this.contacts)
+						this.$refs.tourist.validate(valid =>  {
+							if(valid){
+								let contacts = JSON.stringify(Object.assign({}, this.contacts))
+								localStorage.setItem('contacts', contacts)	
+							} else {
+								this.$notify.warning({
+									title: '提示',
+									message: '请将订单填写完整'
+								})
+							}
+						})
+					} else {
+						this.$notify.warning({
+							title: '提示',
+							message: '请将订单填写完整'
+						})
+					}
 				})
 			}
 		},
 		created() {
-			if (this.$route.query.wareName) {
-				this.wareInfo.wareName = this.$route.query.wareName;
-			}
+			// if (this.$route.query.wareName) {
+			// 	this.order.wareName = this.$route.query.wareName;
+			// }
+			this.order = JSON.parse(localStorage.getItem('order'));
 		},
 		mounted () {
 			document.addEventListener('scroll', this.handleScroll)

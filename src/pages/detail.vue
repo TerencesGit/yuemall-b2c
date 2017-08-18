@@ -20,7 +20,7 @@
 					  <full-calendar 
 				      :events="skuList" 
 				      first-day='0' 
-				      :selectedDay="selectedDay" 
+				      :selectedDay="startDate" 
 				      @changeMonth="changeMonth" 
 				      @dayClick="dayClick"
 				      @eventClick="dayClick">
@@ -49,11 +49,11 @@
 							</div>
 							<div>
 								<label>出发城市：</label>
-								<span>北京</span>
+								<span>{{srcCity}}</span>
 							</div>
 							<div>
 								<label>出发日期：</label>
-								<span>{{selectedDay || skuList[0].start }}</span>
+								<span>{{startDate || skuList[0].start }}</span>
 							</div>
 							<div class="tourist-number">
 								<label>出游人数：</label>
@@ -261,72 +261,6 @@
 				],
 				skuList: [
 					{
-						start: '2017-08-10',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-08-11',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-08-12',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-08-13',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-08-14',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-08-15',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-08-16',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-08-17',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-08-18',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-08-19',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-08-20',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
 						start: '2017-08-21',
 						adultPrice: 12999,
 						childPrice: 12000,
@@ -374,9 +308,76 @@
 						childPrice: 12000,
 						storageNum: 1590
 					},
+					{
+						start: '2017-09-10',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
+					{
+						start: '2017-09-11',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
+					{
+						start: '2017-09-12',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
+					{
+						start: '2017-09-13',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
+					{
+						start: '2017-09-14',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
+					{
+						start: '2017-09-15',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
+					{
+						start: '2017-09-16',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
+					{
+						start: '2017-09-17',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
+					{
+						start: '2017-09-18',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
+					{
+						start: '2017-09-19',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
+					{
+						start: '2017-09-20',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
 				],
-				selectedDay: '',
 				wareName: '【巴厘岛蜜月旅拍婚纱摄影6天4晚游】一对一司导+接送机+一日全天拍摄+国际五星',
+				srcCity: '北京',
+				startDate: '',
 				adultNum: 1,
 				childNum: 0,
 				adultPrice: 0,
@@ -436,7 +437,7 @@
 				if(event){
 					this.childPrice = event.childPrice || 0;
 					this.adultPrice = event.adultPrice || 0;
-					this.selectedDay = day;
+					this.startDate = day;
 				}
 			},
 			handleTabClick (item, index) {
@@ -462,8 +463,19 @@
 				}
 			},
 			handleBook () {
+				let order = {
+					wareName: this.wareName,
+					startDate: this.startDate,
+					srcCity: this.srcCity,
+					adultPrice: this.adultPrice,
+					adultNum: this.adultNum,
+					childPrice: this.childPrice,
+					childNum: this.childNum,
+					totalPrice: this.totalPrice,
+				};
+				localStorage.setItem('order', JSON.stringify(order))
 				this.$router.push({
-					path: `book?wareName=${this.wareName}`
+					path: `order?wareName=${this.wareName}`
 				})
 			}
 		},
@@ -483,6 +495,7 @@
 		mounted() {
 			this.scrollEvent()
 			document.addEventListener('scroll', this.scrollEvent)
+			// document.onkeydown = this.keyDownEvent
 		},
 		beforeDestroy() {
 			document.removeEventListener('scroll', this.scrollEvent)
