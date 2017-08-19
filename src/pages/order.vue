@@ -67,20 +67,19 @@
 									{{ order.wareName }}
 								</div>
 								<div class="tourist-info">
-									<div class="depart-city">
+									<div class="info-item">
 										<label>出发城市</label>
 										<span>{{order.srcCity}}</span>
 									</div>
-									<div class="depart-city">
+									<div class="info-item">
 										<label>出发日期</label>
 										<span>{{order.startDate}}</span>
 									</div>
-									<div class="depart-city">
+									<div class="info-item">
 										<label>出发人数</label>
 										<span>成人：{{order.adultNum}}  儿童： {{order.childNum}}</span>
 									</div>
 								</div>
-								<div class="price-info"></div>
 							</div>
 							<div class="total-price">
 								<label>总价</label>
@@ -96,7 +95,7 @@
 		</div>
 		<div class="submit" v-bind:class="{up : isFooterUp}">
 			<p>
-				<el-checkbox checked></el-checkbox>
+				<el-checkbox v-model="checked"></el-checkbox>
 				<span>我已阅读并同意 旅游合同、保险条款、保险经纪委托合同、特别预订提示、安全提示</span>
 			</p>
 			<el-button type="warning" size="large" @click="submitForm">提交订单</el-button>
@@ -172,6 +171,7 @@
 					birthday: '',
 					mobile: ''
 				},
+				checked: false,
 				rules: {
 					name: [
 						{ required: true, message: '请输入联系人姓名', trigger: 'blur' },
@@ -192,10 +192,10 @@
 						{ required: true, validator: validateIdCard, trigger: 'blur' },
 					],
 					gender: [
-						{ required: true, message: '请选择性别', trigger: 'blur' },
+						{ type: 'number', required: true, message: '请选择性别', trigger: 'change' },
 					],
 					birthday: [
-						{ required: true, message: '请选择出生日期', trigger: 'blur' },
+						{ required: true, message: '请选择出生日期', trigger: 'change' },
 					],
 				},
 				isCardFixed: false,
@@ -214,23 +214,35 @@
 			},
 			submitForm() {
 				this.$refs.contacts.validate(valid =>  {
+					console.log(this.checked)
 					if(valid) {
 						console.log(this.contacts)
 						this.$refs.tourist.validate(valid =>  {
 							if(valid){
+								if(!this.checked) {
+									this.$notify.warning({
+										title: '提示',
+										message: '请同意旅游合同并勾选'
+									})
+									return;
+								}
 								let contacts = JSON.stringify(Object.assign({}, this.contacts))
-								localStorage.setItem('contacts', contacts)	
+								localStorage.setItem('contacts', contacts)
+								this.$router.push({
+									path: 'payment'
+								})
 							} else {
+								console.log(Object.assign({}, this.tourist))
 								this.$notify.warning({
 									title: '提示',
-									message: '请将订单填写完整'
+									message: '请将出游人信息填写完整'
 								})
 							}
 						})
 					} else {
 						this.$notify.warning({
 							title: '提示',
-							message: '请将订单填写完整'
+							message: '请将联系人信息填写完整'
 						})
 					}
 				})
@@ -240,7 +252,7 @@
 			// if (this.$route.query.wareName) {
 			// 	this.order.wareName = this.$route.query.wareName;
 			// }
-			this.order = JSON.parse(localStorage.getItem('order'));
+			this.order = JSON.parse(localStorage.getItem('order'))
 		},
 		mounted () {
 			document.addEventListener('scroll', this.handleScroll)

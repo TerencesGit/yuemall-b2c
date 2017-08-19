@@ -3,6 +3,7 @@ import Home from '@/pages/home'
 import List from '@/pages/list'
 import Detail from '@/pages/detail'
 import Order from '@/pages/order'
+import Payment from '@/pages/payment'
 const routes = [
 	{
 		path: '/',
@@ -20,7 +21,8 @@ const routes = [
     	{ path: 'oversea', name: 'oversea', component: List },
     	{ path: 'travel', name: 'travel', component: List },
     	{ path: 'detail', name: 'detail', component: Detail },
-    	{ path: 'order', name: 'book', component: Order },
+        { path: 'order', name: 'book', component: Order },
+    	{ path: 'payment', name: 'book', component: Payment },
     ]
   },
 
