@@ -10,7 +10,7 @@
 		    <el-table-column prop="orderId" label="订单编号" width="150" sortable></el-table-column>
 		    <el-table-column prop="createTime" label="创建时间" width="180" sortable :formatter="formatTime"></el-table-column>
 		    <el-table-column prop="name" label="订单名称"></el-table-column>
-		    <el-table-column prop="payer" label="下单人" width="90"></el-table-column>
+		    <el-table-column prop="payer" label="下单人" width="110"></el-table-column>
 		   <!--  <el-table-column prop="mobile" label="联系电话" width="130"></el-table-column> -->
 		    <el-table-column prop="method" label="支付方式" width="100" :formatter="formatMethod"></el-table-column>
 		    <el-table-column prop="amount" label="金额" width="120" :formatter="formatAmount"></el-table-column>
@@ -48,7 +48,7 @@
 				</div>
 				<div class="order-item">
 					<label>金额：</label>
-					<span>{{orderObj.amount}}</span>
+					<span>{{'￥'+orderObj.amount}}</span>
 				</div>
 				<div class="order-item">
 					<label>状态：</label>
@@ -107,11 +107,14 @@
 			}
 		},
 		mounted () {
-			this.orderList = JSON.parse(localStorage.getItem('orderList'))
+			this.orderList = JSON.parse(localStorage.getItem('orderList')) || [];
 		}
 	}
 </script>
 <style scoped lang="scss">
+	.page-header {
+		margin-top: 30px
+	}
 	.order-detail {
 		width: 80%;
 		margin: auto;

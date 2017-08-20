@@ -3,7 +3,7 @@
 		<div class="banner">
 			<el-carousel indicator-position height="400px">
 		    <el-carousel-item v-for="(item, index) in bannerList" :key="index">
-		      <router-link :to='item.url+"&&wareName="+item.wareName' :title="item.wareName" target="_blank">
+		      <router-link :to='item.url+"&&wareName="+item.wareName+"&wareImg="+item.imgUrl' :title="item.wareName" target="_blank">
 		      	<img :src="item.imgUrl" :alt="item.wareName">
 		      </router-link>
 		    </el-carousel-item>
@@ -181,31 +181,31 @@
 				bannerList: [
 					{
 						wareId: 1000000020170801,
-						wareName: '巴厘岛婚纱摄影',
+						wareName: '【巴厘岛蜜月旅拍婚纱摄影6天4晚游】一对一司导+接送机+一日全天拍摄+国际五星',
 						url: '/detail?wareId=1000000020170801',
 						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/banner2.jpg'
 					},
 					{
 						wareId: 1000000020170802,
-						wareName: '圣托里尼婚纱摄影',
+						wareName: '【圣托里尼旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
 						url: '/detail?wareId=1000000020170802',
 						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/banner3.jpg'
 					},
 					{
 						wareId: 1000000020170803,
-						wareName: '塞班岛婚纱摄影',
+						wareName: '【美国塞班岛婚纱照2天1晚】碧海蓝天+悬崖码头+凤凰花',
 						url: '/detail?wareId=1000000020170803',
 						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/banner4.jpg'
 					},
 					{
 						wareId: 1000000020170804,
-						wareName: '巴黎婚纱摄影',
+						wareName: '【巴黎旅拍婚纱照2日1晚游】 任选5个景点+全天拍摄用车+一对一服务',
 						url: '/detail?wareId=1000000020170804',
 						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/banner6.jpg'
 					},
 					{
 						wareId: 1000000020170805,
-						wareName: '三亚婚纱摄影',
+						wareName: '【三亚旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
 						url: '/detail?wareId=1000000020170805',
 						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/banner12.jpg'
 					}
@@ -355,7 +355,9 @@
 					},
 				],
 			}
-		}
+		},
+		methods: {
+		},
 	}
 </script>
 <style scoped lang="scss">

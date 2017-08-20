@@ -258,7 +258,7 @@
         this.handleChange()
       },
       showDetail(item) {
-      	window.open(`#/detail?wareId=${item.wareId}&&wareName=${item.wareName}`)
+      	window.open(`#/detail?wareId=${item.wareId}&&wareName=${item.wareName}&&wareImg=${item.wareImgUrl}`)
       },
       handleCurrentChange(val) {
       	this.handleChange()

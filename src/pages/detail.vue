@@ -12,9 +12,7 @@
 					<el-col :span="12" class="ware-img">
 						<el-carousel indicator-position height="280px">
 					    <el-carousel-item v-for="(item, index) in wareImgList" :key="index">
-					      <router-link :to="item.url" title="巴厘岛蜜月旅拍">
-					      	<img :src="item.imgUrl">
-					      </router-link>
+					      <img :src="item.imgUrl" :title="item.title">
 					    </el-carousel-item>
 					  </el-carousel>
 					  <full-calendar 
@@ -253,11 +251,6 @@
 						url: '/detail',
 						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/activity/anniversary/pic_22.png'
 					},
-					{
-						title: '巴黎婚纱摄影',
-						url: '/detail',
-						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/activity/anniversary/pic_23.png'
-					},
 				],
 				skuList: [
 					{
@@ -472,6 +465,7 @@
 					childPrice: this.childPrice,
 					childNum: this.childNum,
 					totalPrice: this.totalPrice,
+					wareImg: this.wareImgList[0].imgUrl
 				};
 				localStorage.setItem('order', JSON.stringify(order))
 				this.$router.push({
@@ -490,6 +484,15 @@
 		created() {
 			if (this.$route.query.wareName) {
 				this.wareName = this.pageTitle = this.$route.query.wareName;
+			}
+			if(this.$route.query.wareImg) {
+				console.log(this.$route.query.wareImg)
+				let imgObj = {
+					title: this.$route.query.wareName,
+					url: '/detail',
+					imgUrl: this.$route.query.wareImg
+				}
+				this.wareImgList.unshift(imgObj)
 			}
 		},
 		mounted() {

@@ -65,7 +65,7 @@
 					<el-card class="ware-card">
 						<div class="card-body">
 							<div class="ware-img">
-								<img src="http://www.fookvision.com/Public/Wwwfookvisioncom/images/activity/anniversary/pic_16.png" alt="">
+								<img :src="order.wareImg">
 							</div>
 							<div class="price-main">
 								<div class="price-title">
@@ -84,7 +84,7 @@
 										<label>出发人数</label>
 										<div>
 											<span>成人：{{order.adultNum}}</span>  
-											<span v-if="order.childNum">儿童： {{}}</span>
+											<span v-if="order.childNum">儿童： {{order.childNum}}</span>
 										</div>
 									</div>
 								</div>

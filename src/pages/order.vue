@@ -60,7 +60,7 @@
 					<el-card class="ware-card" v-bind:class="{fixed : isCardFixed}">
 						<div class="card-body">
 							<div class="ware-img">
-								<img src="http://www.fookvision.com/Public/Wwwfookvisioncom/images/activity/anniversary/pic_16.png" alt="">
+								<img :src="order.wareImg">
 							</div>
 							<div class="price-main">
 								<div class="price-title">
@@ -148,6 +148,7 @@
         }
       }
 			return {
+				user: {},
 				order: {
 					wareName: '',
 					startDate: '',
@@ -214,9 +215,14 @@
 			},
 			submitForm() {
 				this.$refs.contacts.validate(valid =>  {
-					console.log(this.checked)
 					if(valid) {
-						console.log(this.contacts)
+						if(this.contacts.name !== this.user.name) {
+							this.$notify.warning({
+								title: '提示',
+								message: '联系人必须是本人真实姓名'
+							})
+							return;
+						}
 						this.$refs.tourist.validate(valid =>  {
 							if(valid){
 								if(!this.checked) {
@@ -253,6 +259,7 @@
 			// 	this.order.wareName = this.$route.query.wareName;
 			// }
 			this.order = JSON.parse(localStorage.getItem('order'))
+			this.user = JSON.parse(localStorage.getItem('user'))
 		},
 		mounted () {
 			document.addEventListener('scroll', this.handleScroll)

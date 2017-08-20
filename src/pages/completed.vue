@@ -15,7 +15,7 @@
 					<el-card class="ware-card">
 						<div class="card-body">
 							<div class="ware-img">
-								<img src="http://www.fookvision.com/Public/Wwwfookvisioncom/images/activity/anniversary/pic_16.png" alt="">
+								<img :src="order.wareImg">
 							</div>
 							<div class="price-main">
 								<div class="price-title">
@@ -190,7 +190,7 @@
 		}
 	}
 	.ware-img {
-		height: 200px;
+		height: 180px;
 		img {
 			width: 100%;
 			height: 100%;
