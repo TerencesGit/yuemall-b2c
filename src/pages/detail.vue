@@ -254,19 +254,43 @@
 				],
 				skuList: [
 					{
-						start: '2017-08-21',
+						start: '2017-08-24',
 						adultPrice: 12999,
 						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
-						start: '2017-08-22',
+						start: '2017-08-25',
 						adultPrice: 12999,
 						childPrice: 12000,
 						storageNum: 1590
 					},
 					{
-						start: '2017-08-23',
+						start: '2017-08-26',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
+					{
+						start: '2017-08-27',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
+					{
+						start: '2017-08-28',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
+					{
+						start: '2017-08-29',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
+					{
+						start: '2017-08-30',
 						adultPrice: 12999,
 						childPrice: 12000,
 						storageNum: 1590
@@ -297,6 +321,36 @@
 					},
 					{
 						start: '2017-09-04',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
+					{
+						start: '2017-09-05',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
+					{
+						start: '2017-09-06',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
+					{
+						start: '2017-09-07',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
+					{
+						start: '2017-09-08',
+						adultPrice: 12999,
+						childPrice: 12000,
+						storageNum: 1590
+					},
+					{
+						start: '2017-09-09',
 						adultPrice: 12999,
 						childPrice: 12000,
 						storageNum: 1590

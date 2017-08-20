@@ -216,7 +216,7 @@
 			submitForm() {
 				this.$refs.contacts.validate(valid =>  {
 					if(valid) {
-						if(this.contacts.name !== this.user.name) {
+						if(this.contacts.name !== this.user.realName) {
 							this.$notify.warning({
 								title: '提示',
 								message: '联系人必须是本人真实姓名'
