@@ -120,6 +120,7 @@
 		methods: {
 			confirmPay() {
 				let orderObj = {
+					orderId: new Date().getTime(),
 					name: this.order.wareName,
 					payer: this.contacts.name,
 					mobile: this.contacts.mobile,
@@ -127,12 +128,10 @@
 					method: this.payMethod,
 					createTime: new Date()
 				}
-				console.log(orderObj)
 				let orderList = JSON.parse(localStorage.getItem('orderList')) || [];
 				orderList.push(orderObj)
 				localStorage.setItem('orderList', JSON.stringify(orderList))
-				console.log(orderList)
-				// this.$router.push('completed')
+				this.$router.push('completed')
 			}
 		},
 		created() {

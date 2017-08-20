@@ -8,7 +8,7 @@
 						<h3>感谢您在悦视觉订购！</h3>
 						<h3 class="success"><i class="el-icon-circle-check"></i>支付成功</h3>
 						<router-link to="/list">继续订购</router-link>
-						<router-link to="/">查看订单</router-link>
+						<router-link to="/orderList">查看订单</router-link>
 					</el-card>
 				</el-col>
 				<el-col :offset="1" :span="7">
