@@ -5,61 +5,11 @@
 			<el-row :gutter="20">
 				<el-col :span="16">
 					<el-card>
-						<h2>感谢您在悦视觉预订！</h2>
-						<div class="contacts-info">
-							<h3 class="title">预订人信息</h3>
-							<div class="content">
-								<span>姓名：{{contacts.name}}</span>
-								<span>手机：{{contacts.mobile}}</span>
-							</div>
-						</div>
-						<div class="order-info">
-							<h3 class="title">订单信息</h3>
-							<div class="content">
-								<div class="table">
-									<div class="table-row">
-										<span class="table-cell">名称</span>
-										<span class="table-cell">数量</span>
-										<span class="table-cell">单价</span>
-										<span class="table-cell">总价</span>
-									</div>
-									<div class="table-row">
-										<span class="table-cell name">{{order.wareName}}</span>
-										<div class="table-cell">
-											<span>成人：{{order.adultNum}}</span>
-											<span v-if="order.childNum">儿童：{{order.childNum}}</span>
-										</div>
-										<span class="table-cell money"><i class="fa fa-rmb">￥</i>{{order.adultPrice}}</span>
-										<span class="table-cell money"><i class="fa fa-rmb">￥</i>{{order.totalPrice}}</span>
-									</div>
-								</div>
-								<div class="payPrice">
-									<span>支付总金额：
-										<strong class="money">
-											<i class="fa fa-rmb">￥</i>
-											{{order.totalPrice}}
-										</strong>
-									</span>
-								</div>
-							</div>
-						</div>
+						<h3>感谢您在悦视觉订购！</h3>
+						<h3 class="success"><i class="el-icon-circle-check"></i>支付成功</h3>
+						<router-link to="/list">继续订购</router-link>
+						<router-link to="/">查看订单</router-link>
 					</el-card>
-					<div class="pay-methods">
-						<h3>支付方式</h3>
-						<ul class="method-list">
-							<li class="method-item alipay" v-bind:class="{active : payMethod === 1}">
-								<el-radio class="radio" v-model="payMethod" :label="1">
-								<img src="https://t.alipayobjects.com/images/T11rdgXbFkXXXXXXXX.png" class="alipay-icon">
-								</el-radio>
-							</li>
-							<li class="method-item wxpay" v-bind:class="{active : payMethod === 2}">
-								<el-radio class="radio" v-model="payMethod" :label="2">
-								<img src="https://ss1.baidu.com/6ONXsjip0QIZ8tyhnq/it/u=199783060,2774173244&amp;fm=58&amp;s=188FA15AB1206D1108400056000040F6&amp;bpow=121&amp;bpoh=75" class="weixin-icon">
-								</el-radio>
-							</li>
-						</ul>
-						<el-button type="warning" size="large" class="pay-button" @click="confirmPay">确定支付</el-button>
-					</div>
 				</el-col>
 				<el-col :offset="1" :span="7">
 					<el-card class="ware-card">
@@ -71,7 +21,7 @@
 								<div class="price-title">
 									{{ order.wareName }}
 								</div>
-								<div class="tourist-info">
+								<!-- <div class="tourist-info">
 									<div class="info-item">
 										<label>出发城市</label>
 										<span>{{order.srcCity}}</span>
@@ -87,7 +37,7 @@
 											<span v-if="order.childNum">儿童： {{}}</span>
 										</div>
 									</div>
-								</div>
+								</div> -->
 							</div>
 						</div>
 					</el-card>
@@ -114,25 +64,15 @@
 					name: '',
 					mobile: ''
 				},
-				payMethod: 1
+				radio: '1'
 			}
 		},
 		methods: {
 			confirmPay() {
-				let orderObj = {
-					name: this.order.wareName,
-					payer: this.contacts.name,
-					mobile: this.contacts.mobile,
-					amount: this.order.totalPrice,
-					method: this.payMethod,
-					createTime: new Date()
-				}
-				console.log(orderObj)
-				let orderList = JSON.parse(localStorage.getItem('orderList')) || [];
-				orderList.push(orderObj)
-				localStorage.setItem('orderList', JSON.stringify(orderList))
-				console.log(orderList)
-				// this.$router.push('completed')
+				this.$notify.info({
+					title: '稍等',
+					message: '后面的尚未完成'
+				})
 			}
 		},
 		created() {
@@ -143,7 +83,18 @@
 </script>
 <style scoped lang="scss">
 	.el-card {
-		box-shadow: none
+		box-shadow: none;
+		.success {
+			margin: 50px 0;
+			font-size: 28px;
+			color: #75d24d;
+			i {
+				margin-right: 10px;
+			}
+		}
+		a {
+			margin-right: 15px
+		}
 	}
 	.title {
 		padding-bottom: 15px;
@@ -249,7 +200,7 @@
 		padding-bottom: 15px;
 		color: #666;
 		font-size: 16px;
-		border-bottom: 1px solid #ccc;
+		// border-bottom: 1px solid #ccc;
 	}
   .price-main {
   	padding: 15px 20px;

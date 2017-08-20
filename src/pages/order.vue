@@ -33,10 +33,10 @@
 							    <el-input v-model="tourist.enName" placeholder="拼音名"></el-input>
 							  </el-form-item>
 							  <el-form-item label="身份证号：" prop="idcard">
-							    <el-input v-model="tourist.idcard" placeholder="身份证号"></el-input>
+							    <el-input v-model="tourist.idcard" placeholder="请输入身份证号"></el-input>
 							  </el-form-item>
 							  <el-form-item label="性别：" prop="gender">
-							    <el-select v-model="tourist.gender" placeholder="请选择">
+							    <el-select v-model="tourist.gender" placeholder="请选择性别">
 								    <el-option :value="1" label="男"></el-option>
 								    <el-option :value="2" label="女"></el-option>
 								  </el-select>
@@ -45,12 +45,12 @@
 						      <el-date-picker
 							      v-model="tourist.birthday"
 							      type="date"
-							      placeholder="选择日期"
+							      placeholder="请选择出生日期"
 							      @change="handleDateChange">
 							    </el-date-picker>
 							  </el-form-item>
 							  <el-form-item label="手机号码：" prop="mobile">
-							    <el-input v-model="tourist.mobile" placeholder="手机号码"></el-input>
+							    <el-input v-model="tourist.mobile" placeholder="暂只支持大陆手机号码"></el-input>
 							  </el-form-item>
 					  	</el-form>
 					  </div>

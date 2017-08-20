@@ -4,6 +4,7 @@ import List from '@/pages/list'
 import Detail from '@/pages/detail'
 import Order from '@/pages/order'
 import Payment from '@/pages/payment'
+import Completed from '@/pages/completed'
 const routes = [
 	{
 		path: '/',
@@ -22,7 +23,8 @@ const routes = [
     	{ path: 'travel', name: 'travel', component: List },
     	{ path: 'detail', name: 'detail', component: Detail },
         { path: 'order', name: 'book', component: Order },
-    	{ path: 'payment', name: 'book', component: Payment },
+        { path: 'payment', name: 'payment', component: Payment },
+    	{ path: 'completed', name: 'completed', component: Completed },
     ]
   },
 
