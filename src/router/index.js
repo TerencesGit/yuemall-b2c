@@ -1,6 +1,8 @@
 import Layout from '@/components/Layout'
 import Home from '@/pages/home'
 import List from '@/pages/list'
+import Native from '@/pages/native'
+import Oversea from '@/pages/oversea'
 import Detail from '@/pages/detail'
 import Order from '@/pages/order'
 import Payment from '@/pages/payment'
@@ -19,8 +21,8 @@ const routes = [
         children: [
         	{ path: 'home', name: 'home', component: Home },
         	{ path: 'list', name: 'list', component: List },
-        	{ path: 'native', name: 'native', component: List },
-        	{ path: 'oversea', name: 'oversea', component: List },
+        	{ path: 'native', name: 'native', component: Native },
+        	{ path: 'oversea', name: 'oversea', component: Oversea },
         	{ path: 'travel', name: 'travel', component: List },
         	{ path: 'detail', name: 'detail', component: Detail },
             { path: 'order', name: 'book', component: Order },
