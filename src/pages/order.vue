@@ -205,7 +205,6 @@
 		},
 		methods: {
 			handleDateChange(val) {
-				console.log(val)
 				this.tourist.birthday = val;
 			},
 			handleScroll () {
@@ -220,6 +219,13 @@
 							this.$notify.warning({
 								title: '提示',
 								message: '联系人必须是本人真实姓名'
+							})
+							return;
+						}
+						if(this.contacts.mobile !== this.user.mobile) {
+							this.$notify.warning({
+								title: '提示',
+								message: '手机号码必须是本人手机号码'
 							})
 							return;
 						}

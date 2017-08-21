@@ -1,7 +1,7 @@
 <template>
 	<section>
 		<div class="banner">
-			<el-carousel indicator-position height="400px">
+			<el-carousel indicator-position height="550px">
 		    <el-carousel-item v-for="(item, index) in bannerList" :key="index">
 		      <router-link :to='item.url+"&&wareName="+item.wareName+"&wareImg="+item.imgUrl' :title="item.wareName" target="_blank">
 		      	<img :src="item.imgUrl" :alt="item.wareName">
@@ -12,7 +12,7 @@
 		<div class="main-wrap">
 			<section> 
 				<div class="title">
-					<h3>热门推荐</h3>
+					<h3><em>热门推荐</em></h3>
 					<h3>hot recommendation</h3>
 					<router-link to="list?title=热门推荐" class="transition" target="_blank">
 						show more
@@ -50,7 +50,7 @@
 			</section>
 			<section>
 				<div class="title">
-					<h3>国内旅拍</h3>
+					<h3><em>国内旅拍</em></h3>
 					<h3>native travel</h3>
 					<router-link to="list?title=国内旅拍" class="transition" target="_blank">
 						show more
@@ -80,7 +80,7 @@
 			</section>
 			<section>
 				<div class="title">
-					<h3>海外摄影</h3>
+					<h3><em>海外摄影</em></h3>
 					<h3>overseas photography</h3>
 					<router-link to="list?title=海外摄影" class="transition" target="_blank">
 						show more
@@ -148,7 +148,7 @@
 			</section>
 			<section>
 				<div class="title">
-					<h3>景点/客片展示</h3>
+					<h3><em>景点/客片展示</em></h3>
 					<h3>samples show</h3>
 					<router-link to="list?title=景点/客片展示" class="transition" target="_blank">
 						show more
@@ -382,24 +382,24 @@
   		position: relative;
   		margin: 30px 0;
   		text-align: center;
-  		// em {
-  		// 	font-style: normal;
-  		// 	font-weight: bold;
-  		// 	&::before, &::after {
-  		// 		content: '';
-				// 	position: absolute;
-				// 	top: 10px;
-				// 	width: 200px;
-  		// 		height: 2px;
-  		// 		background: #eee
-  		// 	}
-  		// 	&::before {
-  		// 		margin-left: -220px;
-  		// 	}
-  		// 	&::after {
-				// 	margin-left: 20px;
-  		// 	}
-  		// }
+  		em {
+  			font-style: normal;
+  			font-weight: bold;
+  			&::before, &::after {
+  				content: '';
+					position: absolute;
+					top: 10px;
+					width: 300px;
+  				height: 1px;
+  				background: #ddd
+  			}
+  			&::before {
+  				margin-left: -320px;
+  			}
+  			&::after {
+					margin-left: 20px;
+  			}
+  		}
   		h3 {
   			margin: 20px 0;
   			font-weight: bold;
