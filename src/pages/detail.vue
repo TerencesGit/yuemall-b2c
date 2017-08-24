@@ -252,176 +252,7 @@
 						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/activity/anniversary/pic_22.png'
 					},
 				],
-				skuList: [
-					{
-						start: '2017-08-24',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-08-25',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-08-26',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-08-27',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-08-28',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-08-29',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-08-30',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-08-31',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-01',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-02',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-03',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-04',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-05',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-06',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-07',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-08',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-09',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-10',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-11',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-12',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-13',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-14',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-15',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-16',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-17',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-18',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-19',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-					{
-						start: '2017-09-20',
-						adultPrice: 12999,
-						childPrice: 12000,
-						storageNum: 1590
-					},
-				],
+				skuList: [],
 				wareName: '【巴厘岛蜜月旅拍婚纱摄影6天4晚游】一对一司导+接送机+一日全天拍摄+国际五星',
 				srcCity: '北京',
 				startDate: '',
@@ -525,7 +356,13 @@
 				this.$router.push({
 					path: `order?wareName=${this.wareName}`
 				})
-			}
+			},
+	    getCountDays(d) {
+	    	let date = d || new Date();
+	    	date.setMonth(date.getMonth() + 1)
+	    	date.setDate(0)
+	    	return date.getDate()
+	    }
 		},
 		computed: {
 			totalPrice () {
@@ -540,7 +377,6 @@
 				this.wareName = this.pageTitle = this.$route.query.wareName;
 			}
 			if(this.$route.query.wareImg) {
-				console.log(this.$route.query.wareImg)
 				let imgObj = {
 					title: this.$route.query.wareName,
 					url: '/detail',
@@ -548,6 +384,39 @@
 				}
 				this.wareImgList.unshift(imgObj)
 			}
+			let skuList = [];
+			let currDate = new Date(),
+			    currYear = currDate.getFullYear(),
+			    currMonth = currDate.getMonth(),
+			    currDay = currDate.getDate() + 3;
+			let nextYear = currMonth === 11 ? currYear + 1 : currYear,
+					nextMonth = currMonth === 11 ? 0 : currMonth + 1;
+			let currMonthCounts = this.getCountDays(new Date(currYear, currMonth, 1)),
+					nextMonthCounts = this.getCountDays(new Date(nextYear, nextMonth, 1))
+			// console.log(this.$moment(new Date(currYear, currMonth, currDay)).format('YYYY-MM-DD'))
+			// console.log(this.$moment(new Date(nextYear, nextMonth, 1)).format('YYYY-MM-DD'))
+			// console.log(this.getCountDays(new Date(currYear, currMonth, 1)))
+			// console.log(this.getCountDays(new Date(nextYear, nextMonth, 1)))
+			for(let i = currDay; i <= currMonthCounts; i++) {
+				let skuItem = {
+					start: this.$moment(new Date(currYear, currMonth, i)).format('YYYY-MM-DD'),
+					adultPrice: 9900,
+					childPrice: 8900,
+					storageNum: Math.ceil(Math.random() * 100),
+				}
+				skuList.push(skuItem)
+			}
+			for(let i = 1; i <= nextMonthCounts; i++) {
+				let skuItem = {
+					start: this.$moment(new Date(currYear, currMonth + 1, i)).format('YYYY-MM-DD'),
+					adultPrice: 9998,
+					childPrice: 8998,
+					storageNum: Math.floor(Math.random() * 100),
+				}
+				skuList.push(skuItem)
+			}
+			this.skuList = skuList;
+			console.log(currYear, currMonth, currDay)
 		},
 		mounted() {
 			this.scrollEvent()

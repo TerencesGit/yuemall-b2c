@@ -68,12 +68,6 @@
 			}
 		},
 		methods: {
-			confirmPay() {
-				this.$notify.info({
-					title: '稍等',
-					message: '后面的尚未完成'
-				})
-			}
 		},
 		created() {
 			this.order = JSON.parse(localStorage.getItem('order'))
