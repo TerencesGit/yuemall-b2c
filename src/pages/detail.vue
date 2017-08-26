@@ -341,6 +341,14 @@
 				}
 			},
 			handleBook () {
+				let user = JSON.parse(localStorage.getItem('user'));
+				if(!user) {
+					this.$notify.warning({
+						title: '提示',
+						message: '请先登录'
+					})
+					return;
+				}
 				let order = {
 					wareName: this.wareName,
 					startDate: this.startDate,
@@ -416,7 +424,6 @@
 				skuList.push(skuItem)
 			}
 			this.skuList = skuList;
-			console.log(currYear, currMonth, currDay)
 		},
 		mounted() {
 			this.scrollEvent()
