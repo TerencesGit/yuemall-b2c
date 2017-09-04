@@ -12,8 +12,9 @@ import ElementUI from 'element-ui'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css'
 import 'element-ui/lib/theme-default/index.css'
-// import 'font-awesome/css/font-awesome.min.css'
+import 'font-awesome/css/font-awesome.min.css'
 import '@/assets/css/main.scss'
+import Utils from '@/assets/js/utils'
 import FullCalendar from '@/components/fullcalendar'
 Vue.use(Vuex)
 Vue.use(Router)
@@ -44,28 +45,19 @@ const router = new Router({
 	routes
 })
 router.beforeEach((to, from, next) => {
+  Vue.prototype.$fromPath = from.path === '/login' ? '/home' : from.path;
+  let user = Utils.getCookie('userId')
+  let logRequired = to.path.indexOf('order') !== -1 || 
+                    to.path.indexOf('payment') !== -1;
+  if(logRequired && !user) {
+    ElementUI.Message('尚未登录或当前会话已过期，请重新登录')
+    return router.push('/login')
+  } 
   NProgress.start()
-  next() 
+  next()
 })
 router.afterEach((to, from, next) => {
   NProgress.done()
-})
-axios.interceptors.request.use(config => {
-  return config
-}, error => {
-  return Promise.reject(error)
-})
-axios.interceptors.response.use(res =>{
-  if (res.data.code === '0000') {
-    router.push('/login')
-    return Promise.reject(res)
-  } else if (res.data.code === '9999') {
-  	router.push('/NoPermission')
-    return Promise.reject(res)
-  }
-  return res;
-}, err => {
-  return Promise.reject(err)
 })
 /* eslint-disable no-new */
 new Vue({

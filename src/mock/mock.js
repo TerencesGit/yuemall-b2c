@@ -1,4 +1,5 @@
 import axios from 'axios'
+import Utils from '@/assets/js/utils'
 import MockAdapter from 'axios-mock-adapter'
 import { UserList, PartnerList, OrganizeList, FunctionTree } from './data/user'
 let _UserList = UserList,
@@ -56,7 +57,7 @@ export default {
 		})
 		// 登出
 		mock.onGet('/logout').reply(config => {
-			sessionStorage.removeItem('userId')
+			Utils.delCookie('userId')
 			retObj.result = {}
 			return new Promise((resolve, reject) => {
 				setTimeout(() => {
@@ -66,7 +67,7 @@ export default {
 		})
 		// 获取用户信息
 		mock.onGet('/accountInter/getMyinfo.do').reply(config => {
-			let userId = sessionStorage.getItem('userId');
+			let userId = Utils.getCookie('userId')
 			if(!userId) {
 				return new Promise((resolve, reject) => {
 					setTimeout(() => {
@@ -74,6 +75,7 @@ export default {
 					}, 500)
 				})
 			}
+			userId = atob(unescape(userId))
 			let _userInfo = _UserList.filter(user => user.userId == userId)[0]
 			let retObj = {
 				code: '0001',

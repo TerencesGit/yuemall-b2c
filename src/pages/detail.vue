@@ -30,7 +30,7 @@
 								<h2>{{ wareName }}</h2>
 							</div>
 							<div class="ware-price">
-								<i class="fa fa-rmb">￥</i>
+								<i class="fa fa-rmb"></i>
 								<strong>12999</strong>/人起
 								<span>新品上架</span>
 							</div>
@@ -70,7 +70,7 @@
 							<div class="total-price">
 								<label>总价：</label>
 								<div>
-									<i class="fa fa-rmb">￥</i>
+									<i class="fa fa-rmb"></i>
 									<strong>{{totalPrice}}</strong>
 								</div>
 								<el-button type="warning" size="large" class="btn-reserve" :disabled="isDisabled" @click="handleBook">立即预定</el-button>
@@ -212,6 +212,7 @@
 	</section>
 </template>
 <script>
+	import Utils from '@/assets/js/utils'
 	export default {
 		data() {
 			return {
@@ -341,11 +342,10 @@
 				}
 			},
 			handleBook () {
-				let user = JSON.parse(localStorage.getItem('user'));
-				if(!user) {
+				if(!Utils.getCookie('userId')) {
 					this.$notify.warning({
 						title: '提示',
-						message: '请先登录'
+						message: '请登录先'
 					})
 					return;
 				}

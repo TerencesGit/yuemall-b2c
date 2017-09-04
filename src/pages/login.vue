@@ -43,6 +43,7 @@
 </template>
 <script>
 	import MD5 from '@/assets/js/md5'
+	import Utils from '@/assets/js/utils'
 	import { requestLogin } from '@/api'
 	export default {
 		data() {
@@ -80,10 +81,11 @@
 	                password: escape(btoa(this.loginForm.password)),
 	                isAdmin: 1
 	              }
+	              let userId = res.data.result.userInfo.userId;
 	              localStorage.setItem('user', JSON.stringify(user))
-	              sessionStorage.setItem('userId', res.data.result.userInfo.userId)
+	              Utils.setCookie('userId', btoa(userId))
 	              this.$message.success('登录成功')
-	              this.$router.replace({ path: '/home' })
+	              this.$router.replace({ path: this.$fromPath })
 							} else {
 								this.$message.error(res.data.message)
 							}

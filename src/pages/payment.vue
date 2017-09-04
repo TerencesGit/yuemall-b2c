@@ -29,14 +29,14 @@
 											<span>成人：{{order.adultNum}}</span>
 											<span v-if="order.childNum">儿童：{{order.childNum}}</span>
 										</div>
-										<span class="table-cell money"><i class="fa fa-rmb">￥</i>{{order.adultPrice}}</span>
-										<span class="table-cell money"><i class="fa fa-rmb">￥</i>{{order.totalPrice}}</span>
+										<span class="table-cell money"><i class="fa fa-rmb"></i>{{order.adultPrice}}</span>
+										<span class="table-cell money"><i class="fa fa-rmb"></i>{{order.totalPrice}}</span>
 									</div>
 								</div>
 								<div class="payPrice">
 									<span>支付总金额：
 										<strong class="money">
-											<i class="fa fa-rmb">￥</i>
+											<i class="fa fa-rmb"></i>
 											{{order.totalPrice}}
 										</strong>
 									</span>
@@ -97,9 +97,11 @@
 	</section>
 </template>
 <script>
+	import { getMyinfo } from '@/api'
 	export default {
 		data() {
 			return {
+				userInfo: {},
 				order: {
 					wareName: '',
 					startDate: '',
@@ -118,11 +120,23 @@
 			}
 		},
 		methods: {
+			getUserInfo() {
+				getMyinfo().then(res => {
+					if(res.data.code === '0001') {
+						this.userInfo = res.data.result.userInfo
+					} else {
+						this.$message.error(res.data.message)
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			},
 			confirmPay() {
 				let orderObj = {
 					orderId: new Date().getTime(),
 					name: this.order.wareName,
-					payer: this.contacts.name,
+					payer: this.userInfo.name,
+					contact: this.contacts.name,
 					mobile: this.contacts.mobile,
 					amount: this.order.totalPrice,
 					method: this.payMethod,
@@ -135,8 +149,12 @@
 			}
 		},
 		created() {
+			this.getUserInfo()
 			this.order = JSON.parse(localStorage.getItem('order'))
-			this.contacts = JSON.parse(localStorage.getItem('contacts'))
+			this.contacts = {
+				name: unescape(this.$route.query.contact),
+				mobile: atob(this.$route.query.mobile)
+			}
 		},
 	}
 </script>

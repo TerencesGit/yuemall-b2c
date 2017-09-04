@@ -6,7 +6,11 @@
 				<el-col :span="16">
 					<el-card class="box-card">
 					  <div slot="header">
-					    <span><i class="fa fa-user contact">&#9818;</i>联系人信息</span>
+					    <span class="card-title">
+					    	<!-- &#9818; -->
+						    <i class="fa fa-user contact"></i>
+						    联系人信息
+					    </span>
 					  </div>
 					  <div class="card-body">
 					  	<el-form :model="contacts" ref="contacts" :rules="rules" label-width="100px" class="contacts-form">
@@ -21,7 +25,11 @@
 					</el-card>
 					<el-card class="box-card">
 					  <div slot="header">
-					    <span><i class="fa fa-user tourist">&#9821;</i>出游人信息</span>
+					    <span class="card-title">
+					    	<!-- &#9821; -->
+						    <i class="fa fa-user-circle-o tourist"></i>
+						    出游人信息
+					    </span>
 					  </div>
 					  <div class="card-body">
 					  	<el-form :model="tourist" ref="tourist" :rules="rules" label-width="100px" class="tourist-form">
@@ -84,7 +92,7 @@
 							<div class="total-price">
 								<label>总价</label>
 								<span>
-									<i class="fa fa-rmb">￥</i>
+									<i class="fa fa-rmb"></i>
 									<strong>{{order.totalPrice}}</strong>
 								</span>
 							</div>
@@ -119,10 +127,10 @@
       };
       const validateChinese = (rule, value, callback) => {
       	if (!value) {
-      		return callback(new Error('请输入中文姓名'));
+      		return callback(new Error('请输入姓名'));
       	}
       	if (!value.match(/^[\u4e00-\u9fa5]{2,}$/)) {
-          callback(new Error('请输入正确中文姓名'));
+          callback(new Error('请输入真实姓名'));
         } else {
         	callback()
         }
@@ -175,7 +183,7 @@
 				checked: false,
 				rules: {
 					name: [
-						{ required: true, message: '请输入联系人姓名', trigger: 'blur' },
+						{ required: true, validator: validateChinese, trigger: 'blur' }
 					],
 					mobile: [
 						{ required: true, validator: validateMobile, trigger: 'blur' },
@@ -215,22 +223,22 @@
 			submitForm() {
 				this.$refs.contacts.validate(valid =>  {
 					if(valid) {
-						if(this.contacts.name !== this.user.realName) {
-							this.$notify.warning({
-								title: '提示',
-								message: '联系人必须是本人真实姓名'
-							})
-							return;
-						}
-						if(this.contacts.mobile !== this.user.mobile) {
-							this.$notify.warning({
-								title: '提示',
-								message: '手机号码必须是本人手机号码'
-							})
-							return;
-						}
-						this.$refs.tourist.validate(valid =>  {
-							if(valid){
+						// if(this.contacts.name !== this.user.realName) {
+						// 	this.$notify.warning({
+						// 		title: '提示',
+						// 		message: '联系人必须是本人真实姓名'
+						// 	})
+						// 	return;
+						// }
+						// if(this.contacts.mobile !== this.user.mobile) {
+						// 	this.$notify.warning({
+						// 		title: '提示',
+						// 		message: '手机号码必须是本人手机号码'
+						// 	})
+						// 	return;
+						// }
+						// this.$refs.tourist.validate(valid =>  {
+						// 	if(valid){
 								if(!this.checked) {
 									this.$notify.warning({
 										title: '提示',
@@ -238,19 +246,24 @@
 									})
 									return;
 								}
-								let contacts = JSON.stringify(Object.assign({}, this.contacts))
-								localStorage.setItem('contacts', contacts)
+								let contacts = {
+									contact: escape(this.contacts.name),
+									mobile: btoa(this.contacts.mobile)
+								}
+								// let contacts = JSON.stringify(Object.assign({}, this.contacts))
+								// localStorage.setItem('contacts', contacts)
 								this.$router.push({
-									path: 'payment'
+									path: 'payment',
+									query: contacts
 								})
-							} else {
-								console.log(Object.assign({}, this.tourist))
-								this.$notify.warning({
-									title: '提示',
-									message: '请将出游人信息填写完整'
-								})
-							}
-						})
+						// 	} else {
+						// 		console.log(Object.assign({}, this.tourist))
+						// 		this.$notify.warning({
+						// 			title: '提示',
+						// 			message: '请将出游人信息填写完整'
+						// 		})
+						// 	}
+						// })
 					} else {
 						this.$notify.warning({
 							title: '提示',
@@ -265,7 +278,7 @@
 			// 	this.order.wareName = this.$route.query.wareName;
 			// }
 			this.order = JSON.parse(localStorage.getItem('order'))
-			this.user = JSON.parse(localStorage.getItem('user'))
+			// this.user = JSON.parse(localStorage.getItem('user'))
 		},
 		mounted () {
 			document.addEventListener('scroll', this.handleScroll)
@@ -335,19 +348,20 @@
 			color: #f60;
 			font-size: 26px;
 			i {
-				margin-right: -10px;
-				font-size: 24px;
+				font-size: 20px;
 			}
 		}
   }
-  .fa-user {
-  	margin-right: 5px;
-  	font-size: 20px;
-  	&.contact {
-			color: #FFB444
-  	}
-  	&.tourist {
-			color: #9B6DDD
+  .card-title {
+  	.fa {
+  		margin-right: 5px;
+	  	font-size: 16px;
+	  	&.contact {
+				color: #FFB444
+	  	}
+	  	&.tourist {
+				color: #9B6DDD
+	  	}
   	}
   }
   .submit {

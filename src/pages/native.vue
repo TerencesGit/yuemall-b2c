@@ -53,7 +53,7 @@
 		    					商品品牌：{{item.wareBrandName}}
 		    				</div>
 		    				<div class="ware-price">
-		    					<i class="fa fa-rmb">￥</i>
+		    					<i class="fa fa-rmb"></i>
 		    					<em>{{item.warePrice}}</em>起
 		    					<!-- <el-button :plain="true" type="reserve" class="pull-right" @click="btnClick(item.wareId, item.wareName)">立即预定</el-button> -->
 		    				</div>
