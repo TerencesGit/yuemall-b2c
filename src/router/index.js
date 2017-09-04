@@ -11,9 +11,9 @@ import Completed from '@/pages/completed'
 import OrderList from '@/pages/orderList'
 const routes = [
 	{
-		path: '/',
+    	path: '/',
         name: 'index',
-        redirect: '/login'
+        redirect: '/home'
 	},
     {
         path: '/login',

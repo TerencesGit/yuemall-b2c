@@ -43,6 +43,7 @@
 </template>
 <script>
 	import MD5 from '@/assets/js/md5'
+	import { requestLogin } from '@/api'
 	export default {
 		data() {
 			return {
@@ -68,14 +69,48 @@
 						this.logging = true;
 						let data = {
 							username: this.loginForm.username,
-							password: MD5.hex_md5(this.loginForm.password)
+							password: MD5.hex_md5(this.loginForm.password),
+							isAdmin: 1
 						}
-						console.log(data)
+						requestLogin(data).then(res => {
+							// console.log(res)
+							if(res.data.code === '0001') {
+								let user = {
+	                username: this.loginForm.username,
+	                password: escape(btoa(this.loginForm.password)),
+	                isAdmin: 1
+	              }
+	              localStorage.setItem('user', JSON.stringify(user))
+	              sessionStorage.setItem('userId', res.data.result.userInfo.userId)
+	              this.$message.success('登录成功')
+	              this.$router.replace({ path: '/home' })
+							} else {
+								this.$message.error(res.data.message)
+							}
+							this.logging = false
+						}).catch(err => {
+							console.log(err)
+							this.logging = false
+						})
 					} else {
 						console.log('err submit')
 					}
 				})
+			},
+			keyEnter(e) { 
+				e.keyCode === 13 && this.submitForm()
 			}
+		},
+		mounted() {
+			document.addEventListener('keydown', this.keyEnter)
+			let user = JSON.parse(localStorage.getItem('user'))
+			if(user) {
+	      this.loginForm.username = user.username
+	      this.loginForm.password = atob(unescape(user.password))
+	    }
+		},
+		beforeDestroy() {
+			document.removeEventListener('keydown', this.keyEnter)
 		}
 	}
 </script>

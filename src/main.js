@@ -3,8 +3,10 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 import Router from 'vue-router'
+import axios from 'axios'
 import App from './App'
 import routes from './router'
+import Mock from './mock'
 import moment from 'moment'
 import ElementUI from 'element-ui'
 import NProgress from 'nprogress'
@@ -19,6 +21,7 @@ Vue.use(ElementUI)
 Vue.use(FullCalendar)
 Vue.prototype.$nprogress = NProgress;
 Vue.prototype.$moment = moment;
+Mock.bootstrap()
 NProgress.configure({ ease: 'ease', speed: 500, minimum: 0.5, showSpinner: false})
 Vue.config.productionTip = false
 Vue.directive('title', {
@@ -26,6 +29,17 @@ Vue.directive('title', {
     document.title = el.dataset.title
   }
 })
+Vue.prototype.$catchError = (err) => {
+  if(!err.data) {
+    ElementUI.Message('服务器响应错误')
+    return;
+  }
+  if(err.data.code) {
+    ElementUI.Message(err.data.message)
+  } else {
+    ElementUI.Message('服务器响应超时')
+  }
+}
 const router = new Router({
 	routes
 })
@@ -35,6 +49,23 @@ router.beforeEach((to, from, next) => {
 })
 router.afterEach((to, from, next) => {
   NProgress.done()
+})
+axios.interceptors.request.use(config => {
+  return config
+}, error => {
+  return Promise.reject(error)
+})
+axios.interceptors.response.use(res =>{
+  if (res.data.code === '0000') {
+    router.push('/login')
+    return Promise.reject(res)
+  } else if (res.data.code === '9999') {
+  	router.push('/NoPermission')
+    return Promise.reject(res)
+  }
+  return res;
+}, err => {
+  return Promise.reject(err)
 })
 /* eslint-disable no-new */
 new Vue({
