@@ -1,4 +1,5 @@
 import Layout from '@/components/Layout'
+import Login from '@/pages/login'
 import Home from '@/pages/home'
 import List from '@/pages/list'
 import Native from '@/pages/native'
@@ -12,8 +13,13 @@ const routes = [
 	{
 		path: '/',
         name: 'index',
-        redirect: '/home'
+        redirect: '/login'
 	},
+    {
+        path: '/login',
+        name: '欢迎登录',
+        component: Login
+    },
 	{
         path: '/',
         name: 'Hello',
