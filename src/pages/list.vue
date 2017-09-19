@@ -105,6 +105,7 @@
 	</section>
 </template>
 <script>
+	import { getWares, getRecommends } from '@/api'
 	export default {
 		data () {
 			return {
@@ -153,97 +154,38 @@
 					{label: 11, text: '10天以上'},
 				],
 				activeName: 'first',
-				wareList: [
-					{
-						wareId: '100000020170801',
-						wareName: '【巴厘岛蜜月旅拍婚纱摄影6天4晚游】一对一司导+接送机+一日全天拍摄+国际五星',
-						wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-9.jpg',
-						wareTag: ['赠送拍摄用车', '酒店接送', '国际五星'],
-						wareDayNum: 2,
-						wareStartDate: 8,
-						wareBrandName: '天长地久',
-						warePrice: 12999,
-					},
-					{
-						wareId: '100000020170802',
-						wareName: '【泰国普吉岛旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
-						wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-6.jpg',
-						wareTag: ['赠送拍摄用车', '酒店接送', '一对一服务'],
-						wareDayNum: 2,
-						wareStartDate: 8,
-						wareBrandName: '天长地久',
-						warePrice: 12999,
-					},
-					{
-						wareId: '100000020170803',
-						wareName: '【马尔代夫JA岛婚纱照2天1晚】马代特色水屋+碧海蓝天',
-						wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-7.jpg',
-						wareTag: ['马代特色水屋', '碧海蓝天'],
-						wareDayNum: 2,
-						wareStartDate: 8,
-						wareBrandName: '天长地久',
-						warePrice: 12999,
-					},
-					{
-						wareId: '100000020170804',
-						wareName: '【圣托里尼旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
-						wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-10.jpg',
-						wareTag: ['赠送拍摄用车', '酒店接送', '一对一服务'],
-						wareDayNum: 2,
-						wareStartDate: 8,
-						wareBrandName: '天长地久',
-						warePrice: 12999,
-					},
-					{
-						wareId: '100000020170805',
-						wareName: '【泰国苏梅岛旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
-						wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-3.jpg',
-						wareTag: ['赠送拍摄用车', '酒店接送', '一对一服务'],
-						wareDayNum: 2,
-						wareStartDate: 8,
-						wareBrandName: '天长地久',
-						warePrice: 12999,
-					},
-					{
-						wareId: '100000020170806',
-						wareName: '【美国塞班岛婚纱照2天1晚】碧海蓝天+悬崖码头+凤凰花',
-						wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-1.jpg',
-						wareTag: ['马代特色水屋', '碧海蓝天'],
-						wareDayNum: 2,
-						wareStartDate: 8,
-						wareBrandName: '天长地久',
-						warePrice: 12999,
-					},
-				],
-				recommendList: [
-					{
-						wareId: '2000000001',
-						wareUrl: '/detail',
-						wareName: '【巴黎旅拍婚纱照2日1晚游】 任选5个景点+全天拍摄用车+一对一服务',
-						wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-4.jpg',
-					},
-					{
-						wareId: '2000000001',
-						wareUrl: '/detail',
-						wareName: '【伦敦旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
-						wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-5.jpg',
-					},
-					{
-						wareId: '2000000001',
-						wareUrl: '/detail',
-						wareName: '【沙巴旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
-						wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-2.jpg',
-					},
-					{
-						wareId: '2000000001',
-						wareUrl: '/detail',
-						wareName: '【三亚旅拍婚纱照2日1晚游】 赠送拍摄用车+酒店接送+一对一服务',
-						wareImgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/index/box02-8.jpg',
-					},
-				]
+				wareList: [],
+				recommendList: [],
 			}
 		},
 		methods: {
+			// 商品列表
+			getWareList() {
+				this.loading = true;
+				getWares().then(res => {
+					this.loading = false
+					if(res.data.code === '0001'){
+						this.wareList = res.data.result.wareList;
+					} else {
+						this.$message.error(res.data.message)
+					}
+				}).catch(err => {
+					console.log(err)
+					this.loading = false
+				})
+			},
+			// 推荐列表
+			getRecommendList() {
+				getRecommends().then(res => {
+					if(res.data.code === '0001'){
+						this.recommendList = res.data.result.recommendList;
+					} else {
+						this.$message.error(res.data.message)
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			},
 			handleChange(val) {
 				this.loading = true;
       	setTimeout(() => {
@@ -267,6 +209,8 @@
 		created() {
     	let title = this.$route.query.title || '';
     	this.pageTitle = title ? '悦视觉全球旅拍-' + title : '悦视觉全球旅拍'
+    	this.getWareList()
+    	this.getRecommendList()
     }
 	}
 </script>
@@ -287,6 +231,7 @@
 		border: 1px solid #bfcbd9;
 	}
 	.ware-list {
+		min-height: 500px;
 		overflow: hidden;
 	}
 	.ware-item {

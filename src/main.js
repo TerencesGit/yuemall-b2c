@@ -16,11 +16,11 @@ import 'font-awesome/css/font-awesome.min.css'
 import '@/assets/css/main.scss'
 import Utils from '@/assets/js/utils'
 import FullCalendar from '@/components/fullcalendar'
+import LazyLoad from '@/components/lazyLoad'
 Vue.use(Vuex)
 Vue.use(Router)
 Vue.use(ElementUI)
 Vue.use(FullCalendar)
-import LazyLoad from '@/components/lazyLoad'
 Vue.use(LazyLoad)
 Vue.prototype.$nprogress = NProgress;
 Vue.prototype.$moment = moment;

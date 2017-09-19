@@ -213,46 +213,19 @@
 </template>
 <script>
 	import Utils from '@/assets/js/utils'
+	import { getWareImgs } from '@/api'
 	export default {
 		data() {
 			return {
 				pageTitle: '悦视觉全球旅拍',
 				serviceShow: false,
 				navList: [
-					{
-						name: '旅游',
-						url: '/'
-					},
-					{
-						name: '亚洲旅游',
-						url: '/oversea'
-					},
-					{
-						name: '印度尼西亚',
-						url: '/oversea'
-					},
-					{
-						name: '巴厘岛',
-						url: '/detail'
-					},
+					{ name: '旅游', url: '/' },
+					{ name: '亚洲旅游',url: '/oversea' },
+					{ name: '印度尼西亚',url: '/oversea' },
+					{ name: '巴厘岛',url: '/detail' },
 				],
-				wareImgList: [
-					{
-						title: '巴厘岛婚纱摄影',
-						url: '/detail',
-						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/activity/anniversary/pic_16.png'
-					},
-					{
-						title: '圣托里尼婚纱摄影',
-						url: '/detail',
-						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/activity/anniversary/pic_18.png'
-					},
-					{
-						title: '塞班岛婚纱摄影',
-						url: '/detail',
-						imgUrl: 'http://www.fookvision.com/Public/Wwwfookvisioncom/images/activity/anniversary/pic_22.png'
-					},
-				],
+				wareImgList: [],
 				skuList: [],
 				wareName: '【巴厘岛蜜月旅拍婚纱摄影6天4晚游】一对一司导+接送机+一日全天拍摄+国际五星',
 				srcCity: '北京',
@@ -308,6 +281,17 @@
 			}
 		},
 		methods: {
+			getWareList() {
+				getWareImgs().then(res => {
+					if(res.data.code === '0001'){
+						this.wareImgList = res.data.result.wareImgList;
+					} else {
+						this.$message.error(res.data.message)
+					}
+				}).catch(err => {
+					console.log(err)
+				})
+			},
 			changeMonth(e) {
 				// console.log(e)
 			},
@@ -426,6 +410,7 @@
 			this.skuList = skuList;
 		},
 		mounted() {
+			this.getWareList()
 			this.scrollEvent()
 			document.addEventListener('scroll', this.scrollEvent)
 			// document.onkeydown = this.keyDownEvent

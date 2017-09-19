@@ -1,9 +1,9 @@
 import axios from 'axios'
 import Utils from '@/assets/js/utils'
 import MockAdapter from 'axios-mock-adapter'
-import { UserList, BannerList, HotImgList, HotSmallImgList,
+import { UserList, MenuList, BannerList, HotImgList, HotSmallImgList,
 	NationwideLargeImgList, NationwideImgList, OverseasList,
-	SamplesImgList, } from './data/data'
+	SamplesImgList, WareList, RecommendList, WareImgList, } from './data/data'
 let _UserList = UserList;
 const retObj = {
 	code: '0001',
@@ -88,6 +88,21 @@ export default {
 				}, 500)
 			})
 		})
+		// 获取导航栏
+		mock.onGet('/mall/getMenus.do').reply(config => {
+			let retObj = {
+				code: '0001',
+				message: '操作成功',
+				result: {
+					menuList: MenuList
+				}
+			}
+			return new Promise((resolve, reject) => {
+				setTimeout(() => {
+					resolve([200, retObj])
+				}, 0)
+			})
+		})
 		// 获取Banners
 		mock.onGet('/mall/getBanners.do').reply(config => {
 			let retObj = {
@@ -115,6 +130,51 @@ export default {
 					nationwideLargeImgList: NationwideLargeImgList,
 					overseasList: OverseasList,
 					samplesImgList: SamplesImgList,
+				}
+			}
+			return new Promise((resolve, reject) => {
+				setTimeout(() => {
+					resolve([200, retObj])
+				}, 0)
+			})
+		})
+		// 获取WareList
+		mock.onGet('/mall/getWares.do').reply(config => {
+			let retObj = {
+				code: '0001',
+				message: '操作成功',
+				result: {
+					wareList: WareList
+				}
+			}
+			return new Promise((resolve, reject) => {
+				setTimeout(() => {
+					resolve([200, retObj])
+				}, 0)
+			})
+		})
+		// 获取RecommendList
+		mock.onGet('/mall/getRecommends.do').reply(config => {
+			let retObj = {
+				code: '0001',
+				message: '操作成功',
+				result: {
+					recommendList: RecommendList
+				}
+			}
+			return new Promise((resolve, reject) => {
+				setTimeout(() => {
+					resolve([200, retObj])
+				}, 0)
+			})
+		})
+		// 获取WareImgList
+		mock.onGet('/mall/getWareImgs.do').reply(config => {
+			let retObj = {
+				code: '0001',
+				message: '操作成功',
+				result: {
+					wareImgList: WareImgList
 				}
 			}
 			return new Promise((resolve, reject) => {
