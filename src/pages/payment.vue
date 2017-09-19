@@ -97,7 +97,7 @@
 	</section>
 </template>
 <script>
-	import { getMyinfo } from '@/api'
+	import { getMyInfo } from '@/api'
 	export default {
 		data() {
 			return {

@@ -74,16 +74,14 @@
 							isAdmin: 1
 						}
 						requestLogin(data).then(res => {
-							// console.log(res)
 							if(res.data.code === '0001') {
 								let user = {
-	                username: this.loginForm.username,
-	                password: escape(btoa(this.loginForm.password)),
-	                isAdmin: 1
+	                name: escape(btoa(this.loginForm.username)),
+	                pwd: escape(btoa(this.loginForm.password)),
 	              }
 	              let userId = res.data.result.userInfo.userId;
 	              localStorage.setItem('user', JSON.stringify(user))
-	              Utils.setCookie('userId', btoa(userId))
+	              Utils.setCookie('userId', userId)
 	              this.$message.success('登录成功')
 	              this.$router.replace({ path: this.$fromPath })
 							} else {
@@ -106,9 +104,9 @@
 		mounted() {
 			document.addEventListener('keydown', this.keyEnter)
 			let user = JSON.parse(localStorage.getItem('user'))
-			if(user) {
-	      this.loginForm.username = user.username
-	      this.loginForm.password = atob(unescape(user.password))
+			if(user && user.name && user.pwd) {
+	      this.loginForm.username = atob(unescape(user.name))
+	      this.loginForm.password = atob(unescape(user.pwd))
 	    }
 		},
 		beforeDestroy() {

@@ -20,6 +20,8 @@ Vue.use(Vuex)
 Vue.use(Router)
 Vue.use(ElementUI)
 Vue.use(FullCalendar)
+import LazyLoad from '@/components/lazyLoad'
+Vue.use(LazyLoad)
 Vue.prototype.$nprogress = NProgress;
 Vue.prototype.$moment = moment;
 Mock.bootstrap()
