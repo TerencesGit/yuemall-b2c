@@ -1,9 +1,9 @@
 <template>
 	<section>
 		<div class="banner" v-loading="loading">
-			<el-carousel indicator-position height="600px">
+			<el-carousel indicator-position height="880px">
 		    <el-carousel-item v-for="(item, index) in bannerList" :key="index">
-		      <router-link :to='item.url+"&&wareName="+item.wareName+"&wareImg="+item.imgUrl' :title="item.wareName" target="_blank">
+		      <router-link :to='item.url+"&&wareName="+item.wareName+"&wareImg="+item.imgUrl' target="_blank">
 		      	<img :src="item.imgUrl" :alt="item.wareName">
 		      </router-link>
 		    </el-carousel-item>
@@ -11,7 +11,7 @@
 		</div>
 		<div class="main">
 			<div class="container">
-				<div class="section1">
+				<div class="photo-section">
 					<div class="title">
 						<h2>全球100+旅拍目的地</h2>
 						<h4 class="uppercase">GLOBAL TRAVEL DESTINATIONS</h4>
@@ -41,10 +41,139 @@
 							</div>
 							<ul class="recommend-list">
 								<li v-for="item in recommendList">
-									<img :src="item.imgUrl" alt="">
+									<router-link to="/">
+										<img :src="item.imgUrl">
+										<p class="item-name ellipsis">{{item.name}}</p>
+									</router-link>
 								</li>
 							</ul>
 						</div>
+						<div class="product-show">
+							<ul class="product-tab">
+								<li class="tab" :class="{active: tabActive === 0}" @click="changeTabActive(0)">
+									<div class="title">
+										<h2>本地拍摄</h2>
+										<h4 class="uppercase">GLOBAL TRAVEL DESTINATIONS</h4>
+										<div class="line"></div>
+									</div>
+								</li>
+								<li class="tab" :class="{active: tabActive === 1}" @click="changeTabActive(1)">
+									<div class="title">
+										<h2>全球旅拍</h2>
+										<h4 class="uppercase">GLOBAL TRAVEL DESTINATIONS</h4>
+										<div class="line"></div>
+									</div>
+								</li>
+								<li class="tab" :class="{active: tabActive === 2}" @click="changeTabActive(2)">
+									<div class="title">
+										<h2>蜜月旅游</h2>
+										<h4 class="uppercase">GLOBAL TRAVEL DESTINATIONS</h4>
+										<div class="line"></div>
+									</div>
+								</li>
+							</ul>
+							<div class="product-list">
+								<ul v-show="tabActive === 0" class="clearfix">
+									<li class="product-item" v-for="item in products.photo" :index="item.id">
+										<router-link to="/">
+											<img :src="item.imgUrl" class="responsive-img">
+											<i class="icon iocn-tag native"></i>
+											<p class="item-name">{{item.name}}</p>
+										</router-link>
+									</li>
+								</ul>
+								<ul v-show="tabActive === 1" class="clearfix">
+									<li class="product-item" v-for="item in products.global" :index="item.id">
+										<router-link to="/">
+											<img :src="item.imgUrl" class="responsive-img">
+											<i class="icon iocn-tag photo"></i>
+											<p class="item-name">{{item.name}}</p>
+										</router-link>
+									</li>
+								</ul>
+								<ul v-show="tabActive === 2" class="clearfix">
+									<li class="product-item" v-for="item in products.travel" :index="item.id">
+										<router-link to="/">
+											<img :src="item.imgUrl" class="responsive-img">
+											<i class="icon iocn-tag travel"></i>
+											<p class="item-name">{{item.name}}</p>
+										</router-link>
+									</li>
+								</ul>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="mv-section">
+					<div class="title">
+						<h2>微电影MV</h2>
+						<h4 class="uppercase">GLOBAL TRAVEL DESTINATIONS</h4>
+						<div class="line"></div>
+					</div>
+					<div class="mv-container">
+						<video id="video" class="yue-video" controls poster="http://img14.360buyimg.com/shaidan/s645x515_jfs/t11830/122/255851217/99035/296021db/59eb164eN4722184d.jpg">
+			        <source id="videoSource" src="http://1254456297.vod2.myqcloud.com/2f3b5ff4vodtransgzp1254456297/3388b0459031868223334457147/v.f40.mp4" type="video/mp4">
+			      </video>
+			        <!--<source src="jQuery-video5.8/sdsd.avi">
+			        <source src="jQuery-video5.8/sd.mov">-->
+			       <!--  <a href="javascript:void(0)"><img id="videoImg" style="width:450px;height:auto" src="http://img14.360buyimg.com/shaidan/s645x515_jfs/t11830/122/255851217/99035/296021db/59eb164eN4722184d.jpg"></a> -->
+					</div>
+					<div class="mv-text">
+						<div class="logo">
+							<i class="icon yue-logo"></i>
+						</div>
+						<div class="text">
+							<h2>拒绝套路<span>|</span>量身打造<span>|</span>真实情感<span>|</span>全程跟拍<span>|</span>顶级后期</h2>
+							<h4>GLOBAL TRAVEL DESTINATIONS</h4>
+						</div>
+						<div class="arrow">
+							<i class="icon arrow-down"></i>
+						</div>
+					</div>
+					<div class="mv-more">
+						<p class="more">
+							<router-link to="/">更多推荐>></router-link>
+						</p>
+						<ul class="more-list">
+							<li class="mv-item" v-for="item in mvList">
+								<img :src="item.imgUrl">
+								<i class="play-button"></i>
+							</li>
+						</ul>
+					</div>
+				</div>
+				<div class="travel-section">
+					<div class="title">
+						<h2>12项高端旅游定制</h2>
+						<h4 class="uppercase">GLOBAL TRAVEL DESTINATIONS</h4>
+						<div class="line"></div>
+					</div>
+					<div class="content">
+						<ul class="travel-list clearfix">
+							<li class="icon"></li>
+							<li class="icon"></li>
+							<li class="icon"></li>
+							<li class="icon"></li>
+							<li class="icon"></li>
+							<li class="icon"></li>
+							<li class="icon"></li>
+							<li class="icon"></li>
+							<li class="icon"></li>
+							<li class="icon"></li>
+							<li class="icon"></li>
+							<li class="icon"></li>
+						</ul>
+					</div>
+				</div>
+				<div class="map-section">
+					<div class="title">
+						<h2>悦视觉全球蜜月旅拍</h2>
+						<h2>在24个国家50个目的地开设常驻摄影机构</h2>
+						<h4>GLOBAL TRAVEL DESTINATIONS</h4>
+						<div class="line"></div>
+					</div>
+					<div class="content">
+						<img src="../assets/img/map.png" class="responsive-img">
 					</div>
 				</div>
 			</div>
@@ -91,9 +220,116 @@
 					{ id: 28, name: '维也纳', href: '/', row: 3 },
 				],
 				recommendList: [
-					{ id: '20171115001', name: '日本东京旅拍婚纱照一天套系', imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095265233560.jpg',},
-					{ id: '20171115002', name: '日本东京旅拍婚纱照一天套系', imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095265233560.jpg',},
-					{ id: '20171115003', name: '日本东京旅拍婚纱照一天套系', imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095265233560.jpg',},
+					{ id: '20171115001', name: '阿联酋迪拜旅拍婚纱摄影4天3晚套系', imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095049872238.jpg',},
+					{ id: '20171115002', name: '阿联酋迪拜旅拍婚纱照一天套系', imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095301943684.jpg',},
+					{ id: '20171115003', name: '阿联酋迪拜3天2晚旅拍婚纱摄影套系', imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/06/415099541207583.jpg',},
+				],
+				tabActive: 0,
+				products: {
+					photo: [
+						{
+							id: 20171116201,
+							name: '阿联酋迪拜3天2晚旅拍婚纱摄影套系',
+							imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/06/415099541207583.jpg',
+						},
+						{
+							id: 20171116202,
+							name: '上海旅拍婚纱摄影1天套系',
+							imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/07/415100215997889.jpg',
+						},
+						{
+							id: 20171116102,
+							name: '马尔代夫玛娜法鲁岛旅拍婚纱照6天4晚',
+							imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097792405875.jpg'
+						},
+					],
+					global: [
+						{
+							id: 20171116101,
+							name: '阿联酋迪拜旅拍婚纱摄影4天3晚套系',
+							url: '',
+							imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095049872238.jpg'
+						},
+						{
+							id: 20171116102,
+							name: '马尔代夫玛娜法鲁岛旅拍婚纱照6天4晚',
+							imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097792405875.jpg'
+						},
+						{
+							id: 20171116103,
+							name: '马尔代夫曼德芙仕岛旅拍婚纱照6天4晚套系',
+							imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097797422734.jpg'
+						},
+						{
+							id: 20171116104,
+							name: '圣托里尼旅拍婚纱摄影9天7晚套系',
+							imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097832020875.jpg'
+						},
+						{
+							id: 20171116105,
+							name: '马尔代夫阿雅达岛旅拍婚纱照6天4晚',
+							imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097805508655.jpg'
+						},
+						{
+							id: 20171116106,
+							name: '苏梅岛旅拍婚纱摄影6天4晚套系',
+							imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097847306484.jpg'
+						},
+						{
+							id: 20171116107,
+							name: '法国巴黎旅拍婚纱摄影8天6晚套系',
+							imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097857190947.jpg'
+						},
+						{
+							id: 20171116108,
+							name: '捷克布拉格旅拍婚纱摄影7天5晚套系',
+							imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097868660247.jpg'
+						},
+						{
+							id: 20171116109,
+							name: '马尔代夫神仙珊瑚岛旅拍婚纱照6天4晚',
+							imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097773489411.jpg'
+						},  
+					],
+					travel: [
+						{
+							id: 20171116301,
+							name: '新西兰皇后镇旅拍婚纱照一天套系',
+							imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095236434522.jpg',
+						},
+						{
+							id: 20171116302,
+							name: '法国普罗旺斯旅拍婚纱照一天套系',
+							imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095270295456.jpg',
+						},
+						{
+							id: 20171116301,
+							name: '马尔代夫阿雅达岛旅拍婚纱照一天套系',
+							imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/02/415095965326664.jpg',
+						}
+					],
+				},
+				mvList: [
+					{
+						id: 20171116106,
+						name: '苏梅岛旅拍婚纱摄影6天4晚套系',
+						imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097847306484.jpg'
+					},
+					{
+						id: 20171116107,
+						name: '法国巴黎旅拍婚纱摄影8天6晚套系',
+						imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097857190947.jpg'
+					},
+					{
+						id: 20171116108,
+						name: '捷克布拉格旅拍婚纱摄影7天5晚套系',
+						imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097868660247.jpg'
+					},
+					{
+						id: 20171116109,
+						name: '马尔代夫神仙珊瑚岛旅拍婚纱照6天4晚',
+						imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097773489411.jpg'
+					}, 
 				],
 				hotImgList: [{
 					url: '',
@@ -129,6 +365,9 @@
 					console.log(err)
 					this.loading = false;
 				})
+			},
+			changeTabActive(val) {
+				this.tabActive = val;
 			},
 			getImgList() {
 				getShowImgList().then(res => {
@@ -169,16 +408,15 @@
 		width: 100%;
 		overflow: hidden;
 	}
-  // .el-carousel__item {
-  // 	a {
-  // 		display: inline-block;
-  // 		width: 100%;
-  // 		height: 100%;
-  // 	}
-  // }
+  .main {
+  	color: #fff;
+  	background: #212121;
+  }
   .title {
 		padding: 30px;
+		text-align: center;
 		h2 {
+			margin: 15px 0;
 			font-size: 32px;
 			letter-spacing: 2px;
 		}
@@ -193,75 +431,281 @@
 			background: #c60c1a;
 		}
 	}
-	.destinations {
-		width: 100%;
-		.des-row {
-			display: flex;
-			justify-content: center;
-			margin-bottom: 15px;
-			a {
-				display: block;
-				width: 105px;
-				height: 30px;
-				line-height: 30px;
-				margin-left: 9px;
-				color: #666;
-				background: #ccc;
-				border-radius: 5px;
-				position: relative;
-				&::before {
-					content: '';
-					position: absolute;
-					top: 9px;
-					left: 9px;
-					width: 10px;
-					height: 12px;
-					background: url(../assets/img/coordinate.png) no-repeat center;
-				}
-				&:hover {
-					color: #fff;
-					background: #e50110;
+	.photo-section {
+		margin: 15px 0;
+		padding: 15px 0;
+  	text-align: center;
+	  .destinations {
+			width: 100%;
+			.des-row {
+				display: flex;
+				justify-content: center;
+				margin-bottom: 15px;
+				a {
+					display: block;
+					width: 105px;
+					height: 30px;
+					line-height: 30px;
+					margin-left: 9px;
+					color: #666;
+					background: #f0f0f0;
+					border-radius: 5px;
+					position: relative;
 					&::before {
-						background: url(../assets/img/coordinate_hover.png) no-repeat center;
+						content: '';
+						position: absolute;
+						top: 9px;
+						left: 9px;
+						width: 10px;
+						height: 12px;
+						background: url(../assets/img/coordinate.png) no-repeat center;
+					}
+					&:hover {
+						color: #fff;
+						background: #e50110;
+						&::before {
+							background: url(../assets/img/coordinate_hover.png) no-repeat center;
+						}
+					}
+				}
+			}
+		}
+		.product {
+			margin: 50px 0;
+			.recommend-row {
+				.more {
+					margin: 12px 0;
+					text-align: right;
+					a {
+						color: #e50110;
+					}
+				}
+			}
+			.recommend-list {
+				display: flex;
+				li {
+					// flex: 1;
+					width: 394px;
+					margin-right: 9px;
+					overflow: hidden;
+					cursor: pointer;
+					position: relative;
+					&:last-child {
+						margin-right: 0;
+					}
+					&:hover {
+						.item-name {
+							bottom: 0;
+							background: #e50110;
+						}
+					}
+					img {
+						display: block;
+						width: 100%;
+						height: auto;
+					}
+					.item-name {
+						position: absolute;
+						bottom: -45px;
+						width: 100%;
+						padding: 10px 12px;
+						text-align: left;
+						font-size: 16px;
+						color: #fff;
+						background: transparent;
+						transition: all .3s;
+					}
+				}
+			}
+		}
+		.product-show {
+			margin: 50px 0;
+			.product-tab {
+				display: flex;
+				.tab {
+					flex: 1;
+					cursor: pointer;
+					background: #434343;
+					&.active {
+						background: #c60c1a;
+						.line {
+							background: #fff;
+						}
+					}
+				}
+			}
+			.product-list {
+				margin-top: 9px;
+				.product-item {
+					float: left;
+					width: 394px;
+					margin-right: 9px;
+					position: relative;
+					&:nth-child(3n) {
+						margin-right: 0;
+					}
+					&:hover {
+						.item-name {
+							background: #c60c1a;
+						}
+					}
+					img {
+						height: 221px;
+					}
+					.iocn-tag {
+				    position: absolute;
+				    top: 0;
+				    right: 0;
+				    width: 66px;
+				    height: 66px;
+						&.native {
+							background-position: -66px -119px;
+						}
+						&.photo {
+							background-position: -132px -119px;
+						}
+						&.travel {
+							background-position: 0 -119px;
+						}
+					}
+					.item-name {
+						padding: 10px 15px;
+						text-align: left;
+						color: #fff;
+						font-size: 16px;
+						background: #414141;
+						transition: all .3s;
 					}
 				}
 			}
 		}
 	}
-	.product {
-		margin: 50px 0;
-		.recommend-row {
-			.more {
-				margin: 12px 0;
-				text-align: right;
-				a {
-					color: #e50110;
-				}
+	.mv-section {
+		.mv-container {
+	  	.yue-video {
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
 			}
-		}
-		.recommend-list {
-			display: flex;
+	  }
+	  .mv-text {
+	  	margin: 30px 0;
+	  	text-align: center;
+	  	.logo {
+	  		margin: 15px auto;
+	  		.yue-logo {
+			    width: 35px;
+			    height: 35px;
+	  			background-position: -58px -185px;
+	  		}
+	  	}
+	  	.text {
+	  		h2 {
+	  			margin: 15px 0;
+	  			font-size: 18px;
+	  			font-weight: bold;
+	  			letter-spacing: 2px;
+	  			span {
+	  				margin: 0 3px;
+	  				font-weight: normal;
+	  			}
+	  		}
+	  	}
+	  	.arrow {
+	  		margin-top: 20px;
+	  		.arrow-down {
+			    width: 21px;
+			    height: 20px;
+		  		background-position: -182px -61px;
+	  		}
+	  	}
+	  }
+	  .mv-more {
+	  	.more-list {
+		  	display: flex;
+		  	li {
+		  		width: 291px;
+		  		height: 164px;
+		  		margin-right: 12px;
+		  		position: relative;
+		  		&:nth-child(4n) {
+		  			margin-right: 0;
+		  		}
+		  		img {
+		  			width: 100%;
+		  			height: 100%;
+		  		}
+		  		.play-button {
+		  			position: absolute;
+		  			top: 0;
+		  			bottom: 0;
+		  			right: 0;
+		  			left: 0;
+		  			margin: auto;
+		  			width: 48px;
+		  			height: 48px;
+		  			background: url(../assets/img/play_button.png) no-repeat center;
+		  			background-size: cover;
+		  			cursor: pointer;
+		  		}
+		  	}
+		  }
+	  }
+	}
+	.travel-section {
+		margin: 50px 0;
+		.travel-list {
 			li {
-				flex: 1;
-				margin-right: 9px;
-				&:last-child {
+				float: left;
+				width: 191px;
+				height: 200px;
+				margin: 10px 10px 0 0;
+				&:nth-child(6n) {
 					margin-right: 0;
 				}
-				img {
-					display: block;
-					width: 100%;
-					height: auto;
+				&:nth-child(1) {
+					background-position: 0 -260px;
+				}
+				&:nth-child(2) {
+					background-position: -191px -260px;
+				}
+				&:nth-child(3) {
+					background-position: -383px -260px;
+				}
+				&:nth-child(4) {
+					background-position: -575px -260px;
+				}
+				&:nth-child(5) {
+					background-position: -767px -260px;
+				}
+				&:nth-child(6) {
+					background-position: -959px -260px;
+				}
+				&:nth-child(7) {
+					background-position: 0 -460px;
+				}
+				&:nth-child(8) {
+					background-position: -191px -460px;
+				}
+				&:nth-child(9) {
+					background-position: -383px -460px;
+				}
+				&:nth-child(10) {
+					background-position: -575px -460px;
+				}
+				&:nth-child(11) {
+					background-position: -767px -460px;
+				}
+				&:nth-child(12) {
+					background-position: -959px -460px;
 				}
 			}
 		}
 	}
-  .main {
-  	color: #fff;
-  	background: #212121;
-  	.section1 {
-  		padding: 15px 0;
-  		text-align: center;
-  		
-  	}
-  }
+	.map-section {
+		margin-bottom: 30px;
+		.content {
+			padding: 60px 0;
+		}
+	}
 </style>
