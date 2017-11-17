@@ -11,7 +11,7 @@ const retObj = {
 	result: {}
 }
 const retExpireObj = {
-	code: '0002',
+	code: '0000',
 	message: '尚未登录或当前会话已过期',
 	result: {}
 }

@@ -31,7 +31,7 @@
 				</el-form>
 			</div>
 			<div class="login-bg">
-				<img src="http://static.8photo.cn/ad_pic/index/ng_header_news4x.jpg" alt="login_bg">
+				<img src="http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097801001784.jpg" alt="login_bg">
 			</div>
 		</div>
 		<footer class="footer">
@@ -82,8 +82,8 @@
 	              let userId = res.data.result.userInfo.userId;
 	              localStorage.setItem('user', JSON.stringify(user))
 	              Utils.setCookie('userId', userId)
-	              this.$message.success('登录成功')
-	              this.$router.replace({ path: this.$fromPath })
+	              // this.$message.success('登录成功')
+	              this.$router.replace('/')
 							} else {
 								this.$message.error(res.data.message)
 							}
@@ -138,7 +138,8 @@
 	}
 	.login-wrap {
 		position: relative;
-		height: 550px;
+		height: 100vh;
+		min-height: 550px;
 		.login-bg {
 			width: 100%;
 			height: 100%;
