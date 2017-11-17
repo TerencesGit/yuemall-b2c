@@ -111,12 +111,12 @@
 						<div class="line"></div>
 					</div>
 					<div class="mv-container">
-						<video id="video" class="yue-video" controls poster="http://img14.360buyimg.com/shaidan/s645x515_jfs/t11830/122/255851217/99035/296021db/59eb164eN4722184d.jpg">
-			        <source id="videoSource" src="http://1254456297.vod2.myqcloud.com/2f3b5ff4vodtransgzp1254456297/3388b0459031868223334457147/v.f40.mp4" type="video/mp4">
+						<video id="yueVideo" ref="yueVideo" class="yue-video" controls :poster="currMv.poster"  @play="handlePlay" @pause="handlePause">
+			        <source id="videoSource" :src="currMv.source" type="video/mp4">
 			      </video>
-			        <!--<source src="jQuery-video5.8/sdsd.avi">
-			        <source src="jQuery-video5.8/sd.mov">-->
-			       <!--  <a href="javascript:void(0)"><img id="videoImg" style="width:450px;height:auto" src="http://img14.360buyimg.com/shaidan/s645x515_jfs/t11830/122/255851217/99035/296021db/59eb164eN4722184d.jpg"></a> -->
+			      <div class="video-panel" @click="handlePlayed">
+			      	<i v-show="!videoPlayed" class="play-button"></i>
+			      </div>
 					</div>
 					<div class="mv-text">
 						<div class="logo">
@@ -136,8 +136,8 @@
 						</p>
 						<ul class="more-list">
 							<li class="mv-item" v-for="item in mvList">
-								<img :src="item.imgUrl">
-								<i class="play-button"></i>
+								<img :src="item.poster">
+								<i class="play-button" @click="videoSwitch(item)"></i>
 							</li>
 						</ul>
 					</div>
@@ -186,6 +186,7 @@
 		data() {
 			return {
 				loading: false,
+				videoPlayed: false,
 				bannerList: [],
 				destinations: [
 					{ id: 1, name: '丽江', href: '/', row: 1 },
@@ -218,6 +219,8 @@
 					{ id: 26, name: '布拉格', href: '/', row: 3 },
 					{ id: 27, name: '西班牙', href: '/', row: 3 },
 					{ id: 28, name: '维也纳', href: '/', row: 3 },
+					{ id: 29, name: '维也纳', href: '/', row: 3 },
+					{ id: 30, name: '维也纳', href: '/', row: 3 },
 				],
 				recommendList: [
 					{ id: '20171115001', name: '阿联酋迪拜旅拍婚纱摄影4天3晚套系', imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095049872238.jpg',},
@@ -309,26 +312,31 @@
 						}
 					],
 				},
+			  currMv: {},
 				mvList: [
 					{
-						id: 20171116106,
-						name: '苏梅岛旅拍婚纱摄影6天4晚套系',
-						imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097847306484.jpg'
+						id: '20171117101',
+						name: 'mv1',
+						poster: 'http://fileserver.yueshijue.com/fileService/uploads/2017/11/15/15107121027842.jpg',
+						source: 'http://1254456297.vod2.myqcloud.com/2f3b5ff4vodtransgzp1254456297/3388b0459031868223334457147/v.f20.mp4',
 					},
 					{
-						id: 20171116107,
-						name: '法国巴黎旅拍婚纱摄影8天6晚套系',
-						imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097857190947.jpg'
+						id: '20171117102',
+						name: 'mv2',
+						poster: 'http://fileserver.yueshijue.com/fileService/uploads/2017/11/15/15107121263773.jpg',
+						source: 'http://1254456297.vod2.myqcloud.com/2f3b5ff4vodtransgzp1254456297/fb24bb029031868223371331575/v.f30.mp4',
 					},
 					{
-						id: 20171116108,
-						name: '捷克布拉格旅拍婚纱摄影7天5晚套系',
-						imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097868660247.jpg'
+						id: '20171117103',
+						name: 'mv3',
+						poster: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097868660247.jpg',
+						source: 'http://1254456297.vod2.myqcloud.com/2f3b5ff4vodtransgzp1254456297/bd6d303b9031868223502407514/v.f20.mp4'
 					},
 					{
-						id: 20171116109,
-						name: '马尔代夫神仙珊瑚岛旅拍婚纱照6天4晚',
-						imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097773489411.jpg'
+						id: '20171117104',
+						name: 'mv4',
+						poster: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097773489411.jpg',
+						source: 'http://1254456297.vod2.myqcloud.com/2f3b5ff4vodtransgzp1254456297/3388b0459031868223334457147/v.f40.mp4',
 					}, 
 				],
 				hotImgList: [{
@@ -369,6 +377,26 @@
 			changeTabActive(val) {
 				this.tabActive = val;
 			},
+			handlePlay () {
+				this.videoPlayed = true;
+			},
+			handlePause () {
+				this.videoPlayed = false;
+			},
+			handlePlayed() {
+				let yueVideo = this.$refs.yueVideo;
+				if(!(yueVideo && yueVideo.readyState)) {
+					this.$message('该视频暂无法播放')
+					return;
+				}
+				yueVideo.paused ? yueVideo.play() : yueVideo.pause()
+			},
+			videoSwitch(video) {
+				this.currMv = video;
+				let yueVideo = this.$refs.yueVideo;
+				yueVideo.load();
+				yueVideo.play();
+			},
 			getImgList() {
 				getShowImgList().then(res => {
 					// console.log(res)
@@ -400,6 +428,7 @@
 		created() {
 			this.getBannerList()
 			this.getImgList()
+			this.currMv = this.mvList[0];
 		}
 	}
 </script>
@@ -582,12 +611,37 @@
 	}
 	.mv-section {
 		.mv-container {
+			position: relative;
 	  	.yue-video {
 				width: 100%;
 				height: 100%;
 				object-fit: cover;
 			}
+			.play-button {
+				width: 66px;
+				height: 66px;
+			}
 	  }
+	  .video-panel {
+	  	position: absolute;
+	  	top: 0;
+	  	left: 0;
+	  	width: 100%;
+	  	height: 100%;
+	  }
+	  .play-button {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			right: 0;
+			left: 0;
+			margin: auto;
+			width: 48px;
+			height: 48px;
+			background: url(../assets/img/play_button.png) no-repeat center;
+			background-size: cover;
+			cursor: pointer;
+		}
 	  .mv-text {
 	  	margin: 30px 0;
 	  	text-align: center;
@@ -621,6 +675,13 @@
 	  	}
 	  }
 	  .mv-more {
+	  	.more {
+	  		margin: 12px 0;
+	  		text-align: right;
+	  		a {
+	  			color: #e50110;
+	  		}
+	  	}
 	  	.more-list {
 		  	display: flex;
 		  	li {
@@ -634,19 +695,6 @@
 		  		img {
 		  			width: 100%;
 		  			height: 100%;
-		  		}
-		  		.play-button {
-		  			position: absolute;
-		  			top: 0;
-		  			bottom: 0;
-		  			right: 0;
-		  			left: 0;
-		  			margin: auto;
-		  			width: 48px;
-		  			height: 48px;
-		  			background: url(../assets/img/play_button.png) no-repeat center;
-		  			background-size: cover;
-		  			cursor: pointer;
 		  		}
 		  	}
 		  }
