@@ -39,14 +39,20 @@
 							<div class="more">
 								<router-link to="/">更多推荐>></router-link>
 							</div>
-							<ul class="recommend-list">
-								<li v-for="item in recommendList">
-									<router-link to="/">
-										<img :src="item.imgUrl">
-										<p class="item-name ellipsis">{{item.name}}</p>
-									</router-link>
-								</li>
-							</ul>
+							<div class="recommend-wrap">
+								<ul ref="recommend" class="recommend-list clearfix" v-bind:style="{ width: recomendSlideNum * 100 +'%'}">
+									<li v-for="item in recommendList">
+										<router-link to="/">
+											<img :src="item.imgUrl">
+											<p class="item-name ellipsis">{{item.name}}</p>
+										</router-link>
+									</li>
+								</ul>
+							</div>
+							<div class="switch-button">
+								<i class="icon prev" @click="imageSlide(-1)"></i>
+								<i class="icon next" @click="imageSlide(+1)"></i>
+							</div>
 						</div>
 						<div class="product-show">
 							<ul class="product-tab">
@@ -135,7 +141,7 @@
 							<router-link to="/">更多推荐>></router-link>
 						</p>
 						<ul class="more-list">
-							<li class="mv-item" v-for="item in mvList">
+							<li class="mv-item" v-for="item in mvList" :class="{active: item.id === currMv.id}">
 								<img :src="item.poster">
 								<i class="play-button" @click="videoSwitch(item)"></i>
 							</li>
@@ -226,8 +232,15 @@
 					{ id: '20171115001', name: '阿联酋迪拜旅拍婚纱摄影4天3晚套系', imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095049872238.jpg',},
 					{ id: '20171115002', name: '阿联酋迪拜旅拍婚纱照一天套系', imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095301943684.jpg',},
 					{ id: '20171115003', name: '阿联酋迪拜3天2晚旅拍婚纱摄影套系', imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/06/415099541207583.jpg',},
+					{ id: '20171115004', name: '阿联酋迪拜3天2晚旅拍婚纱摄影套系', imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/06/415099541207583.jpg',},
+					{ id: '20171115005', name: '阿联酋迪拜旅拍婚纱摄影4天3晚套系', imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095049872238.jpg',},
+					{ id: '20171115006', name: '阿联酋迪拜旅拍婚纱照一天套系', imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095301943684.jpg',},
+					{ id: '20171115001', name: '阿联酋迪拜旅拍婚纱摄影4天3晚套系', imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095049872238.jpg',},
+					{ id: '20171115007', name: '阿联酋迪拜3天2晚旅拍婚纱摄影套系', imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/06/415099541207583.jpg',},
+					{ id: '20171115002', name: '阿联酋迪拜旅拍婚纱照一天套系', imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095301943684.jpg',},
 				],
-				tabActive: 0,
+				tabActive: 1,
+				imgSlideNum: 0,
 				products: {
 					photo: [
 						{
@@ -360,6 +373,15 @@
 			}
 		},
 		methods: {
+			imageSlide(val) {
+				this.imgSlideNum += val;
+				if(this.imgSlideNum <= 0) {
+					this.imgSlideNum = 0
+				} else if(this.imgSlideNum >= (this.recomendSlideNum - 1)) {
+					this.imgSlideNum = this.recomendSlideNum - 1
+				}
+				this.$refs.recommend.style.left = -(this.imgSlideNum * 100)+ '%';
+			},
 			getBannerList() {
 				this.loading = true;
 				getBanners().then(res => {
@@ -394,8 +416,10 @@
 			videoSwitch(video) {
 				this.currMv = video;
 				let yueVideo = this.$refs.yueVideo;
+				let videoTop = document.getElementsByClassName('mv-container')[0].offsetTop;
 				yueVideo.load();
 				yueVideo.play();
+				window.scrollTo(0, videoTop);
 			},
 			getImgList() {
 				getShowImgList().then(res => {
@@ -413,6 +437,11 @@
 					}
 				})
 			},
+			autoImgSlide() {
+				this.imgSlideNum += 1;
+				this.imgSlideNum = this.imgSlideNum >= this.recomendSlideNum ? 0 : this.imgSlideNum
+				document.querySelector('.recommend-list').style.left = -(this.imgSlideNum * 100)+ '%';
+			}
 		},
 		computed: {
 			desRow1() {
@@ -424,11 +453,17 @@
 			desRow3() {
 				return this.destinations.filter(des => des.row === 3)
 			},
+			recomendSlideNum() {
+				return Math.ceil(this.recommendList.length / 3);
+			}
 		},
-		created() {
+		mounted() {
 			this.getBannerList()
 			this.getImgList()
 			this.currMv = this.mvList[0];
+			setInterval(() => {
+				this.autoImgSlide()
+			}, 3000)
 		}
 	}
 </script>
@@ -502,6 +537,7 @@
 		.product {
 			margin: 50px 0;
 			.recommend-row {
+				position: relative;
 				.more {
 					margin: 12px 0;
 					text-align: right;
@@ -509,43 +545,76 @@
 						color: #e50110;
 					}
 				}
-			}
-			.recommend-list {
-				display: flex;
-				li {
-					// flex: 1;
-					width: 394px;
-					margin-right: 9px;
-					overflow: hidden;
-					cursor: pointer;
-					position: relative;
-					&:last-child {
-						margin-right: 0;
-					}
-					&:hover {
-						.item-name {
-							bottom: 0;
-							background: #e50110;
+				.switch-button {
+					position: absolute;
+					top: 40%;
+					left: 0;
+					width: 100%;
+					height: 1px;
+					.icon {
+						position: absolute;
+						top: 40%;
+				    width: 32px;
+				    height: 57px;
+				    cursor: pointer;
+						&.prev {
+							left: -50px;
+							background-position: -138px -59px;
+						}
+						&.next {
+							right: -50px;
+							background-position: -106px -59px;
 						}
 					}
-					img {
-						display: block;
-						width: 100%;
-						height: auto;
-					}
-					.item-name {
-						position: absolute;
-						bottom: -45px;
-						width: 100%;
-						padding: 10px 12px;
-						text-align: left;
-						font-size: 16px;
-						color: #fff;
-						background: transparent;
-						transition: all .3s;
+				}
+				.recommend-wrap {
+					position: relative;
+					overflow: hidden;
+					width: 100%;
+					height: 221px;
+				}
+				.recommend-list {
+					position: absolute;
+					top: 0;
+					left: 0;
+					height: 221px;
+					transition: all .8s;
+					li {
+						float: left;
+						width: 394px;
+						margin-right: 9px;
+						overflow: hidden;
+						cursor: pointer;
+						position: relative;
+						&:nth-child(3n) {
+							margin-right: 0;
+						}
+						&:hover {
+							.item-name {
+								bottom: 0;
+								background: #e50110;
+							}
+						}
+						img {
+							display: block;
+							width: 100%;
+							height: auto;
+						}
+						.item-name {
+							position: absolute;
+							bottom: -45px;
+							width: 100%;
+							padding: 10px 12px;
+							text-align: left;
+							font-size: 16px;
+							color: #fff;
+							background: transparent;
+							transition: all .3s;
+						}
 					}
 				}
 			}
+			
 		}
 		.product-show {
 			margin: 50px 0;
@@ -561,13 +630,14 @@
 							background: #fff;
 						}
 					}
-				}
+				} 
 			}
 			.product-list {
 				margin-top: 9px;
 				.product-item {
 					float: left;
 					width: 394px;
+					margin-top: 9px;
 					margin-right: 9px;
 					position: relative;
 					&:nth-child(3n) {
@@ -627,7 +697,10 @@
 	  	top: 0;
 	  	left: 0;
 	  	width: 100%;
-	  	height: 100%;
+	  	height: 88%;
+	  	.play-button {
+	  		top: 12%;
+	  	}
 	  }
 	  .play-button {
 			position: absolute;
@@ -684,11 +757,14 @@
 	  	}
 	  	.more-list {
 		  	display: flex;
-		  	li {
+		  	.mv-item {
 		  		width: 291px;
 		  		height: 164px;
 		  		margin-right: 12px;
 		  		position: relative;
+		  		&.active {
+		  			border: 1px solid #fff;
+		  		}
 		  		&:nth-child(4n) {
 		  			margin-right: 0;
 		  		}
@@ -708,6 +784,10 @@
 				width: 191px;
 				height: 200px;
 				margin: 10px 10px 0 0;
+				transition: all .3s;
+				&:hover {
+					transform: scale(1.03);
+				}
 				&:nth-child(6n) {
 					margin-right: 0;
 				}
