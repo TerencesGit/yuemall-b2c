@@ -416,7 +416,7 @@
 			videoSwitch(video) {
 				this.currMv = video;
 				let yueVideo = this.$refs.yueVideo;
-				let videoTop = document.getElementsByClassName('mv-container')[0].offsetTop;
+				let videoTop = document.querySelector('.mv-section').offsetTop;
 				yueVideo.load();
 				yueVideo.play();
 				window.scrollTo(0, videoTop);
@@ -461,9 +461,17 @@
 			this.getBannerList()
 			this.getImgList()
 			this.currMv = this.mvList[0];
-			setInterval(() => {
+			let timer = setInterval(() => {
 				this.autoImgSlide()
 			}, 3000)
+			document.querySelector('.recommend-wrap').addEventListener('mouseenter', (e) => {
+				clearInterval(timer)
+			});
+			document.querySelector('.recommend-wrap').addEventListener('mouseleave', (e) => {
+				timer = setInterval(() => {
+					this.autoImgSlide()
+				}, 3000)
+			});
 		}
 	}
 </script>
@@ -633,7 +641,6 @@
 				} 
 			}
 			.product-list {
-				margin-top: 9px;
 				.product-item {
 					float: left;
 					width: 394px;
