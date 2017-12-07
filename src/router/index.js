@@ -1,6 +1,6 @@
-import Layout from '@/components/Layout'
+import Container from '@/components/Container'
 import Login from '@/pages/login'
-import Home from '@/pages/home'
+import Index from '@/pages/index'
 import List from '@/pages/list'
 import Native from '@/pages/native'
 import Oversea from '@/pages/oversea'
@@ -13,7 +13,7 @@ const routes = [
 	{
     	path: '/',
         name: 'index',
-        redirect: '/home'
+        redirect: '/index'
 	},
     {
         path: '/login',
@@ -23,9 +23,9 @@ const routes = [
 	{
         path: '/',
         name: 'Hello',
-        component: Layout,
+        component: Container,
         children: [
-        	{ path: 'home', name: 'home', component: Home },
+        	{ path: 'index', name: 'home', component: Index },
         	{ path: 'list', name: 'list', component: List },
         	{ path: 'native', name: 'native', component: Native },
         	{ path: 'oversea', name: 'oversea', component: Oversea },
