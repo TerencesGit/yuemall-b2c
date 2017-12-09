@@ -47,36 +47,28 @@ const router = new Router({
 	routes
 })
 router.beforeEach((to, from, next) => {
-  // Vue.prototype.$fromPath = from.path === '/login' ? '/home' : from.path;
-  // let user = Utils.getCookie('userId')
-  // let logRequired = to.path.indexOf('order') !== -1 || 
-  //                   to.path.indexOf('payment') !== -1;
-  // if(logRequired && !user) {
-  //   ElementUI.Message('尚未登录或当前会话已过期，请重新登录')
-  //   return router.push('/login')
-  // } 
   NProgress.start()
   next()
 })
 router.afterEach((to, from, next) => {
   NProgress.done()
 })
-// axios.interceptors.request.use(config => {
-//   return config;
-// }, error => { 
-//   return Promise.reject(error)
-// })
-// axios.interceptors.response.use(res => {
-//   if (res.data.code === '0000') {
-//     router.replace('/login')
-//     // return Promise.reject(res)
-//   } 
-//   return res;
-// }, err => {
-//   return Promise.reject(err)
-// })
+axios.interceptors.request.use(config => {
+  return config;
+}, error => { 
+  return Promise.reject(error)
+})
+axios.interceptors.response.use(res => {
+  // if (res.data.code === '0000') {
+  //   router.replace('/login')
+  // } 
+  return res;
+}, err => {
+  return Promise.reject(err)
+})
 /* eslint-disable no-new */
 new Vue({
+  el: '#app',
   router,
   render: h => h(App)
-}).$mount('#app')
+})
