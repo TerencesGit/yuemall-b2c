@@ -118,8 +118,9 @@
 					</div>
 					<div class="mv-container">
 						<video id="yueVideo" ref="yueVideo" class="yue-video" controls :poster="currMv.poster"  @play="handlePlay" @pause="handlePause">
-			        <source id="videoSource" :src="currMv.source" type="video/mp4">
+			        <source id="videoSource" :src="currMv.source">
 			      </video>
+			      <!-- <iframe height="500" width="100%" src='http://player.youku.com/embed/XMzI0NDc3NDEwNA==' frameborder="0" allowfullscreen></iframe> -->
 			      <div class="video-panel" @click="handlePlayed">
 			      	<i v-show="!videoPlayed" class="play-button"></i>
 			      </div>
@@ -327,6 +328,12 @@
 				},
 			  currMv: {},
 				mvList: [
+					// {
+					// 	id: '201711171010',
+					// 	name: 'mv1',
+					// 	poster: 'http://fileserver.yueshijue.com/fileService/uploads/2017/11/15/15107121027842.jpg',
+					// 	source: 'http://player.youku.com/player.php/sid/XMzI0NDc3NDEwNA==/v.swf'
+					// },
 					{
 						id: '20171117101',
 						name: 'mv1',

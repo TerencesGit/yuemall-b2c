@@ -52,6 +52,11 @@
 							<div>
 								<label>出发日期：</label>
 								<span>{{startDate || skuList[0].start }}</span>
+								<el-date-picker
+								  type="month"
+						      placeholder="选择日期"
+						      :picker-options="pickerOptions">
+						    </el-date-picker>
 							</div>
 							<div class="tourist-number">
 								<label>出游人数：</label>
@@ -277,6 +282,11 @@
 						'根据发布的《中华人民共和国禁止携带、邮寄进境的动植物及其产品和其他检疫物名录》，将燕窝、新鲜水果、蔬菜、动物源性中药材、转基因生物材料等列入严禁携带或邮寄进境项目，敬请知晓。更多信息， 请点击。',
 						'请您严格遵守境外旅游目的地有关国家法律法规，切勿从事象牙等濒危野生动植物及其制品交易或携带相关物品，避免因触犯法律损害自身利益。'
 					]
+				},
+				pickerOptions: {
+					disabledDate(time) {
+            return time.getTime() < new Date('2017-12-12').getTime() - 8.64e7;
+          }
 				}
 			}
 		},

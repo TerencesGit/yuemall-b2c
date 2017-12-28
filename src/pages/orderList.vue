@@ -18,7 +18,7 @@
 		    <el-table-column prop="amount" label="金额" width="120" :formatter="formatAmount"></el-table-column>
 		    <el-table-column prop="status" label="状态" width="90" :formatter="formatStatus"></el-table-column>
 		    <el-table-column label="操作" width="150">
-		      <template scope="scope">
+		      <template slot-scope="scope">
 		        <el-button
 		          size="small"
 		          @click="handleShow(scope.$index, scope.row)">详情</el-button>

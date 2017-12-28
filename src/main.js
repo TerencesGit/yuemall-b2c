@@ -16,12 +16,12 @@ import 'font-awesome/css/font-awesome.min.css'
 import '@/assets/css/main.scss'
 import Utils from '@/assets/js/utils'
 import FullCalendar from '@/components/fullcalendar'
-import LazyLoad from '@/components/lazyLoad'
+// import LazyLoad from '@/components/lazyLoad'
 Vue.use(Vuex)
 Vue.use(Router)
 Vue.use(ElementUI)
 Vue.use(FullCalendar)
-Vue.use(LazyLoad)
+// Vue.use(LazyLoad)
 Vue.prototype.$nprogress = NProgress;
 Vue.prototype.$moment = moment;
 Mock.bootstrap()
@@ -50,8 +50,9 @@ router.beforeEach((to, from, next) => {
   NProgress.start()
   next()
 })
-router.afterEach((to, from, next) => {
+router.afterEach((to, from) => {
   NProgress.done()
+  window.scrollTo(0,0)
 })
 axios.interceptors.request.use(config => {
   return config;
@@ -62,7 +63,7 @@ axios.interceptors.response.use(res => {
   // if (res.data.code === '0000') {
   //   router.replace('/login')
   // } 
-  return res;
+  return res; 
 }, err => {
   return Promise.reject(err)
 })
