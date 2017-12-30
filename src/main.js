@@ -1,7 +1,7 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-import Vuex from 'vuex'
+// import Vuex from 'vuex'
 import Router from 'vue-router'
 import axios from 'axios'
 import App from './App'
@@ -14,13 +14,13 @@ import 'nprogress/nprogress.css'
 import 'element-ui/lib/theme-default/index.css'
 import 'font-awesome/css/font-awesome.min.css'
 import '@/assets/css/main.scss'
-import Utils from '@/assets/js/utils'
-import FullCalendar from '@/components/fullcalendar'
+// import Utils from '@/assets/js/utils'
+// import FullCalendar from '@/components/fullcalendar'
 // import LazyLoad from '@/components/lazyLoad'
-Vue.use(Vuex)
+// Vue.use(Vuex)
 Vue.use(Router)
 Vue.use(ElementUI)
-Vue.use(FullCalendar)
+// Vue.use(FullCalendar)
 // Vue.use(LazyLoad)
 Vue.prototype.$nprogress = NProgress;
 Vue.prototype.$moment = moment;

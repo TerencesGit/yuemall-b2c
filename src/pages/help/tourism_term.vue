@@ -1,5 +1,6 @@
 <template>
 	<div class="min-container">
+		<div v-title :data-title="$route.name"></div>
 		<h1 class="text-center">旅游攻略</h1>
 		<ul>
 			<li>
