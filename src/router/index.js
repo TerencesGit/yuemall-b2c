@@ -1,5 +1,6 @@
 import Container from '@/components/Container'
 import Login from '@/pages/login'
+// import Index from '@/pages/index_old'
 import Index from '@/pages/index'
 import List from '@/pages/list'
 import Native from '@/pages/native'
@@ -30,8 +31,8 @@ const routes = [
     name: 'Hello',
     component: Container,
     children: [
-      { path: 'index', name: 'home', component: Index },
-      { path: 'list', name: 'list', component: List },
+      { path: 'index', name: '首页', component: Index },
+      { path: 'list', name: '列表页', component: List },
       { path: 'native', name: 'native', component: Native },
       { path: 'oversea', name: 'oversea', component: Oversea },
       { path: 'travel', name: 'travel', component: List },

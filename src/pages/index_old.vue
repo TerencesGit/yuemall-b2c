@@ -4,7 +4,7 @@
 			<el-carousel indicator-position height="880px">
 		    <el-carousel-item v-for="(item, index) in bannerList" :key="index">
 		      <router-link :to='item.url+"&&wareName="+item.wareName+"&wareImg="+item.imgUrl' target="_blank">
-		      	<img :src="item.imgUrl" :alt="item.wareName">
+		      	<img :src="item.urlAddr" :alt="item.bannerName">
 		      </router-link>
 		    </el-carousel-item>
 		  </el-carousel>
@@ -20,17 +20,20 @@
 					<div class="destinations">
 						<ul class="des-row">
 							<li v-for="des in desRow1" :index="des.id">
-								<router-link :to="des.href">{{des.name}}</router-link>
+								<!-- <router-link :to="des.href">{{des.name}}</router-link> -->
+								<a href="javascript:;" @click="dstCityClick(des.dstCityCode)">{{des.name}}</a>
 							</li>
 						</ul>
 						<ul class="des-row">
 							<li v-for="des in desRow2" :index="des.id">
-								<router-link :to="des.href">{{des.name}}</router-link>
+								<!-- <router-link :to="des.href">{{des.name}}</router-link> -->
+								<a href="javascript:;" @click="dstCityClick(des.dstCityCode)">{{des.name}}</a>
 							</li>
 						</ul>
 						<ul class="des-row">
 							<li v-for="des in desRow3" :index="des.id">
-								<router-link :to="des.href">{{des.name}}</router-link>
+								<!-- <router-link :to="des.href">{{des.name}}</router-link> -->
+								<a href="javascript:;" @click="dstCityClick(des.dstCityCode)">{{des.name}}</a>
 							</li>
 						</ul>
 					</div>
@@ -43,8 +46,8 @@
 								<ul ref="recommend" class="recommend-list clearfix" v-bind:style="{ width: recomendSlideNum * 100 +'%'}">
 									<li v-for="item in recommendList">
 										<router-link to="/">
-											<img :src="item.imgUrl">
-											<p class="item-name ellipsis">{{item.name}}</p>
+											<img :src="item.mainImg">
+											<p class="item-name ellipsis">{{item.wareName}}</p>
 										</router-link>
 									</li>
 								</ul>
@@ -75,34 +78,16 @@
 										<h2>蜜月旅游</h2>
 										<h4 class="uppercase">GLOBAL TRAVEL DESTINATIONS</h4>
 										<div class="line"></div>
-									</div>
+									</div> 
 								</li>
 							</ul>
 							<div class="product-list">
-								<ul v-show="tabActive === 0" class="clearfix">
-									<li class="product-item" v-for="item in products.photo" :index="item.id">
+								<ul class="clearfix">
+									<li class="product-item" v-for="item in wareList" :index="item.id">
 										<router-link to="/">
-											<img :src="item.imgUrl" class="responsive-img">
-											<i class="icon iocn-tag native"></i>
-											<p class="item-name">{{item.name}}</p>
-										</router-link>
-									</li>
-								</ul>
-								<ul v-show="tabActive === 1" class="clearfix">
-									<li class="product-item" v-for="item in products.global" :index="item.id">
-										<router-link to="/">
-											<img :src="item.imgUrl" class="responsive-img">
-											<i class="icon iocn-tag photo"></i>
-											<p class="item-name">{{item.name}}</p>
-										</router-link>
-									</li>
-								</ul>
-								<ul v-show="tabActive === 2" class="clearfix">
-									<li class="product-item" v-for="item in products.travel" :index="item.id">
-										<router-link to="/">
-											<img :src="item.imgUrl" class="responsive-img">
-											<i class="icon iocn-tag travel"></i>
-											<p class="item-name">{{item.name}}</p>
+											<img :src="item.mainImg" class="responsive-img">
+											<i class="icon iocn-tag" v-bind:class="wareKind"></i>
+											<p class="item-name ellipsis">{{item.wareName}}</p>
 										</router-link>
 									</li>
 								</ul>
@@ -117,8 +102,8 @@
 						<div class="line"></div>
 					</div>
 					<div class="mv-container">
-						<video id="yueVideo" ref="yueVideo" class="yue-video" controls :poster="currMv.poster"  @play="handlePlay" @pause="handlePause">
-			        <source id="videoSource" :src="currMv.source">
+						<video id="yueVideo" ref="yueVideo" class="yue-video" controls :poster="currMv.imgUrl"  @play="handlePlay" @pause="handlePause">
+			        <source id="videoSource" :src="currMv.urlAddr">
 			      </video>
 			      <!-- <iframe height="500" width="100%" src='http://player.youku.com/embed/XMzI0NDc3NDEwNA==' frameborder="0" allowfullscreen></iframe> -->
 			      <div class="video-panel" @click="handlePlayed">
@@ -143,7 +128,7 @@
 						</p>
 						<ul class="more-list">
 							<li class="mv-item" v-for="item in mvList" :class="{active: item.id === currMv.id}">
-								<img :src="item.poster">
+								<img :src="item.imgUrl">
 								<i class="play-button" @click="videoSwitch(item)"></i>
 							</li>
 						</ul>
@@ -157,18 +142,7 @@
 					</div>
 					<div class="content">
 						<ul class="travel-list clearfix">
-							<li class="icon"></li>
-							<li class="icon"></li>
-							<li class="icon"></li>
-							<li class="icon"></li>
-							<li class="icon"></li>
-							<li class="icon"></li>
-							<li class="icon"></li>
-							<li class="icon"></li>
-							<li class="icon"></li>
-							<li class="icon"></li>
-							<li class="icon"></li>
-							<li class="icon"></li>
+							<li class="icon" v-for="index in 12"></li>
 						</ul>
 					</div>
 				</div>
@@ -188,13 +162,20 @@
 	</section>
 </template>
 <script>
-	import { getBanners, getShowImgList } from '@/api'
+	import { findStoreByPcDoMain, findmerchantStoreBystoreId, bannerList, dstCity, movieList, recommendWare, wareList, getBanners, getShowImgList } from '@/api'
 	export default {
 		data() {
 			return {
 				loading: false,
+				providerId: '',
+				kindCode: '',
 				videoPlayed: false,
 				bannerList: [],
+				dstCityList: [],
+				localDstCity: [],
+				abroadDstCity: [],
+				wareList: [],
+				wareKind: 'native',
 				destinations: [
 					{ id: 1, name: '丽江', href: '/', row: 1 },
 					{ id: 2, name: '大理', href: '/', row: 1 },
@@ -240,6 +221,7 @@
 					{ id: '20171115007', name: '阿联酋迪拜3天2晚旅拍婚纱摄影套系', imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/06/415099541207583.jpg',},
 					{ id: '20171115002', name: '阿联酋迪拜旅拍婚纱照一天套系', imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095301943684.jpg',},
 				],
+				dstCityCode: '',
 				tabActive: 1,
 				imgSlideNum: 0,
 				products: {
@@ -380,6 +362,107 @@
 			}
 		},
 		methods: {
+			getStore() {
+				findStoreByPcDoMain().then(res => {
+					if(res.data.status === 1) {
+						this.providerId = res.data.data;
+						sessionStorage.setItem('providerId', this.providerId)
+						this.getMerchantStoreInfo()
+						this.getBannerList()
+						this.getDstCityList()
+						this.kindCode = 'trip-T';
+						this.getWareList()
+						this.getMovieList()
+					} else {
+						this.$message.error(res.data.msg)
+					}
+				})
+			},
+			getMerchantStoreInfo() {
+				let data = {
+					id: this.providerId
+				}
+				findmerchantStoreBystoreId(data).then(res => {
+					if(res.data.status === 1) {
+						this.storeInfo = res.data.data;
+						let storeLogo = this.storeInfo.storeLogo;
+						sessionStorage.setItem('storeLogo', storeLogo)
+						document.title = this.storeInfo.storeName;
+					}
+				})
+			},
+			getBannerList() {
+				this.loading = true;
+				let data = {
+					merchantId: this.providerId
+				}
+				bannerList(data).then(res => {
+					this.loading = false;
+					if(res.data.status === 1) {
+						this.bannerList = res.data.data;
+					} else {
+						this.$message.error(res.data.message)
+					}
+				}).catch(err => {
+					console.log(err)
+					this.loading = false;
+				})
+			},
+			getDstCityList() {
+				let data = {
+					providerId: this.providerId,
+				}
+				dstCity(data).then(res => {
+					if(res.data.status === 1) {
+						this.dstCityList = res.data.data;
+						this.dstCityCode = this.dstCityList[0].dstCityCode;
+						this.localDstCity = this.dstCityList.filter(city => city.mergerName)
+						this.abroadDstCity = this.dstCityList.filter(city => !city.mergerName)
+						this.getRecommendWare()
+					} else {
+						this.$message.error(res.data.msg)
+					}
+				})
+			},
+			dstCityClick(cityCode) {
+				this.dstCityCode = cityCode;
+				this.getRecommendWare();
+			},
+			getRecommendWare() {
+				let data = {
+					dstCityCode: this.dstCityCode,
+					providerId: this.providerId,
+				}
+				recommendWare(data).then(res => {
+					if(res.data.status === 1) {
+						this.recommendList = res.data.data;
+					} else {
+						this.$message.error(res.data.msg)
+					}
+				})
+			},
+			getWareList() {
+				let data = {
+					kindCode: this.kindCode,
+					providerId: this.providerId,
+				}
+				wareList(data).then(res => {
+					if(res.data.status === 1){
+						this.wareList = res.data.data;
+					}
+				})
+			},
+			getMovieList() {
+				let data = {
+					providerId: this.providerId,
+				}
+				movieList(data).then(res => {
+					if(res.data.status === 1) {
+						this.mvList = res.data.data;
+						this.currMv = this.mvList[0];
+					}
+				})
+			},
 			imageSlide(val) {
 				this.imgSlideNum += val;
 				if(this.imgSlideNum <= 0) {
@@ -389,22 +472,13 @@
 				}
 				this.$refs.recommend.style.left = -(this.imgSlideNum * 100)+ '%';
 			},
-			getBannerList() {
-				this.loading = true;
-				getBanners().then(res => {
-					this.loading = false;
-					if(res.data.code === '0001') {
-						this.bannerList = res.data.result.bannerList
-					} else {
-						this.$message.error(res.data.message)
-					}
-				}).catch(err => {
-					console.log(err)
-					this.loading = false;
-				})
-			},
 			changeTabActive(val) {
 				this.tabActive = val;
+				let _kindCode = ['local', 'trip-T','tripphoto-TP'];
+				let _wareKind = ['native', 'photo', 'travel'];
+				this.kindCode = _kindCode[val];
+				this.wareKind = _wareKind[val];
+				this.getWareList();
 			},
 			handlePlay () {
 				this.videoPlayed = true;
@@ -452,33 +526,39 @@
 		},
 		computed: {
 			desRow1() {
-				return this.destinations.filter(des => des.row === 1)
+				// return this.destinations.filter(des => des.row === 1)
+				return this.localDstCity.filter((city, index) => index >= 0 && index < 11)
 			},
 			desRow2() {
-				return this.destinations.filter(des => des.row === 2)
+				// return this.destinations.filter(des => des.row === 2)
+				return this.abroadDstCity.filter((city, index) => index >= 0 && index < 10)
 			},
 			desRow3() {
-				return this.destinations.filter(des => des.row === 3)
+				// return this.destinations.filter(des => des.row === 3)
+				return this.abroadDstCity.filter((city, index) => index >= 9 && index < 18)
 			},
 			recomendSlideNum() {
 				return Math.ceil(this.recommendList.length / 3);
 			}
 		},
 		mounted() {
-			this.getBannerList()
-			this.getImgList()
-			this.currMv = this.mvList[0];
-			let timer = setInterval(() => {
-				this.autoImgSlide()
-			}, 3000)
-			document.querySelector('.recommend-wrap').addEventListener('mouseenter', (e) => {
-				clearInterval(timer)
-			});
-			document.querySelector('.recommend-wrap').addEventListener('mouseleave', (e) => {
-				timer = setInterval(() => {
-					this.autoImgSlide()
-				}, 3000)
-			});
+			// this.getBannerList()
+			// this.getImgList()
+			// this.currMv = this.mvList[0];
+			// let timer = setInterval(() => {
+			// 	this.autoImgSlide()
+			// }, 3000)
+			// document.querySelector('.recommend-wrap').addEventListener('mouseenter', (e) => {
+			// 	clearInterval(timer)
+			// });
+			// document.querySelector('.recommend-wrap').addEventListener('mouseleave', (e) => {
+			// 	timer = setInterval(() => {
+			// 		this.autoImgSlide()
+			// 	}, 3000)
+			// });
+		},
+		created () {
+			this.getStore()
 		}
 	}
 </script>

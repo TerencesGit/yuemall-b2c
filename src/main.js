@@ -24,7 +24,7 @@ Vue.use(ElementUI)
 // Vue.use(LazyLoad)
 Vue.prototype.$nprogress = NProgress;
 Vue.prototype.$moment = moment;
-Mock.bootstrap()
+// Mock.bootstrap()
 NProgress.configure({ ease: 'ease', speed: 500, minimum: 0.5, showSpinner: false})
 Vue.config.productionTip = false
 Vue.directive('title', {
