@@ -384,10 +384,9 @@
 				}
 				findmerchantStoreBystoreId(data).then(res => {
 					if(res.data.status === 1) {
-						this.storeInfo = res.data.data;
-						let storeLogo = this.storeInfo.storeLogo;
-						sessionStorage.setItem('storeLogo', storeLogo)
-						document.title = this.storeInfo.storeName;
+						let storeInfo = res.data.data;
+						sessionStorage.setItem('storeLogo', storeInfo.storeLogo)
+						document.title = storeInfo.storeName;
 					}
 				})
 			},

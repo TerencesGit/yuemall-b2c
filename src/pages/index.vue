@@ -1,543 +1,438 @@
 <template>
   <section>
+    <!-- header -->
     <div class="header-wrap">
-      <HeaderBar></HeaderBar>
+        <HeaderBar :logo="storeLogo" class="header-top"></HeaderBar>
+        <el-carousel height="680px">
+          <el-carousel-item v-for="item in bannerList" :key="item.id">
+            <img :src="item.urlAddr" alt=""> 
+          </el-carousel-item>
+        </el-carousel>
+        <Searchbar class="header-search"></Searchbar>
     </div>
-    <div class="carousel-wrap">
-      <el-carousel height="680px">
-        <el-carousel-item v-for="item in bannerList" :key="item.id">
-          <img :src="item.imgUrl" alt=""> 
-        </el-carousel-item>
-      </el-carousel>
+    <div class="destination-wrap container">
+      <div class="section-title">
+        <h2>全球100+旅拍目的地</h2>
+        <h4 class="uppercase">global travel destinations</h4>
+        <p class="line"></p>
+      </div>
+      <div class="dst-wrap">
+        <dstlist :title="'热门：'" :dstList="localCityList"></dstlist>
+        <dstlist :title="'国内：'" :dstList="localCityList"></dstlist>
+        <dstlist :title="'亚洲：'" :dstList="AsiaCityList"></dstlist>
+        <dstlist :title="'欧洲：'" :dstList="EuropeCityList"></dstlist>
+        <dstlist :title="'大洋洲：'" :dstList="AustraliaCityList"></dstlist>
+        <dstlist v-show="AmericaCityList.length" :title="'北美：'" :dstList="AmericaCityList"></dstlist>
+      </div>
+      <destinationfilm></destinationfilm>
     </div>
-    <div class="search-wrap">
-      <Searchbar></Searchbar>
-    </div>
-    <!-- 旅拍目的地 -->
-    <nav>
-      <div class="destination w">
-        <div class="des-header">
-          <p>全球100+旅拍目的地</p>
-          <p>GLOBAL TRAVEL DESTINATIONS</p>
-          <div class="header-box"></div>
+    <div class="ad-section">
+      <div class="part1">
+        <div class="part1-1">
+          <div class="part-1-1-1">
+            <img src="../assets/img/ad1-1.jpg" alt="">
+          </div>
+          <div class="part-1-1-2">
+            <img src="../assets/img/ad1-2.jpg" alt="">
+          </div>
         </div>
-        <div class="des-body">
-          <ul>
-            <li>
-              <span>热门：</span>
-              <ul class="des-list">
-                <li>
-                  <a href="#">三亚</a>
-                  <a href="#">厦门</a>
-                  <a href="#">丽江</a>
-                  <a href="#">大理</a>
-                  <a href="#">巴厘岛</a>
-                  <a href="#">马尔代夫</a>
-                  <a href="#">巴黎</a>
-                  <a href="#">罗马</a>
-                  <a href="#">皇后镇</a>
-                  <a href="#">悉尼</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <span>国内：</span>
-              <ul class="des-list">
-                <li>
-                  <a href="#">北京</a>
-                  <a href="#">三亚</a>
-                  <a href="#">厦门</a>
-                  <a href="#">丽江</a>
-                  <a href="#">大理</a>
-                  <a href="#">大连</a>
-                  <a href="#">上海</a>
-                  <a href="#">青岛</a>
-                  <a href="#">深圳</a>
-                  <a href="#">呼和浩特</a>
-                  <a href="#">厦门</a>
-                  <a href="#">高雄</a>
-                  <a href="#">垦丁</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <span>欧洲：</span>
-              <ul class="des-list">
-                <li>
-                  <a href="#">巴黎</a>
-                  <a href="#">普罗旺斯</a>
-                  <a href="#">罗马</a>
-                  <a href="#">米兰</a>
-                  <a href="#">威尼斯</a>
-                  <a href="#">佛罗伦萨</a>
-                  <a href="#">布拉格</a>
-                  <a href="#">巴塞罗那</a>
-                  <a href="#">马德里</a>
-                  <a href="#">布鲁塞尔</a>
-                  <a href="#">维也纳</a>
-                  <a href="#">阿姆斯特丹</a>
-                  <a href="#">布达佩斯</a>
-                  <a href="#">苏黎世</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <span>亚洲：</span>
-              <ul class="des-list">
-                <li>
-                  <a href="#">普吉岛</a>
-                  <a href="#">苏海岛</a>
-                  <a href="#">巴厘岛</a>
-                  <a href="#">济州岛</a>
-                  <a href="#">马尔代夫</a>
-                  <a href="#">奈良</a>
-                  <a href="#">东京</a>
-                  <a href="#">冲绳</a>
-                  <a href="#">吉隆坡</a>
-                  <a href="#">兰卡威</a>
-                  <a href="#">维也纳</a>
-                  <a href="#">阿姆斯特丹</a>
-                  <a href="#">布达佩斯</a>
-                  <a href="#">苏黎世</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <span>大洋洲：</span>
-              <ul class="des-list">
-                <li>
-                  <a href="#">奥克兰</a>
-                  <a href="#">皇后镇</a>
-                  <a href="#">基督城</a>
-                  <a href="#">墨尔本</a>
-                  <a href="#">悉尼</a>
-                </li>
-              </ul>
-            </li>
-            <li>
-              <span>美洲：</span>
-              <ul class="des-list">
-                <li>
-                  <a href="#">洛杉矶</a>
-                  <a href="#">皇后镇</a>
-                </li>
-              </ul>
-            </li>
-          </ul>
-        </div>
-        <div class="des-footer">
-          <ul>
-            <li>
-              <a href="#">
-                <p>特别推荐</p>
-                <p>GLOBAL TRAWEL DESTINATIONS</p>
-                <div class="des-box"></div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <p>特别推荐</p>
-                <p>GLOBAL TRAWEL DESTINATIONS</p>
-                <div class="des-box"></div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <p>特别推荐</p>
-                <p>GLOBAL TRAWEL DESTINATIONS</p>
-                <div class="des-box"></div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <p>特别推荐</p>
-                <p>GLOBAL TRAWEL DESTINATIONS</p>
-                <div class="des-box"></div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <p>特别推荐</p>
-                <p>GLOBAL TRAWEL DESTINATIONS</p>
-                <div class="des-box"></div>
-              </a>
-            </li>
-            <li>
-              <a href="#">
-                <p>特别推荐</p>
-                <p>GLOBAL TRAWEL DESTINATIONS</p>
-                <div class="des-box"></div>
-              </a>
-            </li>
-          </ul>
+        <div class="part1-2">
+          <div class="part-1-2-1">
+            <img src="../assets/img/ad1-4.jpg" alt="">
+          </div>
+          <div class="part-1-2-2">
+            <img src="../assets/img/ad1-5.jpg" alt="">
+          </div>
+          <div class="part-1-2-3">
+            <img src="../assets/img/ad1-6.jpg" alt="">
+          </div>
         </div>
       </div>
-    </nav>
-    <!-- <main>
-      <div class="main-ad">
-        <div class="ad-body">
-          <div class="ad-body-left">
+      <div class="part2">
+        <img src="../assets/img/ad1-3.jpg" alt="">
+      </div>
+    </div>
+    <div class="warelist-wrap">
+        <!-- 本地拍 -->
+        <navheader :ishave="true" :header-title="film.msg"></navheader>
+        <filmlist :isthird="true" :film-list="film.filmList"></filmlist>
+
+        <!-- 亚洲拍 -->
+        <navheader :ishave="true" :header-title="film.msg"></navheader>
+        <filmlist :isthird="true" :film-list="film.filmList"></filmlist>
+
+        <div>
+          <img src="../assets/img/map.jpg" class="responsive-img">
+        </div>
+    </div>
+        <!-- 客片展示 -->
+        <navheader :ishave="true" :header-title="custom.msg"></navheader>
+        <filmlist :isthird="false" :film-list="custom.customList"></filmlist>
+        <div>
+          <img src="../assets/img/ad.jpg" class="responsive-img">
+        </div>
+        <!-- 12项高端定制旅游 -->
+        <div class="main-customization-travel w">
+          <div class="travel-header">
+            <p>12项高端定制旅游</p>
+            <p>GLOBAL TRAWEL DESTINATIONS</p>
+            <div class="header-box"></div>
+          </div>
+          <div class="travel-body">
             <ul>
-              <li><div class="ad1-1"></div></li>
-              <li><div class="ad1-2"></div></li>
-              <li><div class="ad1-3"></div></li>
-              <li><div class="ad1-4"></div></li>
-              <li><div class="ad1-5"></div></li>
+              <li>
+                <img src="../assets/img/icon.jpg" alt="">
+                <p>售前售后</p>
+                <p>24小时管家式服务</p>
+              </li>
+              <li>
+                <img src="../assets/img/icon.jpg" alt="">
+                <p>售前售后</p>
+                <p>24小时管家式服务</p>
+              </li>
+              <li>
+                <img src="../assets/img/icon.jpg" alt="">
+                <p>售前售后</p>
+                <p>24小时管家式服务</p>
+              </li>
+              <li>
+                <img src="../assets/img/icon.jpg" alt="">
+                <p>售前售后</p>
+                <p>24小时管家式服务</p>
+              </li>
+              <li>
+                <img src="../assets/img/icon.jpg" alt="">
+                <p>售前售后</p>
+                <p>24小时管家式服务</p>
+              </li>
+              <li>
+                <img src="../assets/img/icon.jpg" alt="">
+                <p>售前售后</p>
+                <p>24小时管家式服务</p>
+              </li>
+              <li>
+                <img src="../assets/img/icon.jpg" alt="">
+                <p>售前售后</p>
+                <p>24小时管家式服务</p>
+              </li>
+              <li>
+                <img src="../assets/img/icon.jpg" alt="">
+                <p>售前售后</p>
+                <p>24小时管家式服务</p>
+              </li>
+              <li>
+                <img src="../assets/img/icon.jpg" alt="">
+                <p>售前售后</p>
+                <p>24小时管家式服务</p>
+              </li>
+              <li>
+                <img src="../assets/img/icon.jpg" alt="">
+                <p>售前售后</p>
+                <p>24小时管家式服务</p>
+              </li>
+              <li>
+                <img src="../assets/img/icon.jpg" alt="">
+                <p>售前售后</p>
+                <p>24小时管家式服务</p>
+              </li>
+              <li>
+                <img src="../assets/img/icon.jpg" alt="">
+                <p>售前售后</p>
+                <p>24小时管家式服务</p>
+              </li>
             </ul>
           </div>
-          <div class="ad-body-right">
-            <div class="ad1-6"></div>              
-          </div>
         </div>
-      </div>
-
-      <div class="mian-loacl-film">
-        <div class="local-film-header">
-          <p>本地拍</p>
-          <a href="#">查看更多>></a>
-          <div class="header-box"></div>
-        </div>
-        <div class="local-film-body">
-          <ul>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-       <div class="mian-loacl-film">
-        <div class="local-film-header">
-          <p>特别推荐(旅游+摄影)</p>
-          <a href="#">查看更多>></a>
-          <div class="header-box"></div>
-        </div>
-        <div class="local-film-body">
-          <ul>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-          </ul>
-        </div>
-      </div>
-      
-       <div class="mian-loacl-film">
-        <div class="local-film-header">
-          <p>全国拍</p>
-          <a href="#">查看更多>></a>
-          <div class="header-box"></div>
-        </div>
-        <div class="local-film-body">
-          <ul>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="mian-loacl-film">
-        <div class="local-film-header">
-          <p>亚洲拍</p>
-          <a href="#">查看更多>></a>
-          <div class="header-box"></div>
-        </div>
-        <div class="local-film-body">
-          <ul>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="mian-loacl-film">
-        <div class="local-film-header">
-          <p>全球拍</p>
-          <a href="#">查看更多>></a>
-          <div class="header-box"></div>
-        </div>
-        <div class="local-film-body">
-          <ul>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-            <li>
-              <img src="../assets/img/local-film.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="main-map">
-        <img src="../assets/img/map.jpg" alt="">
-      </div>
-
-      <div class="mian-loacl-film">
-        <div class="local-film-header">
-          <p>客片展示</p>
-          <a href="#">查看更多>></a>
-          <div class="header-box"></div>
-        </div>
-        <div class="local-film-body">
-          <ul>
-            <li>
-              <img src="../assets/img/kepianshow.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-              <span>澳大利亚-墨尔本</span>
-            </li>
-            <li>
-              <img src="../assets/img/kepianshow.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-              <span>澳大利亚-墨尔本</span>
-            </li>
-            <li>
-              <img src="../assets/img/kepianshow.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-              <span>澳大利亚-墨尔本</span>
-            </li>
-            <li>
-              <img src="../assets/img/kepianshow.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-              <span>澳大利亚-墨尔本</span>
-            </li>
-            <li>
-              <img src="../assets/img/kepianshow.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-              <span>澳大利亚-墨尔本</span>
-            </li>
-            <li>
-              <img src="../assets/img/kepianshow.jpg" alt="">
-              <p>泰国普吉岛6天4晚私人订制行程（纯旅游）</p>
-              <span>澳大利亚-墨尔本</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      <div class="main-ad2">
-        <img src="../assets/img/ad.jpg" alt="">
-      </div>
-
-      <div class="main-customization-travel w">
-        <div class="travel-header">
-          <p>12项高端定制旅游</p>
-          <p>GLOBAL TRAWEL DESTINATIONS</p>
-          <div class="header-box"></div>
-        </div>
-        <div class="travel-body">
-          <ul>
-            <li>
-              <img src="../assets/img/icon.jpg" alt="">
-              <p>售前售后</p>
-              <p>24小时管家式服务</p>
-            </li>
-            <li>
-              <img src="../assets/img/icon.jpg" alt="">
-              <p>售前售后</p>
-              <p>24小时管家式服务</p>
-            </li>
-            <li>
-              <img src="../assets/img/icon.jpg" alt="">
-              <p>售前售后</p>
-              <p>24小时管家式服务</p>
-            </li>
-            <li>
-              <img src="../assets/img/icon.jpg" alt="">
-              <p>售前售后</p>
-              <p>24小时管家式服务</p>
-            </li>
-            <li>
-              <img src="../assets/img/icon.jpg" alt="">
-              <p>售前售后</p>
-              <p>24小时管家式服务</p>
-            </li>
-            <li>
-              <img src="../assets/img/icon.jpg" alt="">
-              <p>售前售后</p>
-              <p>24小时管家式服务</p>
-            </li>
-            <li>
-              <img src="../assets/img/icon.jpg" alt="">
-              <p>售前售后</p>
-              <p>24小时管家式服务</p>
-            </li>
-            <li>
-              <img src="../assets/img/icon.jpg" alt="">
-              <p>售前售后</p>
-              <p>24小时管家式服务</p>
-            </li>
-            <li>
-              <img src="../assets/img/icon.jpg" alt="">
-              <p>售前售后</p>
-              <p>24小时管家式服务</p>
-            </li>
-            <li>
-              <img src="../assets/img/icon.jpg" alt="">
-              <p>售前售后</p>
-              <p>24小时管家式服务</p>
-            </li>
-            <li>
-              <img src="../assets/img/icon.jpg" alt="">
-              <p>售前售后</p>
-              <p>24小时管家式服务</p>
-            </li>
-            <li>
-              <img src="../assets/img/icon.jpg" alt="">
-              <p>售前售后</p>
-              <p>24小时管家式服务</p>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </main> -->
   </section>
 </template>
 
 <script>
+  import { findStoreByPcDoMain, findmerchantStoreBystoreId, bannerList, dstCityByContinent, 
+    wareList,  recommendWare, warelistByContinent } from '@/api'
   import HeaderBar from '@/components/HeaderNew'
   import Searchbar from '@/components/searchbar'
+  import destination from '@/components/destination.vue'
+  import filmshow from '@/components/filmShow.vue'
+  import desheader from '@/components/desHeader.vue'
+  import navheader from '@/components/navheader.vue'
+  import dstlist from '@/components/destinationList.vue'
+  import destinationfilm from '@/components/destinationfilm.vue'
+  import filmlist from '@/components/filmList.vue'
   export default {
     name: "index",
     components: {
       HeaderBar,
       Searchbar,
+      destination,
+      filmshow,
+      navheader,
+      dstlist,
+      destinationfilm,
+      filmlist,
+      desheader,
     },
     data() {
       return {
-        bannerList: [
-          {
-            imgUrl: 'http://fileserver.yueshijue.com/fileService/uploads/2017/12/28/15144285476756.jpg',
-          },
-          {
-            imgUrl: 'http://fileserver.yueshijue.com/fileService/uploads/2017/12/28/15144282241981.jpg',
-          },
-          {
-            imgUrl: 'http://fileserver.yueshijue.com/fileService/uploads/2017/12/28/15144284369625.jpg',
-          },
-        ],
+        providerId: '',
+        storeLogo: '',
+        kindCode: '',
+        localCityList: [],
+        AsiaCityList: [],
+        EuropeCityList: [],
+        AustraliaCityList: [],
+        AmericaCityList: [],
+        bannerList: [],
+        dstCityList: [],
+        dstCityCode: '',
+        localDstCity: [],
+        abroadDstCity: [],
+        recommendList: [],
+
+        wareList: [],
+        film: {
+          msg: '本地拍',
+          filmList: [
+            {
+              img: '/static/img/local-film.jpg',
+              title: '泰国普吉岛6天4晚私人订制行程（纯旅游）'
+            },
+            {
+              img: '/static/img/local-film.jpg',
+              title: '泰国普吉岛6天4晚私人订制行程（纯旅游）'
+            },
+            {
+              img: '/static/img/local-film.jpg',
+              title: '泰国普吉岛6天4晚私人订制行程（纯旅游）'
+            },
+            {
+              img: '/static/img/local-film.jpg',
+              title: '泰国普吉岛6天4晚私人订制行程（纯旅游）'
+            },
+            {
+              img: '/static/img/local-film.jpg',
+              title: '泰国普吉岛6天4晚私人订制行程（纯旅游）'
+            },
+            {
+              img: '/static/img/local-film.jpg',
+              title: '泰国普吉岛6天4晚私人订制行程（纯旅游）'
+            }
+          ],
+        },
+        custom:{
+            msg: '客片展示',
+            customList: [
+              {
+                img: '/static/img/kepianshow.jpg',
+                title: '泰国普吉岛6天4晚私人订制行程（纯旅游）',
+                pTitle: '三亚SANYA'
+              },
+              {
+                img: '/static/img/kepianshow.jpg',
+                title: '泰国普吉岛6天4晚私人订制行程（纯旅游）',
+                pTitle: '三亚SANYA'
+              },
+              {
+                img: '/static/img/kepianshow.jpg',
+                title: '泰国普吉岛6天4晚私人订制行程（纯旅游）',
+                pTitle: '三亚SANYA'
+              },
+              {
+                img: '/static/img/kepianshow.jpg',
+                title: '泰国普吉岛6天4晚私人订制行程（纯旅游）',
+                pTitle: '三亚SANYA'
+              },
+              {
+                img: '/static/img/kepianshow.jpg',
+                title: '泰国普吉岛6天4晚私人订制行程（纯旅游）',
+                pTitle: '三亚SANYA'
+              },
+              {
+                img: '/static/img/kepianshow.jpg',
+                title: '泰国普吉岛6天4晚私人订制行程（纯旅游）',
+                pTitle: '三亚SANYA'
+              }
+            ]
+        },
+        desHeader: {
+          headerTitle: '全球100+旅拍目的地',
+          headerPtitle: 'GLOBAL TRAWEL DESTINATIONS'
+        },
       }
+    },
+    methods: {
+      getStore() {
+        findStoreByPcDoMain().then(res => {
+          if(res.data.status === 1) {
+            this.providerId = res.data.data;
+            sessionStorage.setItem('providerId', this.providerId)
+            this.getMerchantStoreInfo()
+            this.getBannerList()
+            this.getDstCityList()
+            this.getLocalCityList()
+            this.getAsiaCityList()
+            this.getEuropeCityList()
+            this.getAustraliaCityList()
+            this.getAmericaCityList()
+            // this.kindCode = 'trip-T';
+            // this.getWareList()
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        })
+      },
+      getMerchantStoreInfo() {
+        let data = {
+          id: this.providerId
+        }
+        findmerchantStoreBystoreId(data).then(res => {
+          if(res.data.status === 1) {
+            let storeInfo = res.data.data;
+            this.storeLogo = storeInfo.storeLogo;
+            // sessionStorage.setItem('storeLogo', storeInfo.storeLogo)
+            document.title = storeInfo.storeName;
+          }
+        })
+      },
+      getBannerList() {
+        this.loading = true;
+        let data = {
+          merchantId: this.providerId
+        }
+        bannerList(data).then(res => {
+          this.loading = false;
+          if(res.data.status === 1) {
+            this.bannerList = res.data.data;
+          } else {
+            this.$message.error(res.data.message)
+          }
+        }).catch(err => {
+          console.log(err)
+          this.loading = false;
+        })
+      },
+      getDstCityList( ) {
+        let params = {
+          storeId: this.providerId,
+          continent: '100-101',
+        }
+        dstCityByContinent(params).then(res => {
+          if(res.data.status === 1) {
+            this.dstCityList = res.data.data;
+            console.log(this.dstCityList)
+            this.dstCityCode = this.dstCityList[0].dstCityCode;
+            this.localDstCity = this.dstCityList.filter(city => city.mergerName)
+            this.abroadDstCity = this.dstCityList.filter(city => !city.mergerName)
+            this.getRecommendWare()
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        })
+      },
+      getLocalCityList() {
+        let params = {
+          storeId: this.providerId,
+          continent: '100-101',
+        }
+        dstCityByContinent(params).then(res => {
+          if(res.data.status === 1) {
+            this.localCityList = res.data.data;
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        })
+      },
+      getAsiaCityList() {
+        let params = {
+          storeId: this.providerId,
+          continent: '100',
+        }
+        dstCityByContinent(params).then(res => {
+          if(res.data.status === 1) {
+            this.AsiaCityList = res.data.data;
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        })
+      },
+      getEuropeCityList() {
+        let params = {
+          storeId: this.providerId,
+          continent: '300',
+        }
+        dstCityByContinent(params).then(res => {
+          if(res.data.status === 1) {
+            this.EuropeCityList = res.data.data;
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        })
+      },
+      getAustraliaCityList() {
+        let params = {
+          storeId: this.providerId,
+          continent: '400',
+        }
+        dstCityByContinent(params).then(res => {
+          if(res.data.status === 1) {
+            this.AustraliaCityList = res.data.data;
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        })
+      },
+      getAmericaCityList() {
+        let params = {
+          storeId: this.providerId,
+          continent: '400-101',
+        }
+        dstCityByContinent(params).then(res => {
+          if(res.data.status === 1) {
+            this.AmericaCityList = res.data.data;
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        })
+      },
+      dstCityClick(cityCode) {
+        this.dstCityCode = cityCode;
+        this.getRecommendWare();
+      },
+      getRecommendWare() {
+        let data = {
+          dstCityCode: this.dstCityCode,
+          providerId: this.providerId,
+        }
+        recommendWare(data).then(res => {
+          if(res.data.status === 1) {
+            this.recommendList = res.data.data;
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        })
+      },
+      getWareList() {
+        let data = {
+          kindCode: this.kindCode,
+          providerId: this.providerId,
+        }
+        wareList(data).then(res => {
+          if(res.data.status === 1){
+            this.wareList = res.data.data;
+          }
+        })
+      },
+    },
+    created() {
+      this.getStore()
     }
   }
 </script>
 
 <style lang="scss" scoped>
+  $color: #19A9E8;
   .header-wrap {
-    .header {
+    position: relative;
+    .header-top {
       display: flex;
       justify-content: center;
       position: absolute;
@@ -546,222 +441,69 @@
       margin-left: -600px;
       z-index: 99;
     }
-  }
-  .search-wrap {
-    position: absolute;
-    bottom: 30px;
-    z-index: 99;
-    width: 700px;
-    left: 50%;
-    margin-left: -350px;
-  }
-  $color: #19A9E8;
-  header {
-    position: relative;
-    .swiper{
+    .header-search {
       position: absolute;
-      // margin: 0 auto;
-      top: 0;
+      bottom: 50px;
+      z-index: 99;
+      width: 700px;
       left: 50%;
-      transform: translateX(-50%);
-      width: 100%;
-      height: 880px;
-      z-index: 1;
+      margin-left: -350px;
     }
-    .navbar{
-      position: relative;
-      height: 880px;
-      background-color: pink;
-      .logo{
-        position: absolute;
-        top: 58px;
-        left: 25px;
-        z-index: 9999;
-        span{
-          font-size: 30px;
-          font-weight: 800;
-        }
-        span:first-child{
-          color: $color;
-        }
-        span:last-child{
-          color: #fff;
-        }
-      }
-      .navbarList{
-        width: 844px;
-        height: 55px;
-        background-color: #fff;
-        position: absolute;
-        top: 52px;
-        left: 280px;
-        z-index: 9999;
-        ul{
-          list-style: none;
-          li{
-            float: left;
-              a{
-                font-weight: bold;
-                padding: 17px 0 17px 26px;
-                span{
-                  line-height: 52px;
-                  border-right: 1px solid #ddd;
-                  padding-right: 26px;
-                  }
-              }
-              a:hover{
-                  color: $color;
-                  border-bottom: 2px solid $color;
-                }
-          }
-          li:last-child{
-            span{
-              border-right: 0;
-              padding: 17px 26px;
-            }
-            a{
-              padding: 0 0 17px 0;
-              a:last-child{
-                padding: 0;
-                background-color: $color;
-              }
-              a:last-child:hover{
-                  color: #fff;
-                }
-            }
-          }
-        }
-      }
-      .search{
-        position: absolute;
-        top: 670px;
-        left: 210px;
-        width: 800px;
-        height: 160px;
-        background-color: rgba(255, 255, 255, .6);
-        z-index: 9999;
-        border-radius: 14px;
-        padding: 36px 46px;
-        box-sizing: border-box;
-        input{
-          width: 625px;
-          height: 40px;
-          border: none;
-          background-color: #fff;
-          padding-left: 10px;
-          outline: none;
-        }
-        button{
-          position: absolute;
-          width: 80px;
-          height: 40px;
-          border: none;
-          background-color: #00A0EA;
-          color: #fff;
-        }
-      }
-    } 
   }
-  nav {
+  .destination-wrap {
+    margin-top: 80px;
+  }
+  .section-title {
     position: relative;
-    margin-bottom: 30px;
-    .destination{
-      box-sizing: border-box;
-        .des-header{
-          padding-top: 112px;
-          border-bottom: 1px solid #eee;
-          p{
-            text-align: center;
-            font-size: 35px;
-            font-weight: bold;
-            color: $color;
-            letter-spacing: 3px;
-          }
-          p:nth-child(2){
-            font-size: 12px;
-            font-weight: normal;
-            letter-spacing: 1px;
-          }
-          .header-box{
-            width: 70px;
-            height: 5px;
-            background-color: $color;
-            position: absolute;
-            left: 50%;
-            transform: translateX(-50%);
-          }
-        }
-      .des-body{
-        margin-top: 45px;
-        ul{
-          list-style: none;
-          li{
-            display: flex;
-            // justify-content: flex-start;
-            margin-top: 20px;
-            flex-wrap: wrap;
-            span{
-              color: $color;
-            }
-            .des-list{
-              display: inline;
-              padding-left: 20px;
-              li{
-                margin: 0;
-                a{
-                  border: 1px solid #888;
-                  color: #888;
-                  padding: 3px 6px;
-                  border-radius: 4px;
-                  margin-left: 5px;
-                  margin-bottom: 5px;
-                  font-size: 12px;
-                }
-              }
-            }
-          }
-        }
-      }
-      .des-footer{
-        margin-top: 60px;
-        ul{
-          display: flex;
-          justify-content: space-around;
-          li{
-            width: 190px;
-            height: 255px;
-            display: inline-block;
-            background-color: pink;
-            a{
-              display: block;
-              padding-top: 120px;
-              p{
-                text-align: center;
-                font-size: 25px;
-                font-weight: bold;
-                color: #fff;
-                letter-spacing: 3px;
-                
-              }
-              p:nth-child(2){
-                font-size: 12px;
-                font-weight: normal;
-                letter-spacing: 1px;
-              }
-              .des-box{
-                width: 70px;
-                height: 5px;
-                background-color: #fff;
-                margin: 10px auto;
-              }
-            }
-          }
-        }
-      }
+    text-align: center;
+    color: $color;
+    border-bottom: 1px solid #f0f0f0;
+    h2 {
+      margin-top: 30px;
+      font-size: 32px;
+      font-weight: normal;
+    }
+    h4 {
+      margin: 15px 0;
+      font-size: 12px;
+      font-weight: normal;
+    }
+    .line {
+      position: absolute;
+      bottom: -2px;
+      left: 50%;
+      margin-left: -40px;
+      width: 80px;
+      height: 4px;
+      background-color: $color;
     }
   }
+  .ad-section {
+    display: flex;
+    width: 100%;
+    margin: 80px 0;
+    .part1-1, .part1-2 {
+      display: flex;
+    }
+    img {
+      display: block;
+      width: 100%;
+      height: auto;
+    }
+  }
+  .warelist-wrap {
+    margin: 50px;
+  }
+  .w{
+     width: 1260px;
+     margin: 0 auto;
+  }
+  .active{
+    color: $color;
+  }
+  // 广告开始
   .main-ad{
-    width: 1930px;
+    width: 100%;
     height: 688px;
     position: relative;
     margin: 0 auto;
@@ -813,124 +555,81 @@
       }
     }
   }
-  .mian-loacl-film{
-    width: 1820px;
+  // 地图
+  .main-map{
     position: relative;
-    margin: 120px auto;
-    .local-film-header{
-      border-bottom: 1px solid #eee;
-      p{
-        text-align: center;
-        font-size: 25px;
-        font-weight: bold;
-        color: $color;
-        letter-spacing: 3px;
-        padding-bottom: 25px;
+    width: 1920px;
+    margin: 0 auto;
+  }
+  // 广告2
+  .main-ad2{
+    position: relative;
+    margin: 0 auto;
+    width: 100%;
+    height: 100%;
+    .ad2-img{
+      img{
+        width: 100%;
+        height: 100%;
       }
-      a{
-        position: absolute;
-        top: 15px;
-        right: 0;
-      }
-      .header-box{
-         width: 70px;
+    }
+  }
+  // 12项高端定制
+  .main-customization-travel{
+    margin-top: 125px;
+    border-bottom: 1px solid #eee;
+      .travel-header{
+        border-bottom: 1px solid #eee; 
+        p{
+            text-align: center;
+            font-size: 35px;
+            font-weight: bold;
+            color: $color;
+            letter-spacing: 3px;
+          }
+          p:nth-child(2){
+            font-size: 12px;
+            font-weight: normal;
+            letter-spacing: 1px;
+          }
+          .header-box{
+            width: 70px;
             height: 5px;
             background-color: $color;
             position: absolute;
             left: 50%;
             transform: translateX(-50%);
-      }
-    }
-    .local-film-body{
-      margin-top: 68px;
-      display: flex;
-      justify-content: space-around;
-      ul{
-        li{
-          display: inline-block;
-          margin-top: 30px;
-          p{
-            padding-top: 24px;
-            color: #646464;
-            font-size: 20px;
-            font-weight: bold;
           }
-          span{
-            color: #aeaeae;
-            font-size: 12px;
+      }
+      .travel-body{
+        position: relative;
+        margin-top: 70px;
+        padding: 0 150px;
+        // display: flex;
+        // justify-content: space-around;
+        ul{
+          li{
+            width: 15%;
+            display: inline-block;
+            // width: 100%;
+            // height: 100%;
+            border: 2px solid #666;
+            margin-top: 10px;
+            padding: 10px 0;
+            img{
+              display: block;
+              width: 100px;
+              position: relative;
+              margin: 0 auto;
+            }
+            p{
+              font-size: 12px;
+              text-align: center;
+              color: #666;
+              font-weight: bold;
+            }
           }
         }
       }
-    }
   }
-
-// 地图
-.main-map{
-  position: relative;
-  width: 1920px;
-  margin: 0 auto;
-}
-
-// 广告2
-.main-ad2{
-  position: relative;
-  width: 1920px;
-  margin: 0 auto;
-}
-
-// 12项高端定制
-.main-customization-travel{
-  margin-top: 125px;
-  border-bottom: 1px solid #eee;
-    .travel-header{
-      border-bottom: 1px solid #eee; 
-      p{
-          text-align: center;
-          font-size: 35px;
-          font-weight: bold;
-          color: $color;
-          letter-spacing: 3px;
-        }
-        p:nth-child(2){
-          font-size: 12px;
-          font-weight: normal;
-          letter-spacing: 1px;
-        }
-        .header-box{
-          width: 70px;
-          height: 5px;
-          background-color: $color;
-          position: absolute;
-          left: 50%;
-          transform: translateX(-50%);
-        }
-    }
-    .travel-body{
-      position: relative;
-      margin-top: 70px;
-      display: flex;
-      justify-content: space-around;
-      flex-wrap: wrap;
-      ul{
-        li{
-          display: inline-block;
-          width: 195px;
-          height: 205px;
-          border: 2px solid #666;
-          margin: 4px;
-          img{
-            display: block;
-            width: 100px;
-            position: relative;
-            margin: 20px auto;
-          }
-          P{
-            text-align: center;
-            color: #666;
-            font-weight: bold;
-          }
-        }
-      }
-    }
-}
 </style>
