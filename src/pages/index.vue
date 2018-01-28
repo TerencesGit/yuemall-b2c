@@ -11,20 +11,17 @@
         <Searchbar class="header-search"></Searchbar>
     </div>
     <div class="destination-wrap container">
-      <div class="section-title">
-        <h2>全球100+旅拍目的地</h2>
-        <h4 class="uppercase">global travel destinations</h4>
-        <p class="line"></p>
-      </div>
+      <IndexTitle :title="'全球100+旅拍目的地'" :EnTitle="'global travel destinations'"></IndexTitle>
       <div class="dst-wrap">
-        <dstlist :title="'热门：'" :dstList="localCityList"></dstlist>
-        <dstlist :title="'国内：'" :dstList="localCityList"></dstlist>
-        <dstlist :title="'亚洲：'" :dstList="AsiaCityList"></dstlist>
-        <dstlist :title="'欧洲：'" :dstList="EuropeCityList"></dstlist>
-        <dstlist :title="'大洋洲：'" :dstList="AustraliaCityList"></dstlist>
-        <dstlist v-show="AmericaCityList.length" :title="'北美：'" :dstList="AmericaCityList"></dstlist>
+        <DstList :title="'热门：'" :dstList="localCityList"></DstList>
+        <DstList :title="'国内：'" :dstList="localCityList"></DstList>
+        <DstList :title="'亚洲：'" :dstList="AsiaCityList"></DstList>
+        <DstList :title="'欧洲：'" :dstList="EuropeCityList"></DstList>
+        <DstList :title="'大洋洲：'" :dstList="AustraliaCityList"></DstList>
+        <DstList v-show="AmericaCityList.length" :title="'北美：'" :dstList="AmericaCityList"></DstList>
       </div>
-      <destinationfilm></destinationfilm>
+      <IndexNav></IndexNav>
+      <!-- <destinationfilm></destinationfilm> -->
     </div>
     <div class="ad-section">
       <div class="part1">
@@ -53,6 +50,13 @@
       </div>
     </div>
     <div class="warelist-wrap">
+      <div class="ware-header" style="background: url(/static/image/Localfilm.png) no-repeat center;">
+        <h3>本地拍</h3>
+        <p class="underline"></p>
+        <div class="more-button">
+          <a href="javascript:;">查看更多>></a>
+        </div>
+      </div>
         <!-- 本地拍 -->
         <navheader :ishave="true" :header-title="film.msg"></navheader>
         <filmlist :isthird="true" :film-list="film.filmList"></filmlist>
@@ -151,11 +155,13 @@
     wareList,  recommendWare, warelistByContinent } from '@/api'
   import HeaderBar from '@/components/HeaderNew'
   import Searchbar from '@/components/searchbar'
+  import IndexTitle from './index/components/indexTitle'
+  import IndexNav from './index/components/indexNav'
   import destination from '@/components/destination.vue'
   import filmshow from '@/components/filmShow.vue'
   import desheader from '@/components/desHeader.vue'
   import navheader from '@/components/navheader.vue'
-  import dstlist from '@/components/destinationList.vue'
+  import DstList from '@/components/destinationList.vue'
   import destinationfilm from '@/components/destinationfilm.vue'
   import filmlist from '@/components/filmList.vue'
   export default {
@@ -163,10 +169,12 @@
     components: {
       HeaderBar,
       Searchbar,
+      IndexTitle,
+      IndexNav,
       destination,
       filmshow,
       navheader,
-      dstlist,
+      DstList,
       destinationfilm,
       filmlist,
       desheader,
@@ -263,7 +271,7 @@
       getStore() {
         findStoreByPcDoMain().then(res => {
           if(res.data.status === 1) {
-            this.providerId = res.data.data;
+            this.providerId = '29';
             sessionStorage.setItem('providerId', this.providerId)
             this.getMerchantStoreInfo()
             this.getBannerList()
@@ -429,6 +437,35 @@
 </script>
 
 <style lang="scss" scoped>
+  .ware-header {
+    position: relative;
+    padding: 10px 0;
+    text-align: center;
+    color: #19A9E8;
+    border-bottom: 1px solid #f0f0f0;
+    h3 {
+      margin: 30px 0;
+      font-size: 32px;
+      font-weight: normal;
+    }
+    .underline {
+      position: absolute;
+      left: 50%;
+      bottom: -1px;
+      margin-left: -40px;
+      width: 80px;
+      height: 3px;
+      line-height: 0;
+      background: #19A9E8;
+    }
+    .more-button {
+      position: absolute;
+      right: 0;
+      bottom: 10px;
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+    }
+  }
   $color: #19A9E8;
   .header-wrap {
     position: relative;
@@ -450,33 +487,11 @@
       margin-left: -350px;
     }
   }
+  .dst-wrap {
+    margin: 30px 0;
+  }
   .destination-wrap {
     margin-top: 80px;
-  }
-  .section-title {
-    position: relative;
-    text-align: center;
-    color: $color;
-    border-bottom: 1px solid #f0f0f0;
-    h2 {
-      margin-top: 30px;
-      font-size: 32px;
-      font-weight: normal;
-    }
-    h4 {
-      margin: 15px 0;
-      font-size: 12px;
-      font-weight: normal;
-    }
-    .line {
-      position: absolute;
-      bottom: -2px;
-      left: 50%;
-      margin-left: -40px;
-      width: 80px;
-      height: 4px;
-      background-color: $color;
-    }
   }
   .ad-section {
     display: flex;

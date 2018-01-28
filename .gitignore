@@ -6,6 +6,6 @@ yarn-debug.log*
 yarn-error.log*
 api
 assets
-components
+src/components
 data
 static
