@@ -2,10 +2,13 @@
 	<div class="show-table">
     <ul class="show-row" v-for="(row, index) in showRows" :key="index">
       <li v-for="(item, index) in row" :key="index" class="show-cell" :style="{marginRight: gutter+'px'}">
-        <img :src="item.mainImg">
-        <div class="cell-text">
-          <p class="ellipsis2">{{item.wareName}}</p>
-        </div>
+        <a :href="'/detail?id='+item.id">
+          <img :src="item[mapping && mapping.imgUrl || 'imgUrl']">
+          <div class="cell-text">
+            <p class="cell-name ellipsis2">{{item[mapping && mapping.name || 'name']}}</p>
+            <p class="cell-desc" v-if="item[mapping.desc || 'desc']">{{item[mapping && mapping.desc || 'desc']}}</p>
+          </div>
+        </a>
       </li>
     </ul>
   </div>
@@ -13,7 +16,7 @@
 <script>
 	export default {
 		name: 'showRows',
-		props: ['span', 'gutter', 'showData'],
+		props: ['span', 'gutter', 'showData', 'mapping'],
 		computed: {
 			showRows() {
 				const showRows = [];
@@ -46,9 +49,11 @@
           width: 100%;
         }
         .cell-text {
-          p {
-            height: 43px;
-            padding: 5px;
+          .cell-name {
+            padding: 5px 2px;
+          }
+          .cell-desc {
+            padding: 0 2px;
           }
         }
       }

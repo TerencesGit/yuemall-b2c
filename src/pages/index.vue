@@ -24,7 +24,7 @@
       <IndexNav></IndexNav>
     </div>
     <!-- ad1 -->
-    <div class="ad-section">
+    <div class="ad-box">
       <div class="part1">
         <div class="part1-1">
           <div class="part-1-1-1">
@@ -51,34 +51,39 @@
       </div>
     </div>
     <!-- warelist -->
-    <div class="warelist-wrap">
+    <div class="container-fluid">
       <!-- 本地拍 -->
       <ShowHeader :showData="showHeader.localPhoto"></ShowHeader>
-      <ShowRows :span="3" :gutter="10" :showData="wareList"></ShowRows>
+      <ShowRows :span="3" :gutter="10" :showData="wareList" :mapping="wareMapping"></ShowRows>
+      <!-- 特别推荐 -->
+      <ShowHeader :showData="showHeader.recommendPhoto"></ShowHeader>
+      <ShowRows :span="3" :gutter="10" :showData="recommendList" :mapping="wareMapping"></ShowRows>
       <!-- 亚洲拍 -->
       <ShowHeader :showData="showHeader.asiaPhoto"></ShowHeader>
-      <ShowRows :span="3" :gutter="10" :showData="wareList"></ShowRows>
+      <ShowRows :span="3" :gutter="10" :showData="wareList" :mapping="wareMapping"></ShowRows>
     </div>
     <!-- map -->
     <div>
       <img src="../assets/img/map.jpg" class="responsive-img">
     </div>
     <!-- show -->
-    <div class="show-wrap"> 
+    <div class="container-fluid"> 
       <ShowHeader :showData="showHeader.photoShow"></ShowHeader>
-      <ShowRows :span="2" :gutter="10" :showData="custom.customList"></ShowRows>
+      <ShowRows :span="2" :gutter="10" :showData="showList" :mapping="showMapping"></ShowRows>
     </div>
     <!-- ad2 -->
     <div>
       <img src="../assets/img/ad.jpg" class="responsive-img">
     </div>
     <!-- 12项高端定制旅游 -->
-    <div class="container"> 
-      <IndexTitle :title="'12项高端定制旅游'" :EnTitle="'global travel destinations'"></IndexTitle>
-      <div class="content">
-        <ul class="travel-list clearfix">
-          <li class="icon" v-for="index in 12"></li>
-        </ul>
+    <div class="travel-wrap">
+      <div class="container"> 
+        <IndexTitle :title="'12项高端定制旅游'" :EnTitle="'global travel destinations'"></IndexTitle>
+        <div class="content">
+          <ul class="travel-list clearfix">
+            <li class="icon" v-for="index in 12"></li>
+          </ul>
+        </div>
       </div>
     </div>
   </section>
@@ -122,75 +127,27 @@
         abroadDstCity: [],
         recommendList: [],
         wareList: [],
-        film: {
-          msg: '本地拍',
-          filmList: [
-            {
-              img: '/static/img/local-film.jpg',
-              title: '泰国普吉岛6天4晚私人订制行程（纯旅游）泰国普吉岛6天4晚私人订制行程（纯旅游）泰国普吉岛6天4晚私人订制行程（纯旅游）泰国普吉岛6天4晚私人订制行程（纯旅游）'
-            },
-            {
-              img: '/static/img/local-film.jpg',
-              title: '泰国普吉岛6天4晚私人订制行程（纯旅游）'
-            },
-            {
-              img: '/static/img/local-film.jpg',
-              title: '泰国普吉岛6天4晚私人订制行程（纯旅游）'
-            },
-            {
-              img: '/static/img/local-film.jpg',
-              title: '泰国普吉岛6天4晚私人订制行程（纯旅游）'
-            },
-            {
-              img: '/static/img/local-film.jpg',
-              title: '泰国普吉岛6天4晚私人订制行程（纯旅游）'
-            },
-            {
-              img: '/static/img/local-film.jpg',
-              title: '泰国普吉岛6天4晚私人订制行程（纯旅游）'
-            }
-          ],
+        wareMapping: {
+          id: 'id',
+          name: 'wareName',
+          imgUrl: 'mainImg',
         },
-        custom:{
-            msg: '客片展示',
-            customList: [
-              {
-                img: '/static/img/kepianshow.jpg',
-                title: '泰国普吉岛6天4晚私人订制行程（纯旅游）',
-                pTitle: '三亚SANYA'
-              },
-              {
-                img: '/static/img/kepianshow.jpg',
-                title: '泰国普吉岛6天4晚私人订制行程（纯旅游）',
-                pTitle: '三亚SANYA'
-              },
-              {
-                img: '/static/img/kepianshow.jpg',
-                title: '泰国普吉岛6天4晚私人订制行程（纯旅游）',
-                pTitle: '三亚SANYA'
-              },
-              {
-                img: '/static/img/kepianshow.jpg',
-                title: '泰国普吉岛6天4晚私人订制行程（纯旅游）',
-                pTitle: '三亚SANYA'
-              },
-              {
-                img: '/static/img/kepianshow.jpg',
-                title: '泰国普吉岛6天4晚私人订制行程（纯旅游）',
-                pTitle: '三亚SANYA'
-              },
-              {
-                img: '/static/img/kepianshow.jpg',
-                title: '泰国普吉岛6天4晚私人订制行程（纯旅游）',
-                pTitle: '三亚SANYA'
-              }
-            ]
+        showMapping: {
+          id: 'id',
+          name: 'intro',
+          imgUrl: 'imgUrl',
+          desc: 'name',
         },
         showHeader: {
           localPhoto: {
             title: '本地拍',
             moreUrl: '/local',
             headerBg: '/static/image/Localfilm.png'
+          },
+          recommendPhoto: {
+            title: '特别推荐（旅游+摄影）',
+            moreUrl: '/recommend',
+            headerBg: '/static/image/Journeytake.png'
           },
           asiaPhoto: {
             title: '亚洲拍',
@@ -202,7 +159,28 @@
             moreUrl: '/show',
             headerBg: '/static/image/Samplesshow.png',
           }
-        }
+        },
+        showList: [
+          { id: 207, name: '巴黎', englishName: 'Paris', url: 'Paris', region: 'oversea', 
+            imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095254612761.jpg', intro: '浪漫之都',
+            recommend: true, },
+          { id: 218, name: '京都', englishName: 'Kyoto', url: 'Kyoto', region: 'oversea', 
+            imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095296051782.jpg', intro: '日本京都',
+            recommend: true, },
+          { id: 210, name: '悉尼', englishName: 'Sydney', url: 'Sydney', region: 'oversea', 
+            imgUrl: 'http://fileserver.yueshijue.com/fileService/uploads/2017/11/17/15109115747544.jpg', intro: '异域风情，澳洲之旅',
+            recommend: true,
+          },
+          { id: 206, name: '罗马', englishName: 'Rome', url: 'Rome', region: 'oversea', 
+            imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097793509155.jpg', intro: '罗马假日',
+            recommend: true, },
+          { id: 201, name: '巴厘岛', englishName: 'Bali', url: 'Bali', region: 'oversea',
+            imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097791012752.jpg', intro: '度假胜地，天堂巴厘岛',
+            recommend: true, },
+          { id: 216, name: '马尔代夫', englishName: 'Maldives', url: 'Maldives', region: 'oversea', 
+            imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097797423675.jpg', intro: '度假天堂',
+            recommend: true, },
+        ],
       }
     },
     methods: {
@@ -370,8 +348,6 @@
         })
       },
     },
-    computed: {
-    },
     created() {
       this.getStore()
     }
@@ -403,13 +379,13 @@
   .container-fluid {
     margin: 50px;
   }
-  .dst-wrap {
-    margin: 30px 0;
-  }
   .destination-wrap {
     margin-top: 80px;
+    .dst-wrap {
+      margin: 30px 0;
+    }
   }
-  .ad-section {
+  .ad-box {
     display: flex;
     width: 100%;
     margin: 80px 0;
@@ -422,61 +398,58 @@
       height: auto;
     }
   }
-  .warelist-wrap {
-    margin: 50px;
-  }
-  .show-wrap {
-    margin: 50px;
-  }
-  .travel-list {
-    background: #666;
-    li {
-      float: left;
-      width: 191px;
-      height: 200px;
-      margin: 10px 10px 0 0;
-      transition: all .3s;
-      &:hover {
-        transform: scale(1.03);
-      }
-      &:nth-child(6n) {
-        margin-right: 0;
-      }
-      &:nth-child(1) {
-        background-position: 0 -260px;
-      }
-      &:nth-child(2) {
-        background-position: -191px -260px;
-      }
-      &:nth-child(3) {
-        background-position: -383px -260px;
-      }
-      &:nth-child(4) {
-        background-position: -575px -260px;
-      }
-      &:nth-child(5) {
-        background-position: -767px -260px;
-      }
-      &:nth-child(6) {
-        background-position: -959px -260px;
-      }
-      &:nth-child(7) {
-        background-position: 0 -460px;
-      }
-      &:nth-child(8) {
-        background-position: -191px -460px;
-      }
-      &:nth-child(9) {
-        background-position: -383px -460px;
-      }
-      &:nth-child(10) {
-        background-position: -575px -460px;
-      }
-      &:nth-child(11) {
-        background-position: -767px -460px;
-      }
-      &:nth-child(12) {
-        background-position: -959px -460px;
+  .travel-wrap {
+    background: #d0d0d0;
+    .travel-list {
+      margin: 50px 0;
+      li {
+        float: left;
+        width: 191px;
+        height: 200px;
+        margin: 10px 10px 0 0;
+        transition: all .3s;
+        &:hover {
+          transform: scale(1.03);
+        }
+        &:nth-child(6n) {
+          margin-right: 0;
+        }
+        &:nth-child(1) {
+          background-position: 0 -260px;
+        }
+        &:nth-child(2) {
+          background-position: -191px -260px;
+        }
+        &:nth-child(3) {
+          background-position: -383px -260px;
+        }
+        &:nth-child(4) {
+          background-position: -575px -260px;
+        }
+        &:nth-child(5) {
+          background-position: -767px -260px;
+        }
+        &:nth-child(6) {
+          background-position: -959px -260px;
+        }
+        &:nth-child(7) {
+          background-position: 0 -460px;
+        }
+        &:nth-child(8) {
+          background-position: -191px -460px;
+        }
+        &:nth-child(9) {
+          background-position: -383px -460px;
+        }
+        &:nth-child(10) {
+          background-position: -575px -460px;
+        }
+        &:nth-child(11) {
+          background-position: -767px -460px;
+        }
+        &:nth-child(12) {
+          background-position: -959px -460px;
+        }
       }
     }
   }
