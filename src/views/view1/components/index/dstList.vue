@@ -3,7 +3,7 @@
       <h3 class="dst-title">{{title}}</h3>
       <ul class="dst-list">
         <li v-for="item in dstList">
-          <a href="javascript:;">{{item.name}}</a>
+          <a href="javascript:;" @click="cityClick(item)">{{item.name}}</a>
         </li>
       </ul>
     </div>   
@@ -16,6 +16,11 @@ export default {
     data() {
       return {}
     },
+    methods: {
+      cityClick(city) {
+        this.$emit('cityClick', city)
+      }
+    }
 };
 </script>
 

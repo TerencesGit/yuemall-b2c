@@ -13,13 +13,15 @@
     <!-- destination -->
     <div class="destination-wrap container">
       <IndexTitle :title="'全球100+旅拍目的地'" :EnTitle="'global travel destinations'"></IndexTitle>
-      <div class="dst-wrap">
-        <DstList :title="'热门：'" :dstList="localCityList"></DstList>
-        <DstList :title="'国内：'" :dstList="localCityList"></DstList>
-        <DstList :title="'亚洲：'" :dstList="AsiaCityList"></DstList>
-        <DstList :title="'欧洲：'" :dstList="EuropeCityList"></DstList>
-        <DstList :title="'大洋洲：'" :dstList="AustraliaCityList"></DstList>
-        <DstList v-show="AmericaCityList.length" :title="'北美：'" :dstList="AmericaCityList"></DstList>
+      <div class="global-dst">
+        <DstList 
+          v-for="(item, index) in globalDst" 
+          v-if="item.cityList.length !== 0"
+          :key="index" 
+          :title="item.name"
+          :dstList="item.cityList"
+          @cityClick="handleCityClick">
+        </DstList>
       </div>
       <IndexNav></IndexNav>
     </div>
@@ -80,9 +82,10 @@
       <div class="container"> 
         <IndexTitle :title="'12项高端定制旅游'" :EnTitle="'global travel destinations'"></IndexTitle>
         <div class="content">
-          <ul class="travel-list clearfix">
+          <img src="../../assets/img/icon12.png" alt="">
+          <!-- <ul class="travel-list clearfix">
             <li class="icon" v-for="index in 12"></li>
-          </ul>
+          </ul> -->
         </div>
       </div>
     </div>
@@ -94,7 +97,7 @@
     wareList, recommendWare, warelistByContinent } from '@/api'
   import HeaderBar from '~/components/headerBar'
   import Searchbar from '~/components/searchBar'
-  import DstList from '~/components/dstList.vue'
+  import DstList from './components/index/dstList.vue'
   import IndexTitle from './components/index/indexTitle'
   import IndexNav from './components/index/indexNav'
   import ShowHeader from './components/index/showHeader'
@@ -115,11 +118,6 @@
         providerId: '',
         storeLogo: '',
         kindCode: '',
-        localCityList: [],
-        AsiaCityList: [],
-        EuropeCityList: [],
-        AustraliaCityList: [],
-        AmericaCityList: [],
         bannerList: [],
         dstCityList: [],
         dstCityCode: '',
@@ -127,6 +125,32 @@
         abroadDstCity: [],
         recommendList: [],
         wareList: [],
+        globalDst: {
+          'Hot': {
+            name: '热门：',
+            cityList: [],
+          },
+          'Local': {
+            name: '国内：',
+            cityList: [],
+          },
+          'Asia': {
+            name: '亚洲：',
+            cityList: []
+          },
+          'Europe': {
+            name: '欧洲：',
+            cityList: []
+          },
+          'Oceania': {
+            name: '大洋洲：',
+            cityList: []
+          },
+          'America': {
+            name: '美洲：',
+            cityList: []
+          },
+        },
         wareMapping: {
           id: 'id',
           name: 'wareName',
@@ -184,6 +208,9 @@
       }
     },
     methods: {
+      handleCityClick(city) {
+        console.log(city.name)
+      },
       getStore() {
         findStoreByPcDoMain().then(res => {
           if(res.data.status === 1) {
@@ -192,6 +219,7 @@
             this.getMerchantStoreInfo()
             this.getBannerList()
             this.getDstCityList()
+            this.getHotCityList()
             this.getLocalCityList()
             this.getAsiaCityList()
             this.getEuropeCityList()
@@ -252,6 +280,19 @@
           }
         })
       },
+      getHotCityList() {
+        let params = {
+          storeId: this.providerId,
+          continent: '100-101',
+        }
+        dstCityByContinent(params).then(res => {
+          if(res.data.status === 1) {
+            this.globalDst['Hot'].cityList = res.data.data;
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        })
+      },
       getLocalCityList() {
         let params = {
           storeId: this.providerId,
@@ -259,7 +300,7 @@
         }
         dstCityByContinent(params).then(res => {
           if(res.data.status === 1) {
-            this.localCityList = res.data.data;
+            this.globalDst['Local'].cityList = res.data.data;
           } else {
             this.$message.error(res.data.msg)
           }
@@ -272,7 +313,7 @@
         }
         dstCityByContinent(params).then(res => {
           if(res.data.status === 1) {
-            this.AsiaCityList = res.data.data;
+            this.globalDst['Asia'].cityList = res.data.data;
           } else {
             this.$message.error(res.data.msg)
           }
@@ -285,7 +326,7 @@
         }
         dstCityByContinent(params).then(res => {
           if(res.data.status === 1) {
-            this.EuropeCityList = res.data.data;
+            this.globalDst['Europe'].cityList = res.data.data;
           } else {
             this.$message.error(res.data.msg)
           }
@@ -298,7 +339,7 @@
         }
         dstCityByContinent(params).then(res => {
           if(res.data.status === 1) {
-            this.AustraliaCityList = res.data.data;
+            this.globalDst['Oceania'].cityList = res.data.data;
           } else {
             this.$message.error(res.data.msg)
           }
@@ -311,7 +352,7 @@
         }
         dstCityByContinent(params).then(res => {
           if(res.data.status === 1) {
-            this.AmericaCityList = res.data.data;
+            this.globalDst['America'].cityList = res.data.data;
           } else {
             this.$message.error(res.data.msg)
           }
@@ -342,7 +383,7 @@
         }
         warelistByContinent(data).then(res => {
           if(res.data.status === 1){
-            this.wareList = res.data.data;
+            this.wareList = res.data.data.filter((w, index) => index >= 0 && index < 9);
             console.log(this.wareList)
           }
         })
@@ -381,7 +422,7 @@
   }
   .destination-wrap {
     margin-top: 80px;
-    .dst-wrap {
+    .global-dst {
       margin: 30px 0;
     }
   }
@@ -399,7 +440,14 @@
     }
   }
   .travel-wrap {
-    background: #d0d0d0;
+    padding: 30px 0;
+    background: #FAF8F8;
+    .content {
+      margin: 50px 0;
+      img {
+        width: 100%;
+      }
+    }
     .travel-list {
       margin: 50px 0;
       li {
