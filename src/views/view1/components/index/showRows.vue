@@ -2,7 +2,7 @@
 	<div class="show-table">
     <ul class="show-row" v-for="(row, index) in showRows" :key="index">
       <li v-for="(item, index) in row" :key="index" class="show-cell" :style="{marginRight: gutter+'px'}">
-        <a :href="'#/detail?id='+item.id">
+        <a :href="'#/ware/detail?id='+item.id">
           <img :src="item[mapping && mapping.imgUrl || 'imgUrl']">
           <div class="cell-text">
             <p class="cell-name ellipsis2">{{item[mapping && mapping.name || 'name']}}</p>
