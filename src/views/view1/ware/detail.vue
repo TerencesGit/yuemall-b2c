@@ -2,38 +2,49 @@
 	<div class="container">
 		<div class="ware-detail-wrap">
 			<div class="ware-detail-l">
-				<el-carousel height="280px">
+				<el-carousel height="320px">
           <el-carousel-item v-for="item in bannerList" :key="item.id">
             <img :src="item.filePath" alt=""> 
           </el-carousel-item>
         </el-carousel>
 			</div>
 			<div class="ware-detail-r">
-				<div class="ware-code">
-					<label for="">编号：</label>
+				<div class="ware-detail-item ware-code">
+					<label for="">产品编号：</label>
 					<p>{{wareDetail.id}}</p>
 				</div>
-				<div class="ware-name">
+				<div class="ware-detail-item ware-name">
 					<h2>{{wareDetail.wareName}}</h2>
 				</div>
-				<div class="trip-detail">
+				<div class="ware-detail-item collection">
+					<button class="collect-button"><i class="el-icon-star-off"></i>收藏</button>
+				</div>
+				<div class="ware-detail-item ware-trip">
 					<label for="">日程概述：</label>
-					<ul>
-						<li v-for="item in wareDetail.customerWareTripDetailDos">{{item.programTitle}}</li>
+					<ul class="trip-list">
+						<li v-for="(item, index) in wareDetail.customerWareTripDetailDos">
+							<span class="trip-day">D{{index+1}}</span>
+							<span class="trip-name">{{item.programTitle}}</span>
+							<i v-if="index < wareDetail.customerWareTripDetailDos.length - 1" class="el-icon-arrow-right">	</i>
+						</li>
 					</ul>
 				</div>
-				<div class="ware-feature">
+				<div class="ware-detail-item ware-feature">
 					<label for="">产品特色：</label>
-					<ul>
+					<ul class="feature-list">
 						<li v-for="item in keyWords">{{item}}</li>
 					</ul>
+				</div>
+				<div class="ware-detail-item ware-recommend">
+					<h4>店长推荐</h4>
+					<div v-html="wareDetail.wareDesc"></div>
 				</div>
 			</div>
 		</div>
 		<div class="ware-service">
 			<div class="service-header">
 				<div class="service-date">
-					<label for="">基础套餐：</label>
+					<label for="">服务日期：</label>
 					<input type="text" placeholder="请选择出发日期">
 				</div>
 				<div class="base-number">
@@ -55,7 +66,21 @@
 				</ul>
 			</div>
 		</div>
-		<div class="ware-desc"></div>
+		<div class="ware-desc-tabs">
+			<div class="tabs-header">
+				<ul class="tabs-nav">
+					<li v-for="(item, index) in attributeList" :key="index">
+						<a href="javascript:;">{{attributeName[item.title]}}</a>
+					</li>
+				</ul>
+			</div>
+			<div class="tabs-content">
+				<div class="tabs-content-pane" v-for="(item, index) in attributeList">
+					<h3 class="tabs-content-title">{{attributeName[item.title]}}</h3>
+					<div class="tabs-content-detail" v-html="item.content"></div>
+				</div>
+			</div>
+		</div>
 	</div>
 </template>
 <script>
@@ -68,6 +93,7 @@
 				bannerList: [],
 				wareDetail: {},
 				wareAttribute: {},
+				wareDescTitle: ['产品介绍', '产品参数', '费用说明', '费用包含', '预定须知', '自理费用','退改规则', '签证/签注'],
 				attrOrder: [
 					'CHANPINJIESHAO',
 					'CHANPINCANSHU',
@@ -149,6 +175,143 @@
 		}
 		@at-root .ware-detail-r {
 			width: 600px;
+			.ware-detail-item {
+				margin: 15px 0;
+				label {
+					width: 90px;
+				}
+			}
+			.ware-code {
+				display: flex;
+				padding-bottom: 10px;
+				border-bottom: 1px solid #ddd;
+			}
+			.ware-name {
+				h2 {
+					font-size: 24px;
+					font-weight: normal;
+				}
+			}
+			.collection {
+				display: flex;
+				justify-content: flex-end;
+				padding: 5px 10px;
+				background: #f5f5f5;
+				.collect-button {
+					color: #c60c1a;
+					font-size: 14px;
+					padding: 3px 15px;
+					border: 1px solid #c60c1a;
+					background: transparent;
+					i {
+						margin-right: 5px;
+					}
+				}
+			}
+			.ware-trip {
+				.trip-list {
+					margin-top: 10px;
+					li {
+						display: inline-block;
+						height: 24px;
+						margin: 0 7px 10px 0;
+						line-height: 24px;
+						span {
+							display: inline-block;
+							height: 24px;
+							line-height: 24px;
+							padding: 0 5px;
+							vertical-align: middle;
+						}
+						.trip-day {
+							font-size: 12px;
+							color: #fff;
+							background: #c60c1a;
+						}
+						.trip-name {
+							padding: 0 10px;
+							margin-left: -4px;
+							margin-right: 3px;
+							border: 1px solid #ccc;
+							border-left: 0;
+						}
+					}
+				}
+			}
+			.ware-feature {
+				display: flex;
+				.feature-list {
+					li {
+						display: inline-block;
+						line-height: 1;
+						padding-right: 10px;
+						margin-right: 10px;
+						border-right: 1px solid #ccc;
+						&:last-child {
+							margin-right: 0;
+							padding-right: 0;
+							border-right: 0;
+						}
+					}
+				}
+			}
 		}
 	}
+	.ware-service {
+		.service-header {
+			display: flex;
+			> div {
+				display: flex;
+			}
+		}
+	}
+	.ware-desc-tabs {
+		margin-bottom: 50px;
+		border: 1px solid #ddd;
+		@at-root .tabs-header {
+			background: #f5f7fa;
+			.tabs-nav {
+				display: flex;
+				height: 42px;
+				border-bottom: 1px solid #ccc;
+				li {
+					padding: 10px;
+					margin-right: 20px;
+					&:last-child {
+						margin-right: 0;
+					}
+					a {
+						display: block;
+						color: #444;
+						font-size: 16px;
+					}
+					&:hover {
+						border-bottom: 3px solid #41AAFF;
+					}
+				}
+			}
+		}
+		@at-root .tabs-content {
+			padding: 20px;
+			.tabs-content-pane {
+			}
+			.tabs-content-title {
+				display: inline-block;
+				padding: 8px;
+			  /*width: 60px;
+			  height: 60px;	
+			  line-height: 1;*/
+			  text-align: center;
+				margin-right: 20px;
+				color: #fff;
+				letter-spacing: 2px;
+				font-weight: normal;
+				background: #6bc2fa;
+			}
+			.tabs-content-detail {
+				display: inline-block;
+			}
+		}
+	}
+	
 </style>
