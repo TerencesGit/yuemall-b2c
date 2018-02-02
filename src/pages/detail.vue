@@ -605,7 +605,7 @@
 				padding: 10px;
 				font-size: 16px;
 				text-align: center;
-				background: #75d24d 
+				background: #75d24d;
 			}
 			.content {
 				flex: 1;

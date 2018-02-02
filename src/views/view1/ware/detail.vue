@@ -44,19 +44,19 @@
 		<div class="ware-service">
 			<div class="service-header">
 				<div class="service-date">
-					<label for="">服务日期：</label>
-					<input type="text" placeholder="请选择出发日期">
+					<label for="" class="date-label">服务日期：</label>
+					<input type="text" class="date-picker" placeholder="请选择出发日期" disabled>
 				</div>
 				<div class="base-number">
 					<label for="">基础套餐：</label>
 					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
 				</div>
 				<div class="total-price">
-					<label for="">总价</label>
-					<p><i class="icon-rmb">￥</i><span>0</span></p>
+					<label>总价：</label>
+					<p class="price"><i class="icon-rmb">￥</i><span>0</span></p>
 				</div>
-				<div class="reserve-button">
-					<button>立即预定</button>
+				<div class="reserve">
+					<button class="reserve-button">立即预定</button>
 				</div>
 			</div>
 			<div class="service-body">
@@ -67,15 +67,15 @@
 			</div>
 		</div>
 		<div class="ware-desc-tabs">
-			<div class="tabs-header">
+			<div ref="tabsHeader" class="tabs-header" :class="{fixed : isTabFixed}">
 				<ul class="tabs-nav">
-					<li v-for="(item, index) in attributeList" :key="index">
+					<li v-for="(item, index) in  attributeList" :key="index" :class="{active : index === tabActive}" @click="tabClick(index)">
 						<a href="javascript:;">{{attributeName[item.title]}}</a>
 					</li>
 				</ul>
 			</div>
-			<div class="tabs-content">
-				<div class="tabs-content-pane" v-for="(item, index) in attributeList">
+			<div ref="tabsContent" class="tabs-content">
+				<div ref="pane" class="tabs-content-pane" v-for="(item, index) in attributeList" :key="index">
 					<h3 class="tabs-content-title">{{attributeName[item.title]}}</h3>
 					<div class="tabs-content-detail" v-html="item.content"></div>
 				</div>
@@ -93,7 +93,6 @@
 				bannerList: [],
 				wareDetail: {},
 				wareAttribute: {},
-				wareDescTitle: ['产品介绍', '产品参数', '费用说明', '费用包含', '预定须知', '自理费用','退改规则', '签证/签注'],
 				attrOrder: [
 					'CHANPINJIESHAO',
 					'CHANPINCANSHU',
@@ -114,13 +113,46 @@
 					TUIGAIGUIZE: '退改规则',
 					QIANZHENGQIANZHU: '签证/签注',
 				},
+				tabTop: 656,
+				tabActive: 0,
+				isTabFixed: false,
 				attributeList: [],
 				keyWords: [],
+				panesTop: [],
 			}
 		},
 		methods: {
 			handleChange() {
 
+			},
+			tabClick(index) {
+				this.tabActive = index;
+				let tabPaneTop = this.$refs.pane[index].offsetTop - 42;
+				window.scrollTo(0, tabPaneTop)
+			},
+			getTabPanesTop() {
+				const panesTop = [];
+				const panes = this.$refs.pane || [];
+				let length = panes.length - 1;
+				for(let i = 0; i < panes.length; i++) {
+					panesTop[i] = panes[i].offsetTop - 42;
+				}
+				length >= 0 && panesTop.push(panesTop[length] + panes[length].clientHeight)
+				// console.log(panesTop)
+				this.panesTop = panesTop;
+			},
+			scrollEvent() {
+				this.tabTop = this.$refs.tabsContent.offsetTop - 84;
+				console.log('tabTop-----'+this.tabTop)
+				console.log('scrollTop-----'+document.body.scrollTop)
+				this.isTabFixed = document.body.scrollTop >= this.tabTop ? true : false;
+				this.panesTop.length === 0 && this.getTabPanesTop();
+				for(let i = 0; i < this.panesTop.length; i++) {
+					if(this.panesTop[i] <= document.body.scrollTop && this.panesTop[i+1] > document.body.scrollTop) {
+						this.tabActive = i;
+						return;
+					}
+				}
 			},
 			getWareDetail(wareId) {
 				let data = {
@@ -128,11 +160,12 @@
 				}
 				wareDetail(data).then(res => {
 					if(res.data.status === 1) {
-						 console.log(res.data.data)
+						 // console.log(res.data.data)
 						 this.wareDetail = res.data.data;
 						 document.title = this.wareDetail.wareName;
-						 this.keyWords = this.wareDetail.keyWords.split(',').splice(0,3);
+						 this.keyWords = this.wareDetail.keyWords.split(',');
 						 this.bannerList = this.wareDetail.wareImgInfos;
+						 this.getTabPanesTop();
 					}
 				})
 			},
@@ -155,6 +188,11 @@
 				})
 			},
 		},
+		computed: {
+		},
+		mounted() {
+			document.addEventListener('scroll', this.scrollEvent)
+		},
 		created() {
 			this.wareId = this.$route.query.id;
 			console.log(this.wareId)
@@ -162,6 +200,9 @@
 				this.getWareDetail(this.wareId)
 				this.getWareAttribute(this.wareId)
 			}
+		},
+		beforeDestroy() {
+			document.removeEventListener('scroll', this.scrollEvent)
 		}
 	}
 </script>
@@ -258,11 +299,55 @@
 		}
 	}
 	.ware-service {
+		margin: 30px 0;
+		border: 1px solid #ddd;
 		.service-header {
 			display: flex;
+			justify-content: space-between;
+			padding: 15px;
+			border-bottom: 1px solid #ddd;
 			> div {
 				display: flex;
+				margin-right: 15px;
+				line-height: 30px;
+				&:last-child {
+					margin-right: 0;
+				}
+				label {
+					margin-right: 10px;
+				}
 			}
+			.service-date {
+				.date-picker {
+					height: 30px;
+					padding: 0 10px;
+				}
+			}
+			.base-number {
+				line-height: 30px;
+				.el-input-number {
+					width: 130px;
+				}
+			}
+			.total-price {
+				.price {
+					color: #c60c1a;
+					font-size: 18px;
+					font-weight: bolder;
+				}
+			}
+			.reserve {
+				.reserve-button {
+					padding: 6px 30px;
+					color: #fff;
+					font-size: 14px;
+					font-family: 'Microsoft Yahei';
+					background: #c60c1a;
+				}
+			}
+		}
+		.service-body {
+			padding: 15px;
 		}
 	}
 	.ware-desc-tabs {
@@ -270,48 +355,76 @@
 		border: 1px solid #ddd;
 		@at-root .tabs-header {
 			background: #f5f7fa;
+			&.fixed {
+				position: fixed;
+				top: 0;
+				left: 50%;
+				z-index: 999;
+				width: 1200px;
+				margin-left: -600px;
+				border: 1px solid #ddd;
+				border-bottom-width: 0;
+			}
 			.tabs-nav {
 				display: flex;
 				height: 42px;
 				border-bottom: 1px solid #ccc;
 				li {
-					padding: 10px;
-					margin-right: 20px;
+					padding: 10px 20px;
 					&:last-child {
 						margin-right: 0;
+					}
+					&:hover {
+						border-bottom: 3px solid #41AAFF;
+					}
+					&.active {
+						position: relative;
+						top: 1px;
+						border: 1px solid #ddd;
+						border-top-width: 0;
+						border-bottom-color: #fff;
+						background: #fff;
+						&:first-child {
+							border-left-width: 0;
+						}
+						a {
+							color: #20a0ff;
+						}
 					}
 					a {
 						display: block;
 						color: #444;
 						font-size: 16px;
 					}
-					&:hover {
-						border-bottom: 3px solid #41AAFF;
-					}
 				}
 			}
 		}
 		@at-root .tabs-content {
 			padding: 20px;
+			margin-top: 42px;
 			.tabs-content-pane {
+				margin-bottom: 30px;
+				&:last-child {
+					padding-bottom: 50px;
+				}
 			}
 			.tabs-content-title {
 				display: inline-block;
-				padding: 8px;
-			  /*width: 60px;
-			  height: 60px;	
-			  line-height: 1;*/
+			  width: 55px;
+			  height: 55px;
+			  padding: 5px;
 			  text-align: center;
 				margin-right: 20px;
 				color: #fff;
-				letter-spacing: 2px;
+				font-size: 16px;
 				font-weight: normal;
+				vertical-align: top;
 				background: #6bc2fa;
 			}
 			.tabs-content-detail {
 				display: inline-block;
+				width: 1050px;
 			}
 		}
-	}
-	
+	}	
 </style>
