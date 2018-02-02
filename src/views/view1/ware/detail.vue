@@ -7,6 +7,16 @@
             <img :src="item.filePath" alt=""> 
           </el-carousel-item>
         </el-carousel>
+        <price-calendar 
+					:data="skuData"
+					style="margin-top: 20px;"
+					:firstDayOfWeek="0"
+					:endDate="endDate"
+					:selectedDay="selectedDay" 
+					@dayClick="dayClick"
+					@prevMonth="handlePrevMonth"
+					@nextMonth="handleNextMonth">
+				</price-calendar>
 			</div>
 			<div class="ware-detail-r">
 				<div class="ware-detail-item ware-code">
@@ -45,25 +55,42 @@
 			<div class="service-header">
 				<div class="service-date">
 					<label for="" class="date-label">服务日期：</label>
-					<input type="text" class="date-picker" placeholder="请选择出发日期" disabled>
+					<input type="text" v-model="selectedDay" class="date-picker" placeholder="请选择出发日期" disabled>
 				</div>
 				<div class="base-number">
 					<label for="">基础套餐：</label>
-					<el-input-number v-model="num1" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
+					<el-input-number v-model="baseNum" @change="handleChange" :min="1" :max="10"></el-input-number>
 				</div>
 				<div class="total-price">
 					<label>总价：</label>
-					<p class="price"><i class="icon-rmb">￥</i><span>0</span></p>
+					<p class="price"><i class="icon-rmb">￥</i><span>{{totalPrice}}</span></p>
 				</div>
 				<div class="reserve">
 					<button class="reserve-button">立即预定</button>
 				</div>
 			</div>
 			<div class="service-body">
-				<h4>可额外选购</h4>
-				<ul class="service-list">
-					<li></li>
-				</ul>
+				<h4 class="title">可额外选购</h4>
+				<div class="service-content">
+					<label for="">附加项</label>
+					<ul class="service-list">
+						<li v-for="item in serviceList" :key="item.id">
+							<span>{{item.wareName}}</span>
+							<span>{{item.wareSkuInfos[0].adultPrice}}</span>
+							<el-input-number v-model="baseNum" @change="handleChange" :min="1" :max="10"></el-input-number>
+							<span>0</span>
+						</li>
+					</ul>
+				</div>
+				<div class="single-content">
+					<label for="">附加项</label>
+					<div>
+						<span>单人差数</span>
+						<span>{{singlePrice}}</span>
+						<el-input-number v-model="baseNum" @change="handleChange" :min="1" :max="10"></el-input-number>
+						<span>0</span>
+					</div>
+				</div>
 			</div>
 		</div>
 		<div class="ware-desc-tabs">
@@ -84,14 +111,23 @@
 	</div>
 </template>
 <script>
-	import { wareDetail, wareAttribut, createWareCollection, cancelWareCollection } from '@/api'
+	import { wareDetail, wareAttribut, wareSkuOfMonth, wareResource, createWareCollection, cancelWareCollection } from '@/api'
 	export default {
 		data () {
 			return {
-				num1: 1,
 				wareId: '',
 				bannerList: [],
 				wareDetail: {},
+				selectedDay: '',
+				skuData: [],
+				startDate: '',
+				endDate: '',
+				skuDate: '',
+				baseNum: 1,
+				basePrice: 0,
+				singleNum: 0,
+				singlePrice: 0,
+				serviceList: [],
 				wareAttribute: {},
 				attrOrder: [
 					'CHANPINJIESHAO',
@@ -113,7 +149,7 @@
 					TUIGAIGUIZE: '退改规则',
 					QIANZHENGQIANZHU: '签证/签注',
 				},
-				tabTop: 656,
+				tabTop: 900,
 				tabActive: 0,
 				isTabFixed: false,
 				attributeList: [],
@@ -124,6 +160,23 @@
 		methods: {
 			handleChange() {
 
+			},
+			dayClick(cell) {
+				if(cell.data) {
+					console.log(cell.data)
+					this.basePrice = cell.data.adultPrice;
+					this.singlePrice = cell.data.singlePrice;
+					this.selectedDay = cell.date;
+					this.getWareResource()
+				}
+			},
+			handlePrevMonth(date) {
+				this.skuDate = this.$moment(date).format('YYYY-MM-DD')
+				this.getSkuData()
+			},
+			handleNextMonth(date) {
+				this.skuDate = this.$moment(date).format('YYYY-MM-DD')
+				this.getSkuData()
 			},
 			tabClick(index) {
 				this.tabActive = index;
@@ -138,13 +191,12 @@
 					panesTop[i] = panes[i].offsetTop - 42;
 				}
 				length >= 0 && panesTop.push(panesTop[length] + panes[length].clientHeight)
-				// console.log(panesTop)
 				this.panesTop = panesTop;
 			},
 			scrollEvent() {
 				this.tabTop = this.$refs.tabsContent.offsetTop - 84;
-				console.log('tabTop-----'+this.tabTop)
-				console.log('scrollTop-----'+document.body.scrollTop)
+				// console.log('tabTop-----'+this.tabTop)
+				// console.log('scrollTop-----'+document.body.scrollTop)
 				this.isTabFixed = document.body.scrollTop >= this.tabTop ? true : false;
 				this.panesTop.length === 0 && this.getTabPanesTop();
 				for(let i = 0; i < this.panesTop.length; i++) {
@@ -154,9 +206,30 @@
 					}
 				}
 			},
-			getWareDetail(wareId) {
+			getSkuData() {
 				let data = {
-					id: wareId
+					wareId: this.wareId,
+					skuDate: this.skuDate,
+				}
+				wareSkuOfMonth(data).then(res => {
+					console.log(res)
+						if(res.data.status === 1) {
+							// res.data.data.currentMonthSku.splice(0, date)
+							this.skuData = res.data.data.currentMonthSku;
+							this.endDate = res.data.data.sellSkuPeriod.maxDate;
+							// let  = res.data.data.currentMonthSku;
+							// skuData.map(d => d.skuDate).sort((a, b) => {
+							// 	return a > b;
+							// })
+							// this.skuData = skuData;
+						}
+					}).catch(err => {
+						console.log(err)
+					})
+			},
+			getWareDetail() {
+				let data = {
+					id: this.wareId
 				}
 				wareDetail(data).then(res => {
 					if(res.data.status === 1) {
@@ -169,9 +242,9 @@
 					}
 				})
 			},
-			getWareAttribute(wareId) {
+			getWareAttribute() {
 				let data = {
-					wareId
+					wareId: this.wareId
 				}
 				wareAttribut(data).then(res => {
 					if(res.data.status === 1) {
@@ -187,18 +260,36 @@
 					}
 				})
 			},
+			getWareResource() {
+				let data = {
+					id: this.wareId,
+					skuDate: this.selectedDay,
+				}
+				wareResource(data).then(res => {
+					if(res.data.status === 1) {
+						console.log(res.data.data)
+						this.serviceList.push(res.data.data.serviceInfo)
+					} else {
+						this.$message.error(res.data.msg)
+					}
+				})
+			},
 		},
 		computed: {
+			totalPrice() {
+				return this.baseNum * this.basePrice + this.singleNum * this.singlePrice;
+			}
 		},
 		mounted() {
 			document.addEventListener('scroll', this.scrollEvent)
 		},
 		created() {
 			this.wareId = this.$route.query.id;
-			console.log(this.wareId)
 			if(this.wareId) {
-				this.getWareDetail(this.wareId)
-				this.getWareAttribute(this.wareId)
+				this.skuDate = this.$moment().format('YYYY-MM-DD');
+				this.getSkuData()
+				this.getWareDetail()
+				this.getWareAttribute()
 			}
 		},
 		beforeDestroy() {
@@ -298,6 +389,9 @@
 			}
 		}
 	}
+	.el-input-number {
+		width: 130px;
+	}
 	.ware-service {
 		margin: 30px 0;
 		border: 1px solid #ddd;
@@ -334,6 +428,9 @@
 					color: #c60c1a;
 					font-size: 18px;
 					font-weight: bolder;
+					i {
+						font-size: 14px;
+					}
 				}
 			}
 			.reserve {
@@ -374,9 +471,9 @@
 					&:last-child {
 						margin-right: 0;
 					}
-					&:hover {
+					/*&:hover {
 						border-bottom: 3px solid #41AAFF;
-					}
+					}*/
 					&.active {
 						position: relative;
 						top: 1px;

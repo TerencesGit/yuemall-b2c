@@ -15,13 +15,13 @@ import 'element-ui/lib/theme-chalk/index.css'
 // import 'element-ui/lib/theme-default/index.css'
 import 'font-awesome/css/font-awesome.min.css'
 import '@/assets/css/main.scss'
+import PriceCalendar from '@/components/pricecalendar'
 // import Utils from '@/assets/js/utils'
-// import FullCalendar from '@/components/fullcalendar'
 // import LazyLoad from '@/components/lazyLoad'
 // Vue.use(Vuex)
 Vue.use(Router)
 Vue.use(ElementUI)
-// Vue.use(FullCalendar)
+Vue.use(PriceCalendar)
 // Vue.use(LazyLoad)
 Vue.prototype.$nprogress = NProgress;
 Vue.prototype.$moment = moment;
