@@ -30,33 +30,33 @@
       <div class="part1">
         <div class="part1-1">
           <div class="part-1-1-1">
-            <img src="/static/img/ad1-1.jpg" alt="">
+            <img src="/static/image/ad1-1.jpg" alt="">
           </div>
           <div class="part-1-1-2">
-            <img src="/static/img/ad1-2.jpg" alt="">
+            <img src="/static/image/ad1-2.jpg" alt="">
           </div>
         </div>
         <div class="part1-2">
           <div class="part-1-2-1">
-            <img src="/static/img/ad1-4.jpg" alt="">
+            <img src="/static/image/ad1-4.jpg" alt="">
           </div>
           <div class="part-1-2-2">
-            <img src="/static/img/ad1-5.jpg" alt="">
+            <img src="/static/image/ad1-5.jpg" alt="">
           </div>
           <div class="part-1-2-3">
-            <img src="/static/img/ad1-6.jpg" alt="">
+            <img src="/static/image/ad1-6.jpg" alt="">
           </div>
         </div>
       </div>
       <div class="part2">
-        <img src="/static/img/ad1-3.jpg" alt="">
+        <img src="/static/image/ad1-3.jpg" alt="">
       </div>
     </div>
     <!-- warelist -->
     <div class="container-fluid">
       <!-- 本地拍 -->
       <ShowHeader :showData="showHeader.localPhoto"></ShowHeader>
-      <ShowRows :span="3" :gutter="10" :showData="wareList" :mapping="wareMapping"></ShowRows>
+      <ShowRows :span="3" :gutter="10" :showData="LocalWareList" :mapping="wareMapping"></ShowRows>
       <!-- 特别推荐 -->
       <ShowHeader :showData="showHeader.recommendPhoto"></ShowHeader>
       <ShowRows :span="3" :gutter="10" :showData="recommendList" :mapping="wareMapping"></ShowRows>
@@ -72,7 +72,7 @@
     </div>
     <!-- map -->
     <div>
-      <img src="/static/img/map.jpg" class="responsive-img">
+      <img src="/static/image/map.jpg" class="responsive-img">
     </div>
     <!-- show -->
     <div class="container-fluid"> 
@@ -81,7 +81,7 @@
     </div>
     <!-- ad2 -->
     <div>
-      <img src="/static/img/ad.jpg" class="responsive-img">
+      <img src="/static/image/ad.jpg" class="responsive-img">
     </div>
     <!-- 12项高端定制旅游 -->
     <div class="travel-wrap">
@@ -101,8 +101,8 @@
 <script>
   import { findStoreByPcDoMain, findmerchantStoreBystoreId, bannerList, dstCityByContinent, 
     wareList, recommendWare, warelistByContinent } from '@/api'
-  import HeaderBar from '~/components/headerBar'
-  import Searchbar from '~/components/searchBar'
+  import HeaderBar from './components/index/headerBar'
+  import Searchbar from './components/index/searchBar'
   import DstList from './components/index/dstList.vue'
   import IndexTitle from './components/index/indexTitle'
   import IndexNav from './components/index/indexNav'
@@ -229,6 +229,7 @@
     methods: {
       handleCityClick(city) {
         console.log(city.name)
+        this.$router.push('/ware/list?cityName='+city.name)
       },
       getStore() {
         findStoreByPcDoMain().then(res => {
@@ -318,7 +319,7 @@
       getLocalCityList() {
         let params = {
           storeId: this.providerId,
-          continent: '100-101',
+          continent: '100-101-000086',
         }
         dstCityByContinent(params).then(res => {
           if(res.data.status === 1) {
@@ -407,7 +408,7 @@
         warelistByContinent(data).then(res => {
           if(res.data.status === 1){
             this.wareList = res.data.data.filter((w, index) => index >= 0 && index < 9);
-            console.log(this.wareList)
+            // console.log(this.wareList)
           }
         })
       },
@@ -415,12 +416,11 @@
         let data = {
           // kindCode: this.kindCode,
           storeId: this.providerId,
-          continent: '100-101',
+          continent: '100-101-000086',
         }
         warelistByContinent(data).then(res => {
           if(res.data.status === 1){
             this.LocalWareList = res.data.data.filter((w, index) => index >= 0 && index < 9);
-            console.log(this.LocalWareList)
           }
         })
       },
@@ -445,7 +445,7 @@
         warelistByContinent(data).then(res => {
           if(res.data.status === 1){
             this.GlobalWareList = res.data.data.filter((w, index) => index >= 0 && index < 9);
-            console.log(this.GlobalWareList)
+            // console.log(this.GlobalWareList)
           }
         })
       },

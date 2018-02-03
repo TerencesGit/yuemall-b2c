@@ -1,4 +1,5 @@
 import Container from '@/components/Container'
+import IndexContainer from '@/components/IndexContainer'
 import Login from '@/pages/login'
 // import Index from '@/pages/index_old'
 // import List from '@/pages/list'
@@ -16,6 +17,7 @@ import TourismStrategy from '@/pages/help/tourism_term'
 import Attentions from '@/pages/help/customer_complain'
 // view1
 import Index from '~/index'
+import WareList from '~/ware/list'
 import WareDetail from '~/ware/detail'
 
 
@@ -23,8 +25,7 @@ import WareDetail from '~/ware/detail'
 const routes = [
 	{
     	path: '/',
-        name: 'index',
-        redirect: '/index'
+      redirect: '/index'
 	},
   {
       path: '/login',
@@ -33,11 +34,10 @@ const routes = [
   },
 	{
     path: '/',
-    name: 'Hello',
-    component: Container,
+    name: 'index',
+    component: IndexContainer,
     children: [
       { path: 'index', name: '首页', component: Index },
-      { path: 'ware/detail', name: '商品详情页', component: WareDetail },
       // { path: 'list', name: '列表页', component: List },
       // { path: 'native', name: 'native', component: Native },
       // { path: 'oversea', name: 'oversea', component: Oversea },
@@ -50,9 +50,18 @@ const routes = [
     ]
   },
   {
+      path: '/ware',
+      name: '商品页',
+      component: Container,
+      children: [
+        { path: 'list', name: '商品列表页', component: WareList },
+        { path: 'detail', name: '商品详情页', component: WareDetail },
+      ]
+  },
+  {
     path: '/help',
     name: '帮助页',
-    component: Container,
+    component: IndexContainer,
     children: [
       { path: 'photo_strategy', name: '旅拍攻略', component: PhotoStrategy },
       { path: 'tourism_strategy', name: '旅游攻略', component: TourismStrategy },
