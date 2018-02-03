@@ -60,9 +60,15 @@
       <!-- 特别推荐 -->
       <ShowHeader :showData="showHeader.recommendPhoto"></ShowHeader>
       <ShowRows :span="3" :gutter="10" :showData="recommendList" :mapping="wareMapping"></ShowRows>
+      <!-- 全国排 -->
+      <ShowHeader :showData="showHeader.nativePhoto"></ShowHeader>
+      <ShowRows :span="3" :gutter="10" :showData="LocalWareList" :mapping="wareMapping"></ShowRows>
       <!-- 亚洲拍 -->
       <ShowHeader :showData="showHeader.asiaPhoto"></ShowHeader>
-      <ShowRows :span="3" :gutter="10" :showData="wareList" :mapping="wareMapping"></ShowRows>
+      <ShowRows :span="3" :gutter="10" :showData="AsiaWareList" :mapping="wareMapping"></ShowRows>
+      <!-- 全球拍 -->
+      <ShowHeader :showData="showHeader.globalPhoto"></ShowHeader>
+      <ShowRows :span="3" :gutter="10" :showData="GlobalWareList" :mapping="wareMapping"></ShowRows>
     </div>
     <!-- map -->
     <div>
@@ -173,10 +179,20 @@
             moreUrl: '/recommend',
             headerBg: '/static/image/Journeytake.png'
           },
+          nativePhoto: {
+            title: '全国拍',
+            moreUrl: '/Thenational',
+            headerBg: '/static/image/Thenational.png',
+          },
           asiaPhoto: {
             title: '亚洲拍',
             moreUrl: '/Asiaphoto',
             headerBg: '/static/image/Asiashooting.png',
+          },
+          globalPhoto: {
+            title: '全球拍',
+            moreUrl: '/globalphoto',
+            headerBg: '/static/image/Globalfilm.png',
           },
           photoShow: {
             title: '客片展示',
@@ -205,6 +221,9 @@
             imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097797423675.jpg', intro: '度假天堂',
             recommend: true, },
         ],
+        LocalWareList: [],
+        AsiaWareList: [],
+        GlobalWareList: [],
       }
     },
     methods: {
@@ -219,7 +238,7 @@
             this.getMerchantStoreInfo()
             this.getBannerList()
             this.getDstCityList()
-            this.getHotCityList()
+            // this.getHotCityList()
             this.getLocalCityList()
             this.getAsiaCityList()
             this.getEuropeCityList()
@@ -227,6 +246,9 @@
             this.getAmericaCityList()
             // this.kindCode = 'trip-T';
             this.getWareList()
+            this.getLocalWareList()
+            this.getAsiaWareList()
+            this.getGlobalWareList()
           } else {
             this.$message.error(res.data.msg)
           }
@@ -312,6 +334,7 @@
           continent: '100',
         }
         dstCityByContinent(params).then(res => {
+          console.log(res)
           if(res.data.status === 1) {
             this.globalDst['Asia'].cityList = res.data.data;
           } else {
@@ -385,6 +408,44 @@
           if(res.data.status === 1){
             this.wareList = res.data.data.filter((w, index) => index >= 0 && index < 9);
             console.log(this.wareList)
+          }
+        })
+      },
+      getLocalWareList() {
+        let data = {
+          // kindCode: this.kindCode,
+          storeId: this.providerId,
+          continent: '100-101',
+        }
+        warelistByContinent(data).then(res => {
+          if(res.data.status === 1){
+            this.LocalWareList = res.data.data.filter((w, index) => index >= 0 && index < 9);
+            console.log(this.LocalWareList)
+          }
+        })
+      },
+      getAsiaWareList() {
+        let data = {
+          // kindCode: this.kindCode,
+          storeId: this.providerId,
+          continent: '100-101',
+        }
+        warelistByContinent(data).then(res => {
+          if(res.data.status === 1){
+            this.AsiaWareList = res.data.data.filter((w, index) => index >= 0 && index < 9);
+          }
+        })
+      },
+      getGlobalWareList() {
+        let data = {
+          // kindCode: this.kindCode,
+          storeId: this.providerId,
+          continent: '',
+        }
+        warelistByContinent(data).then(res => {
+          if(res.data.status === 1){
+            this.GlobalWareList = res.data.data.filter((w, index) => index >= 0 && index < 9);
+            console.log(this.GlobalWareList)
           }
         })
       },

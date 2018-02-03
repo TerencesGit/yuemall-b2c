@@ -57,7 +57,7 @@
 				a {
 					color: #333;
 					&:hover {
-						color: #01A0E7;
+						color: #000;
 					}
 				}
 			}
@@ -68,6 +68,7 @@
 			.search-input {
 				flex: 1;
 				padding: 10px;
+				border: 1px solid #ccc;
 			}
 			.search-button {
 				padding: 5px 20px;
