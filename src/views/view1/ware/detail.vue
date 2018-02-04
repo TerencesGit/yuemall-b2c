@@ -27,9 +27,13 @@
 					<h2>{{wareDetail.wareName}}</h2>
 				</div>
 				<div class="ware-detail-item collection">
-					<p class="ware-price">
+					<p v-if="isLogin === 1" class="ware-price">
 						<strong class="price"><i>￥</i>{{wareDetail.suggestedPrice}}</strong>/
 						<span>{{wareDetail.unit}}起</span>
+					</p>
+					<p v-else class="ware-price-hidden">
+						<router-link to="/login">登录</router-link>	
+						后价格可见
 					</p>
 					<button class="collect-button" @click="handleCollect">
 						<span v-if="!isCollected"><i class="el-icon-star-off"></i>收藏</span>
@@ -142,6 +146,7 @@
 		data () {
 			return {
 				wareId: '',
+				isLogin: '',
 				bannerList: [],
 				wareDetail: {},
 				selectedDay: '',
@@ -416,9 +421,10 @@
 		},
 		created() {
 			this.wareId = this.$route.query.id;
+			this.isLogin = sessionStorage.getItem('isLogin');
 			if(this.wareId) {
 				this.skuDate = this.$moment().format('YYYY-MM-DD');
-				this.getSkuData()
+				this.isLogin === 1 && this.getSkuData()
 				this.getWareDetail()
 				this.getWareAttribute()
 			}
@@ -465,6 +471,12 @@
 					.price {
 						color: #c60c1a;
 					}
+				}
+				.ware-price-hidden {
+					padding: 0 10px;
+					line-height: 24px;
+					color: #FF6701;
+					border: 1px dashed #41A9FE;
 				}
 				.collect-button {
 					color: #c60c1a;

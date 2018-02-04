@@ -171,27 +171,27 @@
         showHeader: {
           localPhoto: {
             title: '本地拍',
-            moreUrl: '/local',
+            moreUrl: '/ware/list?wareKind=415057355555522',
             headerBg: '/static/image/Localfilm.png'
           },
           recommendPhoto: {
             title: '特别推荐（旅游+摄影）',
-            moreUrl: '/recommend',
+            moreUrl: '/',
             headerBg: '/static/image/Journeytake.png'
           },
           nativePhoto: {
             title: '全国拍',
-            moreUrl: '/Thenational',
+            moreUrl: '/ware/list?wareKind=415057355808314',
             headerBg: '/static/image/Thenational.png',
           },
           asiaPhoto: {
             title: '亚洲拍',
-            moreUrl: '/Asiaphoto',
+            moreUrl: '/ware/list?wareKind=715060598102532',
             headerBg: '/static/image/Asiashooting.png',
           },
           globalPhoto: {
             title: '全球拍',
-            moreUrl: '/globalphoto',
+            moreUrl: '//ware/list?wareKind=715060598613714',
             headerBg: '/static/image/Globalfilm.png',
           },
           photoShow: {
@@ -228,8 +228,8 @@
     },
     methods: {
       handleCityClick(city) {
-        console.log(city.name)
-        this.$router.push('/ware/list?cityName='+city.name)
+        // console.log(city)
+        this.$router.push('/ware/list?dstCityCode='+city.dstCityCode)
       },
       getStore() {
         findStoreByPcDoMain().then(res => {

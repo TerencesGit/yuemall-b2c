@@ -2,17 +2,19 @@
 	 <div class="dst-nav-wrap">
     <ul class="dst-nav">
       <li class="nav-item" v-for="(item, index) in dstNav" :key="index">
-        <img :src="item.imgSrc" alt="">
-        <div class="panel">
-          <div class="panel-icon">
-            <img :src="item.icon" alt="">
+        <router-link :to="item.url" target="_blank">
+          <img :src="item.imgSrc" alt="">
+          <div class="panel">
+            <div class="panel-icon">
+              <img :src="item.icon" alt="">
+            </div>
+            <div class="panel-text">
+              <h4>{{item.title}}</h4>
+              <h5>{{item.enTitle}}</h5>
+              <p class="line"></p>
+            </div>
           </div>
-          <div class="panel-text">
-            <h4>{{item.title}}</h4>
-            <h5>{{item.enTitle}}</h5>
-            <p class="line"></p>
-          </div>
-        </div>
+        </router-link>
       </li>
     </ul>
   </div>
@@ -27,36 +29,42 @@
             enTitle: 'Recommend',
             imgSrc: '/static/image/bg-1.png',
             icon: '/static/image/icon-1.png',
+            url: '/',
           },
           {
             title: '本地拍',
             enTitle: 'local photo',
             imgSrc: '/static/image/bg-2.png',
             icon: '/static/image/icon-2.png',
+            url: '/ware/list?wareKind=415057355555522',
           },
           {
             title: '全国拍',
             enTitle: 'native photo',
             imgSrc: '/static/image/bg-3.png',
             icon: '/static/image/icon-3.png',
+            url: '/ware/list?wareKind=415057355808314',
           },
           {
             title: '亚洲拍',
             enTitle: 'Asia photo',
             imgSrc: '/static/image/bg-4.png',
             icon: '/static/image/icon-4.png',
+            url: '/ware/list?wareKind=715060598102532',
           },
           {
             title: '全球拍',
             enTitle: 'global photo',
             imgSrc: '/static/image/bg-5.png',
             icon: '/static/image/icon-5.png',
+            url: '/ware/list?wareKind=715060598613714',
           },
           {
             title: '客片展示',
             enTitle: 'photo show',
             imgSrc: '/static/image/bg-6.png',
             icon: '/static/image/icon-6.png',
+            url: '/',
           },
         ]
 			}

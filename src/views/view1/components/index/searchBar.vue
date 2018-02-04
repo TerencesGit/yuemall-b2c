@@ -35,11 +35,7 @@
 			},
 			handleSearch() {
 				if(!this.searchValue) return;
-				this.$notify({
-					type: 'warning',
-					title: '提示',
-					message: `暂无${this.searchValue}相关内容`,
-				})
+				this.$router.push('/ware/list?searchName='+ this.searchValue)
 			}
 		}
 	}

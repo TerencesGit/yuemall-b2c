@@ -20,8 +20,6 @@ import Index from '~/index'
 import WareList from '~/ware/list'
 import WareDetail from '~/ware/detail'
 
-
-
 const routes = [
 	{
     	path: '/',
