@@ -265,6 +265,9 @@
 		computed: {
 		},
 		beforeRouteUpdate (to, from, next) {
+			if(to.query && to.query.wareKind) {
+				this.wareKind = to.query.wareKind;
+			}
 			this.getWareList()
 			next()
 		},

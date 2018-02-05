@@ -75,10 +75,10 @@
       <img src="/static/image/map.jpg" class="responsive-img">
     </div>
     <!-- show -->
-    <div class="container-fluid"> 
+    <!-- <div class="container-fluid"> 
       <ShowHeader :showData="showHeader.photoShow"></ShowHeader>
       <ShowRows :span="2" :gutter="10" :showData="showList" :mapping="showMapping"></ShowRows>
-    </div>
+    </div> -->
     <!-- ad2 -->
     <div>
       <img src="/static/image/ad.jpg" class="responsive-img">
@@ -234,7 +234,7 @@
       getStore() {
         findStoreByPcDoMain().then(res => {
           if(res.data.status === 1) {
-            this.providerId = '29';
+            this.providerId = res.data.data;
             sessionStorage.setItem('providerId', this.providerId)
             this.getMerchantStoreInfo()
             this.getBannerList()

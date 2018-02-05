@@ -10,11 +10,14 @@
 				<li v-for="(item, index) in navList" :key="index" class="nav-item">
 					<router-link :to="item.url">{{item.title}}</router-link>
 				</li>
-				<li class="nav-link login">
-					<a href="#">登录</a>
+				<li v-if="!isLogin" class="nav-link login">
+					<router-link to="/login">登录</router-link>
 				</li>
-				<li class="nav-link register">
-					<a href="#">注册</a>
+				<li v-if="!isLogin" class="nav-link register">
+					<router-link to="/register">注册</router-link>
+				</li>
+				<li v-if="isLogin" class="nav-link">
+					<a href="javascript:;">{{userInfo.username}}</a>
 				</li>
 			</ul>
 		</nav>
@@ -23,40 +26,43 @@
 <script>
 	export default {
 		name: 'headerBar',
-		props: ['logo'],
+		props: ['logo', 'isLogin', 'userInfo'],
 		data() {
 			return {
 				navList: [
 					{
 						title: '首页',
-						url: '/',
+						url: '/index',
+					},
+					// {
+					// 	title: '特别推荐',
+					// 	url: '/recommend',
+					// },
+					{
+						title: '一价全包',
+						url: '/ware/list?wareKind=415057355555522',
 					},
 					{
-						title: '特别推荐',
-						url: '/',
+						title: '国内旅拍',
+						url: '/ware/list?wareKind=715060598102532',
 					},
 					{
-						title: '本地拍',
-						url: '/',
+						title: '国外旅拍',
+						url: '/ware/list?wareKind=715060598613714',
 					},
 					{
-						title: '全国拍',
-						url: '/',
-					},
-					{
-						title: '亚洲拍',
-						url: '/',
-					},
-					{
-						title: '全球拍',
-						url: '/',
+						title: '旅游',
+						url: '/ware/list?wareKind=415057355808314',
 					},
 					{
 						title: '客片展示',
-						url: '/',
+						url: '/show',
 					},
 				]
 			}
+		},
+		created() {
+
 		}
 	}
 </script>

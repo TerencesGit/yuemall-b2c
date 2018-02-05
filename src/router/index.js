@@ -31,16 +31,16 @@ const routes = [
     	path: '/',
       redirect: '/index'
 	},
-  {
-      path: '/login',
-      name: '欢迎登录',
-      component: UserLogin
-  },
-  {
-      path: '/register',
-      name: '欢迎注册',
-      component: UserRegister
-  },
+  // {
+  //     path: '/login',
+  //     name: '欢迎登录',
+  //     component: UserLogin
+  // },
+  // {
+  //     path: '/register',
+  //     name: '欢迎注册',
+  //     component: UserRegister
+  // },
 	{
     path: '/',
     name: 'index',
@@ -58,23 +58,23 @@ const routes = [
       // { path: 'orderList', name: 'orderList', component: OrderList },
     ]
   },
-  // {
-  //   path: '/',
-  //   name: '登录注册页',
-  //   component: Container,
-  //   children: [
-  //     {
-  //         path: 'login',
-  //         name: '欢迎登录',
-  //         component: UserLogin
-  //     },
-  //     {
-  //         path: 'register',
-  //         name: '欢迎注册',
-  //         component: UserRegister
-  //     },
-  //   ]
-  // },
+  {
+    path: '/',
+    name: '登录注册页',
+    component: Container,
+    children: [
+      {
+          path: 'login',
+          name: '欢迎登录',
+          component: UserLogin
+      },
+      {
+          path: 'register',
+          name: '欢迎注册',
+          component: UserRegister
+      },
+    ]
+  },
   {
       path: '/ware',
       name: '商品页',
