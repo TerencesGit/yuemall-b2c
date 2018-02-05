@@ -2,7 +2,7 @@
 	<div class="container">
 		<div class="ware-detail-wrap">
 			<div class="ware-detail-l">
-				<el-carousel height="320px">
+				<el-carousel height="320px" v-loading="bannerLoading">
           <el-carousel-item v-for="item in bannerList" :key="item.id">
             <img :src="item.filePath" alt=""> 
           </el-carousel-item>
@@ -124,12 +124,13 @@
 			</div>
 		</div>
 		<div class="ware-desc-tabs">
-			<div ref="tabsHeader" class="tabs-header" :class="{fixed : isTabFixed}">
+			<div ref="tabsHeader" class="tabs-header relative" :class="{fixed : isTabFixed}">
 				<ul class="tabs-nav">
 					<li v-for="(item, index) in  attributeList" :key="index" :class="{active : index === tabActive}" @click="tabClick(index)">
 						<a href="javascript:;">{{attributeName[item.title]}}</a>
 					</li>
 				</ul>
+				<button class="reserve-button pull-right" @click="handleReserve">立即预定</button>
 			</div>
 			<div ref="tabsContent" class="tabs-content">
 				<div ref="pane" class="tabs-content-pane" v-for="(item, index) in attributeList" :key="index">
@@ -190,6 +191,7 @@
 				panesTop: [],
 				serviceLoading: false,
 				isCollected: false,
+				bannerLoading: false,
 			}
 		},
 		methods: {
@@ -257,7 +259,9 @@
 				let data = {
 					id: this.wareId
 				}
+				this.bannerLoading = true;
 				wareDetail(data).then(res => {
+					this.bannerLoading = false;
 					if(res.data.status === 1) {
 						 // console.log(res.data.data)
 						 this.wareDetail = res.data.data;
@@ -375,13 +379,15 @@
 				console.log(wareOrderInfo)
 				advanceOrder(wareOrderInfo).then(res => {
 					console.log(res)
-					// if(res.data.status === 1) {
+					sessionStorage.setItem('orderInfo', JSON.stringify(wareOrderInfo))
+					this.$router.push('/ware/fillInfo?orderId=415177136070425')
+					if(res.data.status === 1) {
 						let orderInfo = res.data.data;
 						sessionStorage.setItem('orderInfo', JSON.stringify(wareOrderInfo))
 						this.$router.push('/ware/reserve?wareId='+this.wareId)
-					// } else {
-					// 	this.$message.error(res.data.msg)
-					// }
+					} else {
+						this.$message.error(res.data.msg)
+					}
 				}).catch(err => {
 					console.log(err)
 				})
@@ -607,15 +613,6 @@
 					}
 				}
 			}
-			.reserve {
-				.reserve-button {
-					padding: 6px 30px;
-					color: #fff;
-					font-size: 14px;
-					font-family: 'Microsoft Yahei';
-					background: #c60c1a;
-				}
-			}
 		}
 		.service-body {
 			min-height: 100px;
@@ -676,6 +673,13 @@
 			}
 		}
 	}
+	.reserve-button {
+		padding: 6px 30px;
+		color: #fff;
+		font-size: 14px;
+		font-family: 'Microsoft Yahei';
+		background: #c60c1a;
+	}
 	.ware-desc-tabs {
 		margin-bottom: 50px;
 		border: 1px solid #ddd;
@@ -690,6 +694,9 @@
 				margin-left: -600px;
 				border: 1px solid #ddd;
 				border-bottom-width: 0;
+				.reserve-button {
+					display: block;
+				}
 			}
 			.tabs-nav {
 				display: flex;
@@ -723,6 +730,13 @@
 						font-size: 16px;
 					}
 				}
+			}
+			.reserve-button {
+				display: none;
+				position: absolute;
+				top: 5px;
+				right: 20px;
+				transition: all .3s;
 			}
 		}
 		@at-root .tabs-content {

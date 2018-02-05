@@ -229,7 +229,7 @@
 	    	findWareList(data).then(res => {
 	    		this.loading = false;
 	    		if(res.data.status === 1) {
-	    			console.log(res.data.data)
+	    			// console.log(res.data.data)
 	    			this.wareList = res.data.data.wares;
 	    			this.page.total =  res.data.data.page.totalCount;
 	    		} else {

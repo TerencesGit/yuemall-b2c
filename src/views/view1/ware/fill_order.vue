@@ -243,6 +243,8 @@
                 }
                  let data = this.ruleForm
                  createOrder(data).then(res => {
+                  let payId = res.data.data;
+                  this.$router.push('/ware/pay?payId=123456789')
                   if(res.data.status === 1) {
                      console.log("提交成功！")
                   }

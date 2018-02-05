@@ -19,7 +19,12 @@ import Attentions from '@/pages/help/customer_complain'
 import Index from '~/index'
 import WareList from '~/ware/list'
 import WareDetail from '~/ware/detail'
-import WareFillOrder from '~/ware/fillOrder'
+import WareFillOrder from '~/ware/fill_order'
+import OrderPay from '~/ware/pay'
+import OrderFillInfo from '~/ware/fillInfo'
+
+import UserLogin from '~/login/login'
+import UserRegister from '~/login/register'
 
 const routes = [
 	{
@@ -29,7 +34,12 @@ const routes = [
   {
       path: '/login',
       name: '欢迎登录',
-      component: Login
+      component: UserLogin
+  },
+  {
+      path: '/register',
+      name: '欢迎注册',
+      component: UserRegister
   },
 	{
     path: '/',
@@ -48,6 +58,23 @@ const routes = [
       // { path: 'orderList', name: 'orderList', component: OrderList },
     ]
   },
+  // {
+  //   path: '/',
+  //   name: '登录注册页',
+  //   component: Container,
+  //   children: [
+  //     {
+  //         path: 'login',
+  //         name: '欢迎登录',
+  //         component: UserLogin
+  //     },
+  //     {
+  //         path: 'register',
+  //         name: '欢迎注册',
+  //         component: UserRegister
+  //     },
+  //   ]
+  // },
   {
       path: '/ware',
       name: '商品页',
@@ -56,6 +83,8 @@ const routes = [
         { path: 'list', name: '商品列表页', component: WareList },
         { path: 'detail', name: '商品详情页', component: WareDetail },
         { path: 'reserve', name: '商品预定页', component: WareFillOrder },
+        { path: 'pay', name: '订单支付页', component: OrderPay },
+        { path: 'fillInfo', name: '订单完善信息页', component: OrderFillInfo },
       ]
   },
   {
