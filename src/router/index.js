@@ -19,6 +19,7 @@ import Attentions from '@/pages/help/customer_complain'
 import Index from '~/index'
 import WareList from '~/ware/list'
 import WareDetail from '~/ware/detail'
+import WareFillOrder from '~/ware/fillOrder'
 
 const routes = [
 	{
@@ -54,12 +55,13 @@ const routes = [
       children: [
         { path: 'list', name: '商品列表页', component: WareList },
         { path: 'detail', name: '商品详情页', component: WareDetail },
+        { path: 'reserve', name: '商品预定页', component: WareFillOrder },
       ]
   },
   {
     path: '/help',
     name: '帮助页',
-    component: IndexContainer,
+    component: Container,
     children: [
       { path: 'photo_strategy', name: '旅拍攻略', component: PhotoStrategy },
       { path: 'tourism_strategy', name: '旅游攻略', component: TourismStrategy },

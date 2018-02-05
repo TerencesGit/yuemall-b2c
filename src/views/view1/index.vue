@@ -191,7 +191,7 @@
           },
           globalPhoto: {
             title: '全球拍',
-            moreUrl: '//ware/list?wareKind=715060598613714',
+            moreUrl: '/ware/list?wareKind=715060598613714',
             headerBg: '/static/image/Globalfilm.png',
           },
           photoShow: {

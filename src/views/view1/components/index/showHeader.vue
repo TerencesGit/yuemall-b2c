@@ -3,7 +3,7 @@
     <h3>{{showData.title}}</h3>
     <p class="underline"></p>
     <div class="more-button">
-      <a :href="showData.moreUrl">查看更多>></a>
+      <router-link :to="showData.moreUrl">查看更多>></router-link>
     </div>
   </div>
 </template>

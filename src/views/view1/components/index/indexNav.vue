@@ -2,7 +2,7 @@
 	 <div class="dst-nav-wrap">
     <ul class="dst-nav">
       <li class="nav-item" v-for="(item, index) in dstNav" :key="index">
-        <router-link :to="item.url" target="_blank">
+        <router-link :to="item.url">
           <img :src="item.imgSrc" alt="">
           <div class="panel">
             <div class="panel-icon">

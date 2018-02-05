@@ -66,7 +66,7 @@
 			<div class="service-header">
 				<div class="service-date">
 					<label class="date-label">服务日期：</label>
-					<input type="text" v-model="selectedDay" class="date-picker" placeholder="出发日期" disabled>
+					<input type="text" v-model="selectedDay" class="date-picker" placeholder="服务日期" disabled>
 				</div>
 				<div class="base-number">
 					<label>基础套餐：</label>
@@ -332,6 +332,15 @@
 				})
 			},
 			handleReserve() {
+				console.log(this.isLogin)
+				if(!this.isLogin) {
+					this.$notify({
+					 	type: 'warning',
+					 	title: '提示',
+					 	message: '请登录先',
+					 })
+					 return;
+				}
 				if(!this.selectedDay) {
 					 this.$notify({
 					 	type: 'warning',
@@ -350,20 +359,42 @@
 					childNum: 0,
 					activityInfos: _activityList,
 					serviceInfos: _serviceList,
+          wareName: this.wareDetail.wareName,
+					wareImg: this.wareDetail.wareImgInfos[0].filePath,
+          adultPrice: this.basePrice,
+          totalPrice: this.baseNum * this.basePrice,
+          childNum: 0,
+          childPrice: 4000,
+          singleAmount: this.singleTotalPrice,
+          // cityName: '',
+          // homeNum: 1,
+          servicePrice: this.serviceTotalPrice,
+          activityPrice: this.activityTotalPrice,
+          totalAmount: this.totalPrice,
 				}
 				console.log(wareOrderInfo)
 				advanceOrder(wareOrderInfo).then(res => {
 					console.log(res)
-					if(res.data.status === 1) {
+					// if(res.data.status === 1) {
 						let orderInfo = res.data.data;
-					} else {
-						this.$message.error(res.data.msg)
-					}
+						sessionStorage.setItem('orderInfo', JSON.stringify(wareOrderInfo))
+						this.$router.push('/ware/reserve?wareId='+this.wareId)
+					// } else {
+					// 	this.$message.error(res.data.msg)
+					// }
 				}).catch(err => {
 					console.log(err)
 				})
 			},
 			handleCollect() {
+				if(!this.isLogin) {
+					this.$notify({
+					 	type: 'warning',
+					 	title: '提示',
+					 	message: '请登录先',
+					})
+					return;
+				}
 				let data = {
 					wareId: this.wareId
 				}
@@ -421,7 +452,7 @@
 		},
 		created() {
 			this.wareId = this.$route.query.id;
-			this.isLogin = sessionStorage.getItem('isLogin');
+			this.isLogin = 1 || Number(sessionStorage.getItem('isLogin'));
 			if(this.wareId) {
 				this.skuDate = this.$moment().format('YYYY-MM-DD');
 				this.isLogin === 1 && this.getSkuData()
@@ -562,6 +593,8 @@
 					width: 150px;
 					height: 30px;
 					padding: 0 10px;
+					border: 1px solid #ddd;
+					background: transparent;
 				}
 			}
 			.total-price {
