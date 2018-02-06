@@ -162,31 +162,7 @@
         centerDialogVisible: false,
         f_date:"",
         footerTop:false,
-        orderMess:{
-          activityInfos:[
-           {activityNum:2,brandId:0,briefName:"普吉岛芭东与我同眠设计酒店一晚住宿",businessActivityId:315155657414951,cashReserveMinute:0,createBy:1613,createName:"fenxiao2@ysj.com",createTime:1516935132000,dstCityCode:0,id:215169351327260,isRemoved:1,keyWords:"旅拍，婚纱照，海外婚纱照，酒店",nocashReserveMinute:0,orgId:0,parentId:215169351323276,providerId:1613,providerName:"fenxiao2@ysj.com",sellPreDays:0,srcCityCode:0,status:1,suggestedPrice:0,updateBy:0,verifyBy:1678,verifyName:"wangyao",verifyTime:1516935529000,versionId:1,wareCode:"215169351327260",wareDesc:"普吉岛芭东与我同眠设计酒店 ↵高级房 含双早↵如遇房满，推荐同级别酒店", wareGroupId:0,wareKind:0,wareName:"普吉岛芭东与我同眠设计酒店一晚住宿",wareType:0},
-           {activityNum:2,brandId:0,briefName:"普吉岛芭东与我同眠设计酒店一晚住宿",businessActivityId:315155657414951,cashReserveMinute:0,createBy:1613,createName:"fenxiao2@ysj.com",createTime:1516935132000,dstCityCode:0,id:215169351327260,isRemoved:1,keyWords:"旅拍，婚纱照，海外婚纱照，酒店",nocashReserveMinute:0,orgId:0,parentId:215169351323276,providerId:1613,providerName:"fenxiao2@ysj.com",sellPreDays:0,srcCityCode:0,status:1,suggestedPrice:0,updateBy:0,verifyBy:1678,verifyName:"wangyao",verifyTime:1516935529000,versionId:1,wareCode:"215169351327260",wareDesc:"普吉岛芭东与我同眠设计酒店 ↵高级房 含双早↵如遇房满，推荐同级别酒店",wareGroupId:0,wareKind:0,wareName:"普吉岛芭东与我同眠设计酒店一晚住宿",wareType:0}],
-            serviceInfos:[
-              {brandId:0, briefName:"大象",businessServiceId:315155657274048,cashReserveMinute:0,createBy:1613,createName:"fenxiao2@ysj.com",createTime:1516935131000,dstCityCode:0,id:215169351325287,keyWords:"旅拍，婚纱照，海外婚纱照，大象",nocashReserveMinute:0,orgId:0,parentId:215169351323276,providerId:1613,providerName:"fenxiao2@ysj.com",sellPreDays:0,serviceNum:2,srcCityCode:0,status:1,suggestedPrice:0,updateBy:0,verifyBy:1678,verifyName:"wangyao",verifyTime:1516935529000,versionId:1,wareCode:"215169351325287",wareDesc:"大象 ",wareKind:0,wareName:"大象",wareType:0,}
-            ],
-            skuDate:1519862400000,
-            adultNum:3,
-            adultPrice:4500,
-            totalPrice:13500,
-            childNum:0,
-            childPrice:4000,
-            singleNum:1,
-            singleAmount:12000,
-            cityName:" ",
-            homeNum:1,
-            servicePrice:1004,
-            activityPrice:10,
-            totalAmount:26514,
-            wareId:215169351323276,
-            wareName:"运营测试--泰国普吉岛旅拍婚纱照1天套系",
-            wareImg:"http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095077847938.jpg",
-            status: 1,
-        },
+        orderMess: {},
         ruleForm:{
           activityInfos:[],
           adultNum:"",
@@ -227,9 +203,9 @@
     },
     methods: {
       submitForm(formName){
-          this.ruleForm.activityInfos=[this.orderMess.activityInfos]
-          this.ruleForm.adultNum=this.orderMess.adultNum
-          this.ruleForm.childNum=this.orderMess.childNum
+          this.ruleForm.activityInfos = [this.orderMess.activityInfos]
+          this.ruleForm.adultNum = this.orderMess.adultNum
+          this.ruleForm.childNum = this.orderMess.childNum
           this.ruleForm.homeNum=this.orderMess.homeNum
           this.ruleForm.serviceInfos=[this.orderMess.serviceInfos]
           this.ruleForm.singleNum=this.orderMess.singleNum

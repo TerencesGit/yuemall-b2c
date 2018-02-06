@@ -2,16 +2,18 @@
   <section>
     <!-- header -->
     <div class="header-wrap">
-        <HeaderBar :logo="storeLogo" class="header-top"></HeaderBar>
-        <el-carousel height="680px">
+        <el-carousel height="880px">
           <el-carousel-item v-for="item in bannerList" :key="item.id">
-            <img :src="item.urlAddr" alt=""> 
+            <!-- <img :src="item.urlAddr" alt=""> -->
+            <router-link to="/" :style="{background: 'url('+item.urlAddr+') center center no-repeat'}">
+            </router-link>
           </el-carousel-item>
         </el-carousel>
-        <Searchbar class="header-search"></Searchbar>
     </div>
     <!-- destination -->
     <div class="destination-wrap container">
+      <Searchbar class="header-search"></Searchbar>
+      <IndexNav></IndexNav>
       <IndexTitle :title="'全球100+旅拍目的地'" :EnTitle="'global travel destinations'"></IndexTitle>
       <div class="global-dst">
         <DstList 
@@ -23,7 +25,6 @@
           @cityClick="handleCityClick">
         </DstList>
       </div>
-      <IndexNav></IndexNav>
     </div>
     <!-- ad1 -->
     <div class="ad-box">
@@ -55,8 +56,8 @@
     <!-- warelist -->
     <div class="container-fluid">
       <!-- 本地拍 -->
-      <ShowHeader :showData="showHeader.localPhoto"></ShowHeader>
-      <ShowRows :span="3" :gutter="10" :showData="LocalWareList" :mapping="wareMapping"></ShowRows>
+      <!-- <ShowHeader :showData="showHeader.localPhoto"></ShowHeader>
+      <ShowRows :span="3" :gutter="10" :showData="LocalWareList" :mapping="wareMapping"></ShowRows> -->
       <!-- 特别推荐 -->
       <ShowHeader :showData="showHeader.recommendPhoto"></ShowHeader>
       <ShowRows :span="3" :gutter="10" :showData="recommendList" :mapping="wareMapping"></ShowRows>
@@ -81,7 +82,7 @@
     </div> -->
     <!-- ad2 -->
     <div>
-      <img src="/static/image/ad.jpg" class="responsive-img">
+      <img src="/static/image/ad.jpg" class="responsive-img" style="margin-top: 80px">
     </div>
     <!-- 12项高端定制旅游 -->
     <div class="travel-wrap">
@@ -460,7 +461,8 @@
   $color: #19A9E8;
   .header-wrap {
     position: relative;
-    .header-top {
+    top: -50px;
+   /* .header-top {
       display: flex;
       justify-content: center;
       position: absolute;
@@ -468,23 +470,30 @@
       left: 50%;
       margin-left: -600px;
       z-index: 99;
+    }*/
+  }
+  .header-search {
+    width: 700px;
+    margin: auto;
+  }
+  .el-carousel {
+    a {
+      display: block;
+      width: 100%;
+      height: 100%;
     }
-    .header-search {
-      position: absolute;
-      bottom: 50px;
-      z-index: 99;
-      width: 700px;
-      left: 50%;
-      margin-left: -350px;
+    img{
+      display: block;
+      width: 100%;
+      height: 100%;
     }
   }
   .container-fluid {
     margin: 50px;
   }
   .destination-wrap {
-    margin-top: 80px;
-    .global-dst {
-      margin: 30px 0;
+    .index-title {
+      margin: 50px 0 30px;
     }
   }
   .ad-box {

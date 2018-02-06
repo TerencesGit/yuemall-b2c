@@ -92,11 +92,12 @@
 </template>
 
 <script>
-import { memberCreate, sendSmsCode } from "@/api";
+import { memberCreate, sendSmsCode, memberLogin } from "@/api";
 import prototype from "./prototype.vue";
 export default {
   data() {
     return {
+      storeId: '',
       isChangeLoginType: true,
       isAgree: true,
       username: "",
@@ -134,19 +135,20 @@ export default {
       memberCreate(data).then(res => {
         if (res.status == 1) {
           this.$message("注册成功");
-          let data = {
+          let data1 = {
             username: this.telephone,
-            loginType: 1,
+            loginType: "1",
             password: this.password,
             storeId: sessionStorage.getItem("providerId"),
-            autoLogin: 1
+            autoLogin: "1"
           };
-          login(data).then(res => {
+          memberLogin(data1).then(res => {
             console.log(res);
             if (res.data.status == 1) {
-              this.$message("登录成功");
+              this.$message.success("登录成功");
               this.$router.push("/index");
-            } else {
+            } else {  
+              this.$message.error(res.data.msg)
             }
           });
         } else {
@@ -213,7 +215,7 @@ export default {
       this.passwordValidate();
       this.codeInput1Validate();
       this.codeInput2Validate();
-      if (!(this.codeInput1 == this.randomCode)) return false
+      if (!(this.codeInput1.toUpperCase() == this.randomCode)) return false
 
       if (
         this.telephone == "" ||

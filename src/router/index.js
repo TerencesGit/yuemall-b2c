@@ -44,7 +44,7 @@ const routes = [
 	{
     path: '/',
     name: 'index',
-    component: IndexContainer,
+    component: Container,
     children: [
       { path: 'index', name: '首页', component: Index },
       // { path: 'list', name: '列表页', component: List },

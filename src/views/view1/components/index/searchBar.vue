@@ -35,11 +35,14 @@
 		},
 		methods: {
 			recommendClick(value) {
-				this.searchValue = value;
+				// this.searchValue = value;
+				const { href } = this.$router.resolve('/ware/list?searchName='+ value)
+				window.open(href, '_blank')
 			},
 			handleSearch() {
 				if(!this.searchValue) return;
-				this.$router.push('/ware/list?searchName='+ this.searchValue)
+				const { href } = this.$router.resolve('/ware/list?searchName='+ this.searchValue)
+				window.open(href, '_blank')
 			}
 		}
 	}

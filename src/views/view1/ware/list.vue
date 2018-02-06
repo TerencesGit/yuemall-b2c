@@ -52,7 +52,7 @@
           <li @click="saleSort = false">
               销量(<span>↑</span>)
           </li>
-          <li @click="handleSort">
+          <li @click="handleSaleSort">
               价格(<span v-show="saleSort === 0">↑</span><span v-show="saleSort === 1">↓</span>)
           </li> 
         </ul>
@@ -95,6 +95,7 @@
 </template>
 
 <script>
+	import axios from 'axios';
 	import { findWareKindsAndDstCities, findWareList, findWareListBySearch, recommendWare, warelistByContinent, datalist, findSrcAndDstListByWareKind } from '@/api'
 	export default {
 		data() {
@@ -111,6 +112,7 @@
         startDate: '',
         endDate: '',
         saleSort: 1,
+        priceSort: 1,
         page: {
         	pageNo: 1,
         	pageSize: 10,
@@ -132,6 +134,7 @@
 			handleWareKindChange(val) {
 				this.wareKind = val;
 				this.handlePageJump()
+				this.getDstCitiesByWareKind()
 			},
 			handleTripDayChange(val) {
 				this.handlePageJump()
@@ -178,7 +181,7 @@
 					query: queryObj,
 				})
 			},
-	    handleSort() {
+	    handleSaleSort() {
 	      this.saleSort = this.saleSort === 0 ? 1 : 0;
 	      // console.log(this.saleSort)
 	      this.getWareList()
@@ -191,9 +194,8 @@
 	    		console.log(res)
 	    		if(res.data.status === 1) {
 	    			this.wareKinds = res.data.data.wareKinds;
-	    			this.dstCities = res.data.data.dstCities;
 	    			let _wareKinds = {
-				        '415057355555522': '一价全包',
+				        '415057355555522': '特别推荐',
 				        '415057355808314': '旅游',
 				        '715060598102532': '国内旅拍',
 				        '715060598613714': '国外旅拍',
@@ -206,6 +208,18 @@
 	    		}
 	    	}).catch(err => {
 	    		console.log(err)
+	    	})
+	    },
+	    getDstCitiesByWareKind() {
+	    	let url = `/portal/api/waretripinfo/findSrcAndDstListByWareKind/${this.providerId}?wareKindId=${this.wareKind}`;
+	    	console.log(url)
+	    	axios.get(url).then(res => {
+	    		console.log(res)
+	    		if(res.data.status === 1) {
+	    			this.dstCities = res.data.data.dstCities;
+	    		} else {
+	    			this.$message.error(res.data.message)
+	    		}
 	    	})
 	    },
 	    getWareList() {
@@ -223,6 +237,7 @@
 	    		},
 	    		query: {
 	    			salesSort: this.salesSort,
+	    			priceSort: this.priceSort,
 	    		}
 	    	}
 	    	this.loading = true;
@@ -273,12 +288,13 @@
 		},
 		created() {
 			this.providerId = sessionStorage.getItem('providerId');
-			this.isLogin = sessionStorage.getItem('isLogin');
-			this.searchName =  this.$route.query.searchName;
+			this.isLogin = Number(sessionStorage.getItem('isLogin'));
+			this.searchName = this.$route.query.searchName;
 			this.wareKind = this.$route.query.wareKind || 0;
 			this.tripDays = this.$route.query.tripDays || 0;
 			this.dstCityCode = this.$route.query.dstCityCode || 0;
 			this.getWareKindsAndDstCites()
+			this.getDstCitiesByWareKind()
 			if(this.searchName) {
 				this.getWareListBySearchName()
 			} else {
@@ -389,7 +405,7 @@
 					}
 				}
 				.ware-price {
-					margin-top: 10px;
+					margin-top: 20px;
 					font-size: 16px;
 					.price {
 						color: #FF6701;

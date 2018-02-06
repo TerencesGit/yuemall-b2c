@@ -96,6 +96,7 @@ import { memberLogin, forgetPassword } from "@/api";
 export default {
   data() {
     return {
+      storeId: '',
       isChangeLoginType: true,
       isforgetPassword: true,
       username: "",
@@ -121,10 +122,6 @@ export default {
       codeInput2ForgetErrorInfo: '',
       bgImg: 'http://pai.yueshijue.com/assets/img/img/background.png'
     };
-  },
-  created() {
-    this.randomCodeFn();
-
   },
   methods: {
     randomCodeFn() {
@@ -198,10 +195,10 @@ export default {
       
       let data = {
         username: this.username,
-        loginType: 1,
+        loginType: '1',
         password: this.password,
-        storeId: 23,
-        autoLogin: 1
+        storeId: this.storeId,
+        autoLogin: '1',
       };
       memberLogin(data).then(res => {
         console.log(res);
@@ -221,10 +218,10 @@ export default {
       if(this.telephone == '' || this.codeInput1 == '' || this.codeInput2 == '') return false
       let data = {
         username: this.telephone,
-        loginType: 2,
+        loginType: '2',
         code: this.codeInput2,
         storeId: sessionStorage.getItem("providerId"),
-        autoLogin: 1
+        autoLogin: '1'
       };
       memberLogin(data).then(res => {
         console.log(res);
@@ -244,10 +241,10 @@ export default {
       let data = {
         username: this.telephoneForget,
         password: this.passwordForget,
-        loginType: 3,
+        loginType: '3',
         code: this.codeInput2,
         storeId: sessionStorage.getItem("providerId"),
-        autoLogin: 1
+        autoLogin: '1'
       };
       memberLogin(data).then(res => {
         console.log(res);
@@ -286,7 +283,7 @@ export default {
       if(this.telephone == '') return false
       let data = {
           phone: this.telephone,
-          storeId: 23
+          storeId: sessionStorage.getItem("providerId"),
         };
         forgetPassword(data).then(res => {
           console.log(res)
@@ -363,6 +360,10 @@ export default {
       this.isforgetPassword = !this.isforgetPassword;
     }
   },
+  created() {
+    this.randomCodeFn();
+    this.storeId = sessionStorage.getItem('providerId')
+  }
 };
 </script>
 

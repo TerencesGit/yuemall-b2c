@@ -2,7 +2,7 @@
 	<div class="show-table">
     <ul class="show-row" v-for="(row, index) in showRows" :key="index">
       <li v-for="(item, index) in row" :key="index" class="show-cell" :style="{marginRight: gutter+'px'}">
-        <a :href="'#/ware/detail?id='+item.id" target="_blank">
+        <a v-if="item.id" :href="'#/ware/detail?id='+item.id" target="_blank">
           <img :src="item[mapping && mapping.imgUrl || 'imgUrl']">
           <div class="cell-text">
             <p class="cell-name ellipsis2">{{item[mapping && mapping.name || 'name']}}</p>
@@ -20,11 +20,17 @@
 		computed: {
 			showRows() {
 				const showRows = [];
-				let col = this.span;
-        let rows = Math.ceil(this.showData.length / col);
+        if(this.showData.length === 0) return showRows;
+        let showData = JSON.parse(JSON.stringify(this.showData))
+        let col = this.span;
+        let rows = Math.ceil(showData.length / col);
+        let cover = col - (showData.length % col);
+        for(let j = 0; j < cover; j++) {
+          showData.push({})
+        }
         for(let i = 0; i < rows; i++) {
-          let row = this.showData.filter((d, index) => index >= i * col && index < ((i + 1) * col));
-          row.length > 0 && showRows.push(row)
+          let row = showData.filter((d, index) => index >= i * col && index < ((i + 1) * col));
+          showRows.push(row)
         }
         return showRows;
 			},

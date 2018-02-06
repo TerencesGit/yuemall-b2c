@@ -29,14 +29,14 @@
             enTitle: 'Recommend',
             imgSrc: '/static/image/bg-1.png',
             icon: '/static/image/icon-1.png',
-            url: '/',
+            url: '/ware/list?wareKind=415057355555522',
           },
           {
             title: '本地拍',
             enTitle: 'local photo',
             imgSrc: '/static/image/bg-2.png',
             icon: '/static/image/icon-2.png',
-            url: '/ware/list?wareKind=415057355555522',
+            url: '/',
           },
           {
             title: '全国拍',
@@ -78,10 +78,14 @@
       position: relative;
       margin-right: 12px;
       cursor: pointer;
+      overflow: hidden;
       transition: all .3s;
       &:hover {
+        img {
+          transform: scale(1.2);
+        }
         .panel {
-          display: block;
+          background: rgba(0,0,0,.1);
         }
       }
       &:last-child {
@@ -90,14 +94,15 @@
       img {
         width: 100%;
         height: 100%;
+        transition: all .3s;
       }
       .panel {
-        display: none;
         position: absolute;
         top: 0;
         width: 100%;
         height: 100%;
         background: rgba(0,0,0,.5);
+        transition: all .3s;
         .panel-icon {
           width: 50px;
           margin: 30% auto;
