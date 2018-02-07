@@ -1,5 +1,6 @@
 <template>
   <section>
+    <div v-title :data-title="this.$route.name"></div>
    <div class="fill_order">
     <div class="fill_steps_con">
         <el-steps :active="active" finish-status="success" class="fill_steps" align-center>
@@ -14,7 +15,7 @@
   <el-form :model="ruleForm" status-icon ref="ruleForm" label-width="100px" class="ruleForm1">
    <div class="routMes fl"> 
      <p class="routMes_title">{{orderMess.wareName}}</p>
-     <div class="txtDate">服务日期：<span class="riqi">{{format_date}}</span> 基础：<span class="cr">1</span></div>
+     <div class="txtDate">服务日期：<span class="riqi">{{format_date}}</span> 基础：<span class="cr">{{orderMess.adultNum}}</span></div>
      <div class="routMessage">
         <h3><i class="el-icon-setting"></i>出游人信息</h3>
         <div class="tourist-tips">
@@ -105,7 +106,7 @@
   <div class="routMes fr" id="routMes" :class="searchBarFixed == true ? 'isFixed' :''">
     <div class="orderMessage">
     <div class="orderPic">
-        <img class="goImg" src="http://fileserver.yueshijue.com/fileService/uploads/2018/01/18/415162479988273.jpg" alt="图片">
+        <img class="goImg" :src="orderMess.wareImg" alt="图片">
     </div>
     <h2 class="bigTitle">订单信息</h2>
     <ul class="cb orderList">
@@ -215,19 +216,14 @@
     </el-dialog>
  </div> 
 <!-- 添加新地址弹出框  end -->
- <!-- <FooterComp></FooterComp> -->
   </section>
 </template>
 
 <script>
-  import {findchinaarea,create_user_address,find_user_address,perfectInformation,findOrderInfomation} from '@/api'  
-  import FooterComp from '@/components/Footer'
+  import {findchinaarea,create_user_address,find_user_address,perfectInformation,findOrderInfomation,personalCenter,orderList} from '@/api'  
 
   export default {
     name: "fillInfo",
-    components: {
-      FooterComp,
-    },
     data() {
       var validatePass = (rule, value, callback) => {
         let reg = /^1[3|4|5|8]\d{9}$/;
@@ -284,30 +280,30 @@
           area:[],
         },
         orderMess: {
-            activityInfos:[],
-            activityPrice:0,
-            adultNum:3,
-            adultPrice:55299,
-            childNum:0,
-            childPrice:55299,
-            cityName:"中国",
-            homeNum:0,
-            serviceInfos:[],
-            servicePrice:10400,
-            singleAmount:55299,
-            skuDate:1520438400000,
-            totalAmount:120998,
-            totalPrice:55299,
-            wareImg:"http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097792407276.jpg",
-            wareName:"马尔代夫玛娜法鲁岛旅拍婚纱照6天4晚（含摄影+旅游）"
+            // activityInfos:[],
+            // activityPrice:0,
+            // adultNum:3,
+            // adultPrice:55299,
+            // childNum:0,
+            // childPrice:55299,
+            // cityName:"中国",
+            // homeNum:0,
+            // serviceInfos:[],
+            // servicePrice:10400,
+            // singleAmount:55299,
+            // skuDate:1520438400000,
+            // totalAmount:120998,
+            // totalPrice:55299,
+            // wareImg:"http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097792407276.jpg",
+            // wareName:"马尔代夫玛娜法鲁岛旅拍婚纱照6天4晚（含摄影+旅游）"
         },
         ruleForm:{
           addressId:"",
           customerOrderCustomers:[]
         },
         tableData: [
-          {address:"马尔代夫玛娜法鲁岛旅拍婚纱照6马尔代夫玛娜法鲁岛旅拍婚",area:{id: 500, name: "东城区"},areaId:500,city:{id: 52, name: "北京"},cityId:52,createTime:1517711315000,id:415177113148207,isDefault:1,memId:415176513489897,name:"123",phone:"15923223223",postcode:"100000",province:{id: 2, name: "北京"},provinceId:2},
-          {address:"马尔代夫玛娜法鲁岛旅拍婚纱照6马尔代夫玛娜法鲁岛旅拍婚",area:{id: 500, name: "东城区"},areaId:500,city:{id: 52, name: "北京"},cityId:52,createTime:1517711315000,id:415177113148207,isDefault:1,memId:415176513489897,name:"123",phone:"15923223223",postcode:"100000",province:{id: 2, name: "北京"},provinceId:2},
+          // {address:"马尔代夫玛娜法鲁岛旅拍婚纱照6马尔代夫玛娜法鲁岛旅拍婚",area:{id: 500, name: "东城区"},areaId:500,city:{id: 52, name: "北京"},cityId:52,createTime:1517711315000,id:415177113148207,isDefault:1,memId:415176513489897,name:"123",phone:"15923223223",postcode:"100000",province:{id: 2, name: "北京"},provinceId:2},
+          // {address:"马尔代夫玛娜法鲁岛旅拍婚纱照6马尔代夫玛娜法鲁岛旅拍婚",area:{id: 500, name: "东城区"},areaId:500,city:{id: 52, name: "北京"},cityId:52,createTime:1517711315000,id:415177113148207,isDefault:1,memId:415176513489897,name:"123",phone:"15923223223",postcode:"100000",province:{id: 2, name: "北京"},provinceId:2},
         ],
         dialogFormVisible: false,
         addressForm: {
@@ -349,11 +345,12 @@
                   this.$message.error('请您添加收货地址');
                   return false
                }
-               let data = this.ruleForm
+               let data = this.ruleForm;
+               console.log(data)
                perfectInformation(data).then(res => {
                  if(res.data.status === 1) {
                      this.$message({
-                      message: '恭喜你，地址添加成功',
+                      message: '恭喜你，信息保存成功',
                       type: 'success'
                     })
                  }
@@ -374,7 +371,7 @@
         console.log(this.$refs[formName])
         this.$refs[formName].validate((valid) => {
           if (valid) {  
-          let data = this.addressForm
+          let data = this.addressForm;
             create_user_address(data).then(res => {
                 if(res.data.status === 1) {
                    this.$message({
@@ -431,9 +428,10 @@
          })
        },
        handleChange1(value) {
-        let data = {
+         console.log(value)
+         let data = {
           id:value,
-        }
+          }
          findchinaarea(data).then(res => {
           if(res.data.status === 1) {
              this.get_Area.area = res.data.data
@@ -447,8 +445,7 @@
        getAddress(value) {
          find_user_address().then(res => {
           if(res.data.status === 1) {
-             this.tableData = ''
-             this.tableData.push(res.data.data)
+             this.tableData = res.data.data;
            }
         })
        },
@@ -491,18 +488,64 @@
       // 获取完善信息页面的信息
       getRecommendWare() {
         let data = {
-          id: this.ruleForm.addressId
+          id:this.ruleForm.addressId
         }
         findOrderInfomation(data).then(res => {
           if(res.data.status === 1) {
              console.log(res.data.data)
-             this.orderMess = res.data.data
+             this.orderMess = res.data.data;
+              // 获取成人数，调整出游人数量 start----
+              let _orderInfo = {
+                birthday:"",
+                cardNum:"",
+                cardType:"1",
+                email:"",
+                height:"",
+                hometownName:"",
+                isPregnancy:"2",
+                mobile:"",
+                name:"",
+                orderId:this.ruleForm.addressId,pantsSize:"",
+                qq:"",
+                sex:"1",
+                shirtSize:"",
+                type:"",
+                wechat:"",
+                weight:""
+              }
+              for(let i=0; i < this.orderMess.adultNum; i++){
+                this.ruleForm.customerOrderCustomers.push(_orderInfo)
+              }
+           } else {
+            this.$message.error(res.data.msg);
+          }
+        })
+      },
+      getPersonalMess() {
+        let data = {
+          page:{
+            currentPage:1,
+            pageSize:5
+          },
+          status:""
+        }
+        orderList(data).then(res => {
+          if(res.data.status === 1) {
+             console.log(res.data.data)
            } else {
             this.$message.error('信息获取失败');
           }
         })
       },
-      
+      getPersonalMess1() {
+          personalCenter().then(res => {
+          if(res.data.status === 1) {
+             console.log(res.data.data)
+           } else {
+            this.$message.error('信息获取失败');
+          }
+        })
+      },
       // 滚动监听
       handleScroll () {
       var scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop
@@ -522,21 +565,21 @@
         },
     created(){
       // 从地址栏获取goodsid
-        this.ruleForm.addressId = this.$route.query.orderId;
-      // 获取成人数，调整出游人数量 start----
-        for(let i=this.ruleForm.customerOrderCustomers.length;i < this.orderMess.adultNum;i++){
-              this.ruleForm.customerOrderCustomers.push({birthday:"",cardNum:"",cardType:"1",email:"",height:"",hometownName:"",isPregnancy:"2",mobile:"",name:"",orderId:this.ruleForm.addressId,pantsSize:"", qq:"",sex:"1",shirtSize:"",type:"",wechat:"",weight:""}
-                );
-           }
+        var urlF=window.location.href.split("?")[1];
+        this.ruleForm.addressId = urlF;
+         // 获取完善信息接口 
+          this.getRecommendWare()
+      
           // 获取所在地区列表
          this.getArea() 
           //获取地址接口 
          this.getAddress()
-          // 获取完善信息接口 
-          this.getRecommendWare()
+         
           //格式化日期
-         this.format_date = this.fmtDate(this.orderMess.skuDate) 
+         this.format_date = this.fmtDate(Number(this.orderMess.skuDate)) 
       // 获取成人数，调整出游人数量 end-----
+        this.getPersonalMess1()
+         this.getPersonalMess()
         },
     mounted () {
       // 滚动监听
@@ -773,6 +816,7 @@
   position: fixed;
   top:0;
   right:0;
+  z-index:999;
   .orderMessage{
      margin-top:0;
   }

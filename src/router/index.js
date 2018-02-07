@@ -19,10 +19,11 @@ import Attentions from '@/pages/help/customer_complain'
 import Index from '~/index'
 import WareList from '~/ware/list'
 import WareDetail from '~/ware/detail'
-import WareFillOrder from '~/ware/fill_order'
-import OrderPay from '~/ware/pay'
+import WareFillOrder from '~/ware/fillOrder'
+
 import OrderFillInfo from '~/ware/fillInfo'
 
+import OrderPay from '~/ware/pay'
 import UserLogin from '~/login/login'
 import UserRegister from '~/login/register'
 

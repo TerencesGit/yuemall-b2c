@@ -1,7 +1,8 @@
 <template>
   <div class="container">
+  		<div v-title :data-title="this.$route.name"></div>
       <div class="ware-filter">
-				<div class="filter-item">
+				<!-- <div class="filter-item">
 					<label class="item-title">产品类型：</label>
 					<el-radio-group v-model="wareKind" @change="handleWareKindChange">
 					  <el-radio-button :label="0">不限</el-radio-button>
@@ -38,7 +39,7 @@
 						<el-radio-button :label="0">不限</el-radio-button>
 				    <el-radio-button v-for="day in 11" :key="day" :label="day">{{day}}天</el-radio-button>
 				  </el-radio-group>
-			  </div>
+			  </div> -->
 			  <div class="filter-item">
 					<label class="item-title">目的城市：</label>
 					<el-radio-group v-model="dstCityCode" @change="handleDstCityChange">
@@ -57,11 +58,11 @@
           </li> 
         </ul>
         <div class="ware-list-box" v-loading="loading">
-	        <div v-if="wareList.length === 0" class="ware-box-empty">
+	        <div v-if="wareTypeList.length === 0" class="ware-box-empty">
 	        	未查询到满足条件的商品
 	        </div>
 	        <ul class="ware-list">
-						<li v-for="ware in wareList" :index="ware.id" class="ware-item">
+						<li v-for="ware in wareTypeList" :index="ware.id" class="ware-item">
 							<router-link :to="'/ware/detail?id='+ware.id" target="_blank">
 								<img :src="ware.mainImg" class="ware-img">
 								<div class="ware-detail">
@@ -96,7 +97,7 @@
 
 <script>
 	import axios from 'axios';
-	import { findWareKindsAndDstCities, findWareList, findWareListBySearch, recommendWare, warelistByContinent, datalist, findSrcAndDstListByWareKind } from '@/api'
+	import { findWareKindsAndDstCities, findWareList, findWareListBySearch, recommendWare, warelistByContinent, datalist, findSrcAndDstListByWareKind, dstCityByContinent } from '@/api'
 	export default {
 		data() {
 	    return {
@@ -120,6 +121,12 @@
         },
         searchName: '',
         loading: false,
+        wareType: '',
+        wareTypeList: [],
+        typeQuery: {
+        	continent: '',
+        	exclude: '',
+        }
 	    }
 		},
 		methods: {
@@ -140,7 +147,9 @@
 				this.handlePageJump()
 			},
 			handleDstCityChange(val) {
-				this.handlePageJump()
+				console.log(val)
+				// this.handlePageJump()
+				this.getWareList()
 			},
 			handleStartDate(val){
 				this.startDate = val;
@@ -191,11 +200,11 @@
 	    		providerId: this.providerId
 	    	}
 	    	findWareKindsAndDstCities(data).then(res => {
-	    		console.log(res)
+	    		// console.log(res)
 	    		if(res.data.status === 1) {
 	    			this.wareKinds = res.data.data.wareKinds;
 	    			let _wareKinds = {
-				        '415057355555522': '特别推荐',
+				        '415057355555522': '一价全包',
 				        '415057355808314': '旅游',
 				        '715060598102532': '国内旅拍',
 				        '715060598613714': '国外旅拍',
@@ -212,9 +221,8 @@
 	    },
 	    getDstCitiesByWareKind() {
 	    	let url = `/portal/api/waretripinfo/findSrcAndDstListByWareKind/${this.providerId}?wareKindId=${this.wareKind}`;
-	    	console.log(url)
 	    	axios.get(url).then(res => {
-	    		console.log(res)
+	    		// console.log(res)
 	    		if(res.data.status === 1) {
 	    			this.dstCities = res.data.data.dstCities;
 	    		} else {
@@ -245,7 +253,7 @@
 	    		this.loading = false;
 	    		if(res.data.status === 1) {
 	    			// console.log(res.data.data)
-	    			this.wareList = res.data.data.wares;
+	    			this.wareTypeList = res.data.data.wares;
 	    			this.page.total =  res.data.data.page.totalCount;
 	    		} else {
 						this.$message.error(res.data.msg)
@@ -275,30 +283,114 @@
 	    	}).catch(err => {
 	    		console.log(err)
 	    	})
-	    }
+	    },
+	    getHotCityList() {
+        let url = `/portal/api/waretripinfo/findSrcAndDstListByWareKind/${this.providerId}?wareKindId=415057355555522`;
+        console.log(url)
+        axios.get(url).then(res => {
+          console.log(res)
+          if(res.data.status === 1) {
+            this.dstCities = res.data.data.dstCities;
+          } else {
+            this.$message.error(res.data.message)
+          }
+        })
+      },
+	    getRecommendWare() {
+        let data = {
+          dstCityCode: '',
+          providerId: this.providerId,
+        }
+        recommendWare(data).then(res => {
+          if(res.data.status === 1) {
+            this.wareTypeList = res.data.data;
+            this.page.total = res.data.data.length;
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        })
+      },
+      getCityListByContinent() {
+        let params = {
+          storeId: this.providerId,
+          continent: this.typeQuery.continent,
+          exclude: this.typeQuery.exclude,
+        }
+        dstCityByContinent(params).then(res => {
+          if(res.data.status === 1) {
+            this.dstCities = res.data.data;
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        })
+      },
+	    handleWareType() {
+	    	if(this.wareType === 'Recommend') {
+	    		this.getRecommendWare()
+	    		this.getHotCityList()
+	    	} else if(this.wareType === 'Nationwide') {
+	    		this.typeQuery = {
+	    			continent: '100-101-000086',
+	    			exclude: '',
+	    		}
+	    		this.getWareTypeList()
+	    		this.getCityListByContinent()
+	    	} else if(this.wareType === 'Asia') {
+	    		this.typeQuery = {
+	    			continent: '100',
+	    			exclude: '100-101-000086',
+	    		}
+	    		this.getWareTypeList()
+	    		this.getCityListByContinent()
+	    	} else if(this.wareType === 'Global') {
+	    		this.typeQuery = {
+	    			continent: '',
+	    			exclude: '100',
+	    		}
+	    		this.getWareTypeList()
+	    		this.getCityListByContinent()
+	    	}
+	    },
+	    getWareTypeList() {
+        let data = {
+          storeId: this.providerId,
+          continent: this.typeQuery.continent,
+          exclude: this.typeQuery.exclude,
+        }
+        warelistByContinent(data).then(res => {
+          if(res.data.status === 1){
+            this.wareTypeList = res.data.data;
+            this.page.total =  res.data.data.length;
+            // .filter((w, index) => index >= 0 && index < 9);
+          }
+        })
+      },
 		},
 		computed: {
 		},
 		beforeRouteUpdate (to, from, next) {
-			if(to.query && to.query.wareKind) {
-				this.wareKind = to.query.wareKind;
+			if(to.query && to.query.type) {
+				this.wareType = to.query.type;
 			}
-			this.getWareList()
+			console.log(this.wareType)
+			this.handleWareType()
 			next()
 		},
 		created() {
 			this.providerId = sessionStorage.getItem('providerId');
 			this.isLogin = Number(sessionStorage.getItem('isLogin'));
 			this.searchName = this.$route.query.searchName;
-			this.wareKind = this.$route.query.wareKind || 0;
-			this.tripDays = this.$route.query.tripDays || 0;
-			this.dstCityCode = this.$route.query.dstCityCode || 0;
-			this.getWareKindsAndDstCites()
-			this.getDstCitiesByWareKind()
+			this.wareType = this.$route.query.type;
+			console.log(this.wareType)
+			// this.wareKind = this.$route.query.wareKind || 0;
+			// this.tripDays = this.$route.query.tripDays || 0;
+			// this.dstCityCode = this.$route.query.dstCityCode || 0;
+			// this.getDstCitiesByWareKind()
+			// this.getWareKindsAndDstCites()
 			if(this.searchName) {
 				this.getWareListBySearchName()
 			} else {
-				this.getWareList()
+				this.handleWareType()
 			}
 		}
 	}
@@ -307,6 +399,7 @@
 <style lang="scss" scoped>
 	$primaryColor: #41A9FE;
 	.ware-filter {
+		margin-top: 30px;
 		margin-bottom: 20px;
 		padding: 10px;
 		border-bottom: 1px solid #ccc;

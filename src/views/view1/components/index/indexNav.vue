@@ -2,7 +2,7 @@
 	 <div class="dst-nav-wrap">
     <ul class="dst-nav">
       <li class="nav-item" v-for="(item, index) in dstNav" :key="index">
-        <router-link :to="item.url">
+        <router-link :to="item.url" target="_blank">
           <img :src="item.imgSrc" alt="">
           <div class="panel">
             <div class="panel-icon">
@@ -29,7 +29,7 @@
             enTitle: 'Recommend',
             imgSrc: '/static/image/bg-1.png',
             icon: '/static/image/icon-1.png',
-            url: '/ware/list?wareKind=415057355555522',
+            url: '/ware/list?type=Recommend',
           },
           {
             title: '本地拍',
@@ -43,21 +43,21 @@
             enTitle: 'native photo',
             imgSrc: '/static/image/bg-3.png',
             icon: '/static/image/icon-3.png',
-            url: '/ware/list?wareKind=415057355808314',
+            url: '/ware/list?type=Nationwide',
           },
           {
             title: '亚洲拍',
             enTitle: 'Asia photo',
             imgSrc: '/static/image/bg-4.png',
             icon: '/static/image/icon-4.png',
-            url: '/ware/list?wareKind=715060598102532',
+            url: '/ware/list?type=Asia',
           },
           {
             title: '全球拍',
             enTitle: 'global photo',
             imgSrc: '/static/image/bg-5.png',
             icon: '/static/image/icon-5.png',
-            url: '/ware/list?wareKind=715060598613714',
+            url: '/ware/list?type=Global',
           },
           {
             title: '客片展示',

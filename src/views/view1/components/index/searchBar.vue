@@ -4,7 +4,7 @@
 			<dl class="dst-list">
 				<dt>目的地：</dt>
 				<dd v-for="item in recommendList">
-					<a href="javascript:;" @click="recommendClick(item)">{{item}}</a>
+					<a href="javascript:;" @click="recommendClick(item.name)">{{item.name}}</a>
 				</dd>
 			</dl>
 		</div>
@@ -16,10 +16,12 @@
 </template>
 <script>
 	export default {
+		name: 'searchbar',
+		props: ['recommendList'],
 		data() {
 			return {
 				searchValue: '',
-				recommendList: [
+				recommendLists: [
 					'三亚',
 					'大理',
 					'巴黎',

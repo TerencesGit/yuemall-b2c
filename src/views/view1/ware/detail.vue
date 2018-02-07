@@ -379,11 +379,11 @@
 				console.log(wareOrderInfo)
 				advanceOrder(wareOrderInfo).then(res => {
 					console.log(res)
-					sessionStorage.setItem('orderInfo', JSON.stringify(wareOrderInfo))
-					this.$router.push('/ware/fillInfo?orderId=415177136070425')
+					// sessionStorage.setItem('orderInfo', JSON.stringify(wareOrderInfo))
+					// this.$router.push('/ware/fillInfo?orderId=415177136070425')
 					if(res.data.status === 1) {
 						let orderInfo = res.data.data;
-						sessionStorage.setItem('orderInfo', JSON.stringify(wareOrderInfo))
+						sessionStorage.setItem('orderInfo', JSON.stringify(orderInfo))
 						this.$router.push('/ware/reserve?wareId='+this.wareId)
 					} else {
 						this.$message.error(res.data.msg)
@@ -458,7 +458,7 @@
 		},
 		created() {
 			this.wareId = this.$route.query.id;
-			this.isLogin = 1 || Number(sessionStorage.getItem('isLogin'));
+			this.isLogin = Number(sessionStorage.getItem('isLogin'));
 			if(this.wareId) {
 				this.skuDate = this.$moment().format('YYYY-MM-DD');
 				this.isLogin === 1 && this.getSkuData()
@@ -707,9 +707,6 @@
 					&:last-child {
 						margin-right: 0;
 					}
-					/*&:hover {
-						border-bottom: 3px solid #41AAFF;
-					}*/
 					&.active {
 						position: relative;
 						top: 1px;

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div v-title :data-title="this.$route.name"></div>
       <div class="dMain-container">
           <div class="login-register" v-bind:style="{background: 'url('+bgImg+') no-repeat center bottom'}">
               <div class="login-register-box container clearfix2">
@@ -203,7 +204,6 @@ export default {
       memberLogin(data).then(res => {
         console.log(res);
         if (res.data.status == 1) {
-          this.$message("登录成功");
           this.$router.push("/index");
         } else {
           this.$message(res.data.msg)
@@ -214,7 +214,7 @@ export default {
       this.teleValidate();
       this.codeInput1Validate();
       this.codeInput2Validate();
-      if (!(this.codeInput1 == this.randomCode)) return false
+      if (!(this.codeInput1.toUpperCase() == this.randomCode.toUpperCase())) return false
       if(this.telephone == '' || this.codeInput1 == '' || this.codeInput2 == '') return false
       let data = {
         username: this.telephone,

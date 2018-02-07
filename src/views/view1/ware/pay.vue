@@ -198,4 +198,7 @@
       border-radius: 0;
     }
   }
+  .dialog-body {
+    text-align: center;
+  }
 </style>

@@ -1,5 +1,6 @@
 <template>
   <div>
+    <div v-title :data-title="this.$route.name"></div>
       <div class="dMain-container">
             <div class="login-register" v-bind:style="{background: 'url('+bgImg+') no-repeat center bottom'}">
                 <div class="login-register-box container clearfix2">
@@ -215,7 +216,7 @@ export default {
       this.passwordValidate();
       this.codeInput1Validate();
       this.codeInput2Validate();
-      if (!(this.codeInput1.toUpperCase() == this.randomCode)) return false
+      if (!(this.codeInput1.toUpperCase() == this.randomCode.toUpperCase())) return false
 
       if (
         this.telephone == "" ||

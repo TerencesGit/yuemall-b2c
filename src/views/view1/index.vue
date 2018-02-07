@@ -12,7 +12,7 @@
     </div>
     <!-- destination -->
     <div class="destination-wrap container">
-      <Searchbar class="header-search"></Searchbar>
+      <Searchbar class="header-search" :recommendList="globalDst['Hot'].cityList"></Searchbar>
       <IndexNav></IndexNav>
       <IndexTitle :title="'全球100+旅拍目的地'" :EnTitle="'global travel destinations'"></IndexTitle>
       <div class="global-dst">
@@ -63,7 +63,7 @@
       <ShowRows :span="3" :gutter="10" :showData="recommendList" :mapping="wareMapping"></ShowRows>
       <!-- 全国排 -->
       <ShowHeader :showData="showHeader.nativePhoto"></ShowHeader>
-      <ShowRows :span="3" :gutter="10" :showData="LocalWareList" :mapping="wareMapping"></ShowRows>
+      <ShowRows :span="3" :gutter="10" :showData="NationalWareList" :mapping="wareMapping"></ShowRows>
       <!-- 亚洲拍 -->
       <ShowHeader :showData="showHeader.asiaPhoto"></ShowHeader>
       <ShowRows :span="3" :gutter="10" :showData="AsiaWareList" :mapping="wareMapping"></ShowRows>
@@ -100,6 +100,7 @@
 </template>
 
 <script>
+  import axios from 'axios';
   import { findStoreByPcDoMain, findmerchantStoreBystoreId, bannerList, dstCityByContinent, 
     wareList, recommendWare, warelistByContinent } from '@/api'
   import HeaderBar from './components/index/headerBar'
@@ -177,22 +178,22 @@
           },
           recommendPhoto: {
             title: '特别推荐（旅游+摄影）',
-            moreUrl: '/',
+            moreUrl: '/ware/list?type=Recommend',
             headerBg: '/static/image/Journeytake.png'
           },
           nativePhoto: {
             title: '全国拍',
-            moreUrl: '/ware/list?wareKind=415057355808314',
+            moreUrl: '/ware/list?type=Nationwide',
             headerBg: '/static/image/Thenational.png',
           },
           asiaPhoto: {
             title: '亚洲拍',
-            moreUrl: '/ware/list?wareKind=715060598102532',
+            moreUrl: '/ware/list?type=Asia',
             headerBg: '/static/image/Asiashooting.png',
           },
           globalPhoto: {
             title: '全球拍',
-            moreUrl: '/ware/list?wareKind=715060598613714',
+            moreUrl: '/ware/list?type=Global',
             headerBg: '/static/image/Globalfilm.png',
           },
           photoShow: {
@@ -223,49 +224,24 @@
             recommend: true, },
         ],
         LocalWareList: [],
+        NationalWareList: [],
         AsiaWareList: [],
         GlobalWareList: [],
       }
     },
     methods: {
       handleCityClick(city) {
-        // console.log(city)
-        this.$router.push('/ware/list?dstCityCode='+city.dstCityCode)
+        let { href } = this.$router.resolve('/ware/list?dstCityCode='+city.dstCityCode);
+        window.open(href, '_blank')
       },
       getStore() {
         findStoreByPcDoMain().then(res => {
           if(res.data.status === 1) {
             this.providerId = res.data.data;
             sessionStorage.setItem('providerId', this.providerId)
-            this.getMerchantStoreInfo()
-            this.getBannerList()
-            this.getDstCityList()
-            // this.getHotCityList()
-            this.getLocalCityList()
-            this.getAsiaCityList()
-            this.getEuropeCityList()
-            this.getAustraliaCityList()
-            this.getAmericaCityList()
-            // this.kindCode = 'trip-T';
-            this.getWareList()
-            this.getLocalWareList()
-            this.getAsiaWareList()
-            this.getGlobalWareList()
+            window.location.reload()
           } else {
             this.$message.error(res.data.msg)
-          }
-        })
-      },
-      getMerchantStoreInfo() {
-        let data = {
-          id: this.providerId
-        }
-        findmerchantStoreBystoreId(data).then(res => {
-          if(res.data.status === 1) {
-            let storeInfo = res.data.data;
-            this.storeLogo = storeInfo.storeLogo;
-            // sessionStorage.setItem('storeLogo', storeInfo.storeLogo)
-            document.title = storeInfo.storeName;
           }
         })
       },
@@ -305,15 +281,14 @@
         })
       },
       getHotCityList() {
-        let params = {
-          storeId: this.providerId,
-          continent: '100-101',
-        }
-        dstCityByContinent(params).then(res => {
+        let url = `/portal/api/waretripinfo/findSrcAndDstListByWareKind/${this.providerId}?wareKindId=415057355555522`;
+        console.log(url)
+        axios.get(url).then(res => {
+          console.log(res)
           if(res.data.status === 1) {
-            this.globalDst['Hot'].cityList = res.data.data;
+            this.globalDst['Hot'].cityList = res.data.data.dstCities;
           } else {
-            this.$message.error(res.data.msg)
+            this.$message.error(res.data.message)
           }
         })
       },
@@ -334,6 +309,7 @@
         let params = {
           storeId: this.providerId,
           continent: '100',
+          exclude: '100-101-000086',
         }
         dstCityByContinent(params).then(res => {
           console.log(res)
@@ -389,7 +365,7 @@
       },
       getRecommendWare() {
         let data = {
-          dstCityCode: this.dstCityCode,
+          dstCityCode: '',
           providerId: this.providerId,
         }
         recommendWare(data).then(res => {
@@ -397,19 +373,6 @@
             this.recommendList = res.data.data;
           } else {
             this.$message.error(res.data.msg)
-          }
-        })
-      },
-      getWareList() {
-        let data = {
-          // kindCode: this.kindCode,
-          storeId: this.providerId,
-          continent: '100-101',
-        }
-        warelistByContinent(data).then(res => {
-          if(res.data.status === 1){
-            this.wareList = res.data.data.filter((w, index) => index >= 0 && index < 9);
-            // console.log(this.wareList)
           }
         })
       },
@@ -425,11 +388,22 @@
           }
         })
       },
+      getNationalWareList() {
+        let data = {
+          storeId: this.providerId,
+          continent: '100-101-000086',
+        }
+        warelistByContinent(data).then(res => {
+          if(res.data.status === 1){
+            this.NationalWareList = res.data.data.filter((w, index) => index >= 0 && index < 9);
+          }
+        })
+      },
       getAsiaWareList() {
         let data = {
-          // kindCode: this.kindCode,
           storeId: this.providerId,
           continent: '100-101',
+          exclude: '100-101-000086',
         }
         warelistByContinent(data).then(res => {
           if(res.data.status === 1){
@@ -439,20 +413,37 @@
       },
       getGlobalWareList() {
         let data = {
-          // kindCode: this.kindCode,
           storeId: this.providerId,
           continent: '',
+          exclude: '100',
         }
         warelistByContinent(data).then(res => {
           if(res.data.status === 1){
             this.GlobalWareList = res.data.data.filter((w, index) => index >= 0 && index < 9);
-            // console.log(this.GlobalWareList)
           }
         })
       },
     },
-    created() {
-      this.getStore()
+    mounted() {
+      let store = JSON.parse(sessionStorage.getItem('store'));
+      document.title = store && store.storeName || '首页';
+      this.providerId = sessionStorage.getItem('providerId');
+      if(this.providerId) {
+        this.getBannerList()
+        this.getDstCityList()
+        this.getHotCityList()
+        this.getLocalCityList()
+        this.getAsiaCityList()
+        this.getEuropeCityList()
+        this.getAustraliaCityList()
+        this.getAmericaCityList()
+        // this.getLocalWareList()
+        this.getNationalWareList()
+        this.getAsiaWareList()
+        this.getGlobalWareList()
+      } else {
+        this.getStore()
+      }
     }
   }
 </script>
@@ -462,15 +453,6 @@
   .header-wrap {
     position: relative;
     top: -50px;
-   /* .header-top {
-      display: flex;
-      justify-content: center;
-      position: absolute;
-      top: 30px;
-      left: 50%;
-      margin-left: -600px;
-      z-index: 99;
-    }*/
   }
   .header-search {
     width: 700px;
