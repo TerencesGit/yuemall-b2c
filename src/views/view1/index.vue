@@ -61,12 +61,12 @@
       <!-- 特别推荐 -->
       <ShowHeader :showData="showHeader.recommendPhoto"></ShowHeader>
       <ShowRows :span="3" :gutter="10" :showData="recommendList" :mapping="wareMapping"></ShowRows>
-      <!-- 全国排 -->
-      <ShowHeader :showData="showHeader.nativePhoto"></ShowHeader>
-      <ShowRows :span="3" :gutter="10" :showData="NationalWareList" :mapping="wareMapping"></ShowRows>
       <!-- 亚洲拍 -->
       <ShowHeader :showData="showHeader.asiaPhoto"></ShowHeader>
       <ShowRows :span="3" :gutter="10" :showData="AsiaWareList" :mapping="wareMapping"></ShowRows>
+      <!-- 全国排 -->
+      <ShowHeader :showData="showHeader.nativePhoto"></ShowHeader>
+      <ShowRows :span="3" :gutter="10" :showData="NationalWareList" :mapping="wareMapping"></ShowRows>
       <!-- 全球拍 -->
       <ShowHeader :showData="showHeader.globalPhoto"></ShowHeader>
       <ShowRows :span="3" :gutter="10" :showData="GlobalWareList" :mapping="wareMapping"></ShowRows>
@@ -102,7 +102,7 @@
 <script>
   import axios from 'axios';
   import { findStoreByPcDoMain, findmerchantStoreBystoreId, bannerList, dstCityByContinent, 
-    wareList, recommendWare, warelistByContinent } from '@/api'
+    wareList, recommendWare, warelistByContinent, localList } from '@/api'
   import HeaderBar from './components/index/headerBar'
   import Searchbar from './components/index/searchBar'
   import DstList from './components/index/dstList.vue'
@@ -171,29 +171,29 @@
           desc: 'name',
         },
         showHeader: {
-          localPhoto: {
-            title: '本地拍',
-            moreUrl: '/ware/list?wareKind=415057355555522',
-            headerBg: '/static/image/Localfilm.png'
-          },
           recommendPhoto: {
-            title: '特别推荐（旅游+摄影）',
+            title: '特别推荐',
             moreUrl: '/ware/list?type=Recommend',
             headerBg: '/static/image/Journeytake.png'
           },
+          localPhoto: {
+            title: '本地拍',
+            moreUrl: '/ware/list?type=LocalPhoto',
+            headerBg: '/static/image/Localfilm.png'
+          },
           nativePhoto: {
-            title: '全国拍',
-            moreUrl: '/ware/list?type=Nationwide',
+            title: '国内旅拍',
+            moreUrl: '/ware/list?type=DomesticPhoto',
             headerBg: '/static/image/Thenational.png',
           },
           asiaPhoto: {
-            title: '亚洲拍',
-            moreUrl: '/ware/list?type=Asia',
+            title: '一价全包',
+            moreUrl: '/ware/list?type=TourismPhoto',
             headerBg: '/static/image/Asiashooting.png',
           },
           globalPhoto: {
-            title: '全球拍',
-            moreUrl: '/ware/list?type=Global',
+            title: '国外旅拍',
+            moreUrl: '/ware/list?type=AbroadPhoto',
             headerBg: '/static/image/Globalfilm.png',
           },
           photoShow: {
@@ -370,7 +370,7 @@
         }
         recommendWare(data).then(res => {
           if(res.data.status === 1) {
-            this.recommendList = res.data.data;
+            this.recommendList = res.data.data.filter((w, index) => index >= 0 && index < 6);
           } else {
             this.$message.error(res.data.msg)
           }
@@ -378,13 +378,13 @@
       },
       getLocalWareList() {
         let data = {
-          // kindCode: this.kindCode,
           storeId: this.providerId,
-          continent: '100-101-000086',
         }
-        warelistByContinent(data).then(res => {
+        localList(data).then(res => {
           if(res.data.status === 1){
             this.LocalWareList = res.data.data.filter((w, index) => index >= 0 && index < 9);
+          } else {
+            this.$message.error(res.data.msg)
           }
         })
       },
@@ -437,7 +437,7 @@
         this.getEuropeCityList()
         this.getAustraliaCityList()
         this.getAmericaCityList()
-        // this.getLocalWareList()
+        this.getLocalWareList()
         this.getNationalWareList()
         this.getAsiaWareList()
         this.getGlobalWareList()

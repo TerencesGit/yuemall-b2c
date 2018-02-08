@@ -62,7 +62,7 @@
 				a {
 					color: #333;
 					&:hover {
-						color: #000;
+						color: #01A0E7;
 					}
 				}
 			}

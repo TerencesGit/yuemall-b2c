@@ -9,8 +9,8 @@
               <img :src="item.icon" alt="">
             </div>
             <div class="panel-text">
-              <h4>{{item.title}}</h4>
-              <h5>{{item.enTitle}}</h5>
+              <h4>{{item.name}}</h4>
+              <h5>{{item.englishName}}</h5>
               <p class="line"></p>
             </div>
           </div>
@@ -25,43 +25,43 @@
 			return {
 				dstNav: [
           { 
-            title: '特别推荐',
-            enTitle: 'Recommend',
+            name: '特别推荐',
+            englishName: 'Recommend',
             imgSrc: '/static/image/bg-1.png',
             icon: '/static/image/icon-1.png',
             url: '/ware/list?type=Recommend',
           },
           {
-            title: '本地拍',
-            enTitle: 'local photo',
+            name: '一价全包',
+            englishName: 'Tourism Photo',
             imgSrc: '/static/image/bg-2.png',
             icon: '/static/image/icon-2.png',
-            url: '/',
+            url: '/ware/list?type=TourismPhoto',
           },
           {
-            title: '全国拍',
-            enTitle: 'native photo',
+            name: '国内旅拍',
+            englishName: 'domestic photo',
             imgSrc: '/static/image/bg-3.png',
             icon: '/static/image/icon-3.png',
-            url: '/ware/list?type=Nationwide',
+            url: '/ware/list?type=DomesticPhoto',
           },
           {
-            title: '亚洲拍',
-            enTitle: 'Asia photo',
+            name: '国外旅拍',
+            englishName: 'abroad photo',
             imgSrc: '/static/image/bg-4.png',
             icon: '/static/image/icon-4.png',
-            url: '/ware/list?type=Asia',
+            url: '/ware/list?type=AbroadPhoto',
           },
           {
-            title: '全球拍',
-            enTitle: 'global photo',
+            name: '旅游',
+            englishName: 'Tourism',
             imgSrc: '/static/image/bg-5.png',
             icon: '/static/image/icon-5.png',
-            url: '/ware/list?type=Global',
+            url: '/ware/list?type=Tourism',
           },
           {
-            title: '客片展示',
-            enTitle: 'photo show',
+            name: '客片展示',
+            englishName: 'photo show',
             imgSrc: '/static/image/bg-6.png',
             icon: '/static/image/icon-6.png',
             url: '/',
