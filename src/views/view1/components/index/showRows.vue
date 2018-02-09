@@ -1,6 +1,6 @@
 <template>
 	<div class="show-table">
-    <ul class="show-row" v-for="(row, index) in showRows" :key="index">
+    <ul class="show-row" v-for="(row, index) in showRows" :key="index" :style="{marginBottom: gutter+'px'}">
       <li v-for="(item, index) in row" :key="index" class="show-cell" :style="{marginRight: gutter+'px'}">
         <a v-if="item.id" :href="'#/ware/detail?id='+item.id" target="_blank">
           <img :src="item[mapping && mapping.imgUrl || 'imgUrl']">
@@ -44,7 +44,7 @@
       display: flex;
       flex-wrap: wrap;
       width: 100%;
-      margin-bottom: 10px;
+      // margin-bottom: 20px;
       .show-cell {
         flex: 1;
         &:last-child {

@@ -456,9 +456,12 @@
 		mounted() {
 			document.addEventListener('scroll', this.scrollEvent)
 		},
+		updated() {
+			this.isLogin = Number(sessionStorage.getItem('isLogin'));
+		},
 		created() {
 			this.wareId = this.$route.query.id;
-			this.isLogin = Number(sessionStorage.getItem('isLogin'));
+			this.isLogin = 1 || Number(sessionStorage.getItem('isLogin'));
 			if(this.wareId) {
 				this.skuDate = this.$moment().format('YYYY-MM-DD');
 				this.isLogin === 1 && this.getSkuData()

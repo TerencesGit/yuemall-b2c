@@ -2,7 +2,7 @@
   <div class="container">
   		<div v-title :data-title="this.$route.name"></div>
       <div class="ware-filter">
-				<!-- <div class="filter-item">
+				<div class="filter-item">
 					<label class="item-title">产品类型：</label>
 					<el-radio-group v-model="wareKind" @change="handleWareKindChange">
 					  <el-radio-button :label="0">不限</el-radio-button>
@@ -39,7 +39,7 @@
 						<el-radio-button :label="0">不限</el-radio-button>
 				    <el-radio-button v-for="day in 11" :key="day" :label="day">{{day}}天</el-radio-button>
 				  </el-radio-group>
-			  </div> -->
+			  </div>
 			  <div class="filter-item">
 					<label class="item-title">目的城市：</label>
 					<el-radio-group v-model="dstCityCode" @change="handleDstCityChange">
@@ -61,7 +61,7 @@
 	        <div v-if="wareTypeList.length === 0" class="ware-box-empty">
 	        	未查询到满足条件的商品
 	        </div>
-	        <ul class="ware-list">
+	       <!--  <ul class="ware-list">
 						<li v-for="ware in wareTypeList" :index="ware.id" class="ware-item">
 							<router-link :to="'/ware/detail?id='+ware.id" target="_blank">
 								<img :src="ware.mainImg" class="ware-img">
@@ -77,6 +77,28 @@
 										<span>{{ware.unit}}</span>/起
 									</p>
 									<p v-else class="ware-price-hidden">登录后价格可见</p>
+								</div>
+							</router-link>
+						</li>
+					</ul> -->
+					<ul class="ware-list-horizontal">
+						<li v-for="ware in wareTypeList" :index="ware.id" class="ware-item">
+							<router-link :to="'/ware/detail?id='+ware.id" target="_blank">
+								<img :src="ware.mainImg" class="ware-img">
+								<div class="ware-detail">
+									<h4 class="ware-name">{{ware.wareName}}</h4>
+									<ul class="ware-keywords clearfix">
+										<li v-for="item in ware.keyWords.split(',')">{{item}}</li>
+									</ul>
+									<p v-if="isLogin === 1" class="ware-price">
+										<span class="price">
+											<i class="icon-rmb">￥</i><strong>{{ware.suggestedPrice}}</strong>
+										</span>
+										<span>{{ware.unit}}</span>/起
+									</p>
+									<p v-else class="ware-price-hidden">
+										<router-link to="/login">登录后价格可见</router-link>	
+									</p>
 								</div>
 							</router-link>
 						</li>
@@ -97,7 +119,7 @@
 
 <script>
 	import axios from 'axios';
-	import { findWareKindsAndDstCities, findWareList, findWareListBySearch, recommendWare, warelistByContinent, datalist, findSrcAndDstListByWareKind, dstCityByContinent } from '@/api'
+	import { findWareKindsAndDstCities, findWareList, findWareListBySearch, recommendWare, warelistByContinent, datalist, findSrcAndDstListByWareKind, dstCityByContinent, localList } from '@/api'
 	export default {
 		data() {
 	    return {
@@ -140,14 +162,31 @@
 			},
 			handleWareKindChange(val) {
 				this.wareKind = val;
-				this.handlePageJump()
+				if(val === 0) {
+					this.getWareList()
+					return;
+				}
+				let _wareKinds = {
+	        '415057355555522': 'TourismPhoto',
+	        '415057355808314': 'Tourism',
+	        '715060598102532': 'DomesticPhoto',
+	        '715060598613714': 'AbroadPhoto',
+		    }
+		    this.$router.push({
+					path: '/ware/list',
+					query: {
+						type: _wareKinds[val]
+					},
+				})
+				this.getWareList()
+				// this.handlePageJump()
 				this.getDstCitiesByWareKind()
 			},
 			handleTripDayChange(val) {
-				this.handlePageJump()
+				// this.handlePageJump()
+				this.getWareList()
 			},
 			handleDstCityChange(val) {
-				console.log(val)
 				// this.handlePageJump()
 				this.getWareList()
 			},
@@ -166,15 +205,23 @@
 					})
 					return;
 				}
-				this.handlePageJump()
+				this.getWareList()
+				// this.handlePageJump()
 			},
 			cancelServiceDate() {
 				this.startDate = '';
 				this.endDate = '';
 			},
 			handlePageJump() {
+				let _wareKinds = {
+	        '415057355555522': 'TourismPhoto',
+	        '415057355808314': 'Tourism',
+	        '715060598102532': 'DomesticPhoto',
+	        '715060598613714': 'AbroadPhoto',
+		    }
 				let queryObj = {
-					wareKind: this.wareKind,
+					// wareKind: this.wareKind,
+					type: _wareKinds[this.wareKind],
 					startDate: this.startDate,
 					endDate: this.endDate,
 					tripDays: this.tripDays,
@@ -272,10 +319,12 @@
 	    			pageSize: this.page.pageSize
 	    		},
 	    	}
+	    	this.loading = true;
 	    	findWareListBySearch(data).then(res => {
+	    		this.loading = false;
 	    		if(res.data.status === 1) {
 	    			console.log(res.data.data)
-	    			this.wareList = res.data.data.wareTripInfos;
+	    			this.wareTypeList = res.data.data.wareTripInfos;
 	    			this.page.total =  res.data.data.page.totalCount;
 	    		} else {
 						this.$message.error(res.data.msg)
@@ -301,10 +350,25 @@
           dstCityCode: '',
           providerId: this.providerId,
         }
+        this.loading = true;
         recommendWare(data).then(res => {
+        	this.loading = false;
           if(res.data.status === 1) {
             this.wareTypeList = res.data.data;
             this.page.total = res.data.data.length;
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        })
+      },
+      getLocalWareList() {
+        let data = {
+          storeId: this.providerId,
+        }
+        localList(data).then(res => {
+          if(res.data.status === 1){
+            this.wareTypeList = res.data.data;
+            // .filter((w, index) => index >= 0 && index < 9);
           } else {
             this.$message.error(res.data.msg)
           }
@@ -328,27 +392,50 @@
 	    	if(this.wareType === 'Recommend') {
 	    		this.getRecommendWare()
 	    		this.getHotCityList()
-	    	} else if(this.wareType === 'Nationwide') {
-	    		this.typeQuery = {
-	    			continent: '100-101-000086',
-	    			exclude: '',
-	    		}
-	    		this.getWareTypeList()
-	    		this.getCityListByContinent()
-	    	} else if(this.wareType === 'Asia') {
-	    		this.typeQuery = {
-	    			continent: '100',
-	    			exclude: '100-101-000086',
-	    		}
-	    		this.getWareTypeList()
-	    		this.getCityListByContinent()
-	    	} else if(this.wareType === 'Global') {
-	    		this.typeQuery = {
-	    			continent: '',
-	    			exclude: '100',
-	    		}
-	    		this.getWareTypeList()
-	    		this.getCityListByContinent()
+	    	} else if(this.wareType === 'Local') {
+	    		this.getLocalWareList()
+	    		this.dstCities = []
+	    		// this.getHotCityList()
+	    	} else if(this.wareType === 'TourismPhoto') {
+	    		this.wareKind = '415057355555522';
+	    		this.getWareList()
+	    		this.getDstCitiesByWareKind()
+	    		// this.typeQuery = {
+	    		// 	continent: '100-101-000086',
+	    		// 	exclude: '',
+	    		// }
+	    		// this.getWareTypeList()
+	    		// this.getCityListByContinent()
+	    	} else if(this.wareType === 'DomesticPhoto') {
+	    		this.wareKind = '715060598102532';
+	    		this.getWareList()
+	    		this.getDstCitiesByWareKind()
+	    		// this.typeQuery = {
+	    		// 	continent: '100',
+	    		// 	exclude: '100-101-000086',
+	    		// }
+	    		// this.getWareTypeList()
+	    		// this.getCityListByContinent()
+	    	} else if(this.wareType === 'AbroadPhoto') {
+	    		this.wareKind = '715060598613714';
+	    		this.getWareList()
+	    		this.getDstCitiesByWareKind()
+	    		// this.typeQuery = {
+	    		// 	continent: '',
+	    		// 	exclude: '100',
+	    		// }
+	    		// this.getWareTypeList()
+	    		// this.getCityListByContinent()
+	    	} else if(this.wareType === 'Tourism') {
+	    		this.wareKind = '415057355808314';
+	    		this.getWareList()
+	    		this.getDstCitiesByWareKind()
+	    		// this.typeQuery = {
+	    		// 	continent: '',
+	    		// 	exclude: '100',
+	    		// }
+	    		// this.getWareTypeList()
+	    		// this.getCityListByContinent()
 	    	}
 	    },
 	    getWareTypeList() {
@@ -357,7 +444,9 @@
           continent: this.typeQuery.continent,
           exclude: this.typeQuery.exclude,
         }
+        this.loading = true;
         warelistByContinent(data).then(res => {
+        	this.loading = false;
           if(res.data.status === 1){
             this.wareTypeList = res.data.data;
             this.page.total =  res.data.data.length;
@@ -372,13 +461,14 @@
 			if(to.query && to.query.type) {
 				this.wareType = to.query.type;
 			}
-			console.log(this.wareType)
 			this.handleWareType()
 			next()
 		},
+		updated() {
+			this.isLogin = Number(sessionStorage.getItem('isLogin'));
+		},
 		created() {
 			this.providerId = sessionStorage.getItem('providerId');
-			this.isLogin = Number(sessionStorage.getItem('isLogin'));
 			this.searchName = this.$route.query.searchName;
 			this.wareType = this.$route.query.type;
 			console.log(this.wareType)
@@ -386,7 +476,7 @@
 			// this.tripDays = this.$route.query.tripDays || 0;
 			// this.dstCityCode = this.$route.query.dstCityCode || 0;
 			// this.getDstCitiesByWareKind()
-			// this.getWareKindsAndDstCites()
+			this.getWareKindsAndDstCites()
 			if(this.searchName) {
 				this.getWareListBySearchName()
 			} else {
@@ -402,7 +492,7 @@
 		margin-top: 30px;
 		margin-bottom: 20px;
 		padding: 10px;
-		border-bottom: 1px solid #ccc;
+		border: 1px solid #ccc;
 		.filter-item {
 			display: flex;
 			padding: 10px 0;
@@ -433,6 +523,8 @@
 		}
 	}
 	.ware-list-box {
+		width: 1200px;
+		overflow: hidden;
 		.ware-box-empty {
 			min-height: 100px;
 			line-height: 100px;
@@ -444,13 +536,14 @@
 		margin-bottom: 50px;
 	}
 	.ware-header {
-    width: 900px;
-    margin-top: 50px;
-    border-bottom: 1px solid #ccc;
+    width: 1200px;
+    margin: 50px auto 20px;
+    line-height: 36px;
+    border: 1px solid #ddd;
     li {
     	float: left;
       width: 90px;
-      padding-bottom: 10px;
+      // padding-bottom: 10px;
       text-align: center;
       font-size: 16px;
       color: #292929;
@@ -509,6 +602,72 @@
 					font-size: 16px;
 					color: #FF6701;
 				}
+			}
+		}
+	}
+	.ware-list-horizontal {
+		display: flex;
+		width: 100%;
+		flex-wrap: wrap;
+		margin-bottom: 20px;
+		> li {
+			width: 232px;
+			margin-right: 10px;
+			margin-bottom: 15px;
+			border: 1px solid #ddd;
+			transition: all .2s linear;
+			&:nth-child(5n) {
+				margin-right: 0;
+			}
+			&:hover {
+				// border: 1px solid #00a0e9;
+				box-shadow: 0 15px 30px rgba(0,0,0,.1);
+				transform: translate3d(0, -1px, 0);
+			}
+			.ware-detail {
+				padding: 10px;
+				.ware-name {
+					height: 38px;
+					overflow: hidden;
+					color: #666;
+					font-size: 13px;
+					font-weight: normal;
+				}
+				.ware-keywords {
+					height: 28px;
+					margin: 5px 0;
+					overflow: hidden;
+					li {
+						float: left;
+						padding: 2px 5px;
+						margin-left: 5px;
+						margin-bottom: 5px;
+						font-size: 13px;
+						color: #999;
+						border: 1px solid #ddd;
+						&:first-child {
+							margin-left: 0;
+						}
+					}
+				}
+				.ware-price {
+					margin-top: 20px;
+					font-size: 14px;
+					.price {
+						color: #FF6701;
+					}
+				}
+				.ware-price-hidden {
+					a {
+						margin-top: 15px;
+						font-size: 14px;
+						color: #FF6701;
+					}
+				}
+			}
+			img {
+				width: 100%;
+				max-height: 160px;
 			}
 		}
 	}

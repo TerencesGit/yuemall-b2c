@@ -45,7 +45,14 @@
 				if(!this.searchValue) return;
 				const { href } = this.$router.resolve('/ware/list?searchName='+ this.searchValue)
 				window.open(href, '_blank')
+				this.searchValue = '';
+			},
+			handleEnter(e) {
+				e.keyCode === 13 && this.handleSearch()
 			}
+		},
+		mounted() {
+			document.querySelector('.search-input').addEventListener('keydown', this.handleEnter)
 		}
 	}
 </script>

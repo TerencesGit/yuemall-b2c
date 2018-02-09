@@ -51,6 +51,7 @@ router.beforeEach((to, from, next) => {
   next()
 })
 router.afterEach((to, from) => {
+  Vue.prototype.$fromPath = from.path;
   NProgress.done()
   window.scrollTo(0,0)
 })

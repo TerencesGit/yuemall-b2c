@@ -1,6 +1,6 @@
 <template>
   <section>
-    <div v-title :data-title="this.$route.name"></div>
+  <div v-title :data-title="this.$route.name"></div>
    <div class="fill_order">
     <div class="fill_steps_con">
         <el-steps :active="active" finish-status="success" class="fill_steps" align-center>
@@ -73,9 +73,16 @@
               <el-radio v-model="item.isPregnancy" label="1">是</el-radio>
               <el-radio v-model="item.isPregnancy" label="2">否</el-radio>
             </el-form-item>
-            <el-form-item label="出生日期" class="routData l_input1"  :prop="'customerOrderCustomers.' + index + '.birthday'" :rules="{type: 'date',required: true, message: '出生日期不能为空', trigger: 'blur'}">
-              <el-date-picker v-model="item.birthday" type="date" placeholder="选择日期"></el-date-picker>
-            </el-form-item>
+            <el-form-item label="出生日期" class="routData l_input1"  :prop="'customerOrderCustomers.' + index + '.birthday'" :rules="{required: true, message: '出生日期不能为空', trigger: 'blur'}">   
+
+              <el-date-picker  
+              v-model="item.birthday" 
+              placeholder="选择日期" 
+              value-format="yyyy-MM-dd"
+              >
+              </el-date-picker>
+              </el-form-item>
+
             <p class="tel_tips">请至少填写一个出游人手机号，以便旅途中联系您</p>
           </div>
         </div>
@@ -282,7 +289,7 @@
         orderMess: {
             // activityInfos:[],
             // activityPrice:0,
-            // adultNum:3,
+            // adultNum:2,
             // adultPrice:55299,
             // childNum:0,
             // childPrice:55299,
@@ -346,7 +353,7 @@
                   return false
                }
                let data = this.ruleForm;
-               console.log(data)
+               
                perfectInformation(data).then(res => {
                  if(res.data.status === 1) {
                      this.$message({
@@ -407,7 +414,6 @@
          let data = {
           id:value,
           }
-          console.log("省"+value)
          findchinaarea(data).then(res => {
           if(res.data.status === 1) {
              this.get_Area.city = res.data.data
@@ -446,6 +452,11 @@
          find_user_address().then(res => {
           if(res.data.status === 1) {
              this.tableData = res.data.data;
+                // 格式化收货地址的 所在地区
+                for(let i=0;i<this.tableData.length;i++){
+                this.d_area.push(this.tableData[i].province.name+","+this.tableData[i].city.name+","+this.tableData[i].area.name)
+                  this.tableData[i].isDefault = this.d_area[i]
+                }
            }
         })
        },
@@ -495,6 +506,8 @@
              console.log(res.data.data)
              this.orderMess = res.data.data;
               // 获取成人数，调整出游人数量 start----
+                //格式化日期
+            this.format_date = this.fmtDate(Number(this.orderMess.skuDate)) 
               let _orderInfo = {
                 birthday:"",
                 cardNum:"",
@@ -505,7 +518,8 @@
                 isPregnancy:"2",
                 mobile:"",
                 name:"",
-                orderId:this.ruleForm.addressId,pantsSize:"",
+                orderId:this.ruleForm.addressId,
+                pantsSize:"",
                 qq:"",
                 sex:"1",
                 shirtSize:"",
@@ -514,7 +528,7 @@
                 weight:""
               }
               for(let i=0; i < this.orderMess.adultNum; i++){
-                this.ruleForm.customerOrderCustomers.push(_orderInfo)
+                this.ruleForm.customerOrderCustomers.push({..._orderInfo})
               }
            } else {
             this.$message.error(res.data.msg);
@@ -533,7 +547,7 @@
           if(res.data.status === 1) {
              console.log(res.data.data)
            } else {
-            this.$message.error('信息获取失败');
+            this.$message.error('res.data.msg');
           }
         })
       },
@@ -542,7 +556,7 @@
           if(res.data.status === 1) {
              console.log(res.data.data)
            } else {
-            this.$message.error('信息获取失败');
+            this.$message.error('res.data.msg');
           }
         })
       },
@@ -569,14 +583,10 @@
         this.ruleForm.addressId = urlF;
          // 获取完善信息接口 
           this.getRecommendWare()
-      
           // 获取所在地区列表
          this.getArea() 
           //获取地址接口 
          this.getAddress()
-         
-          //格式化日期
-         this.format_date = this.fmtDate(Number(this.orderMess.skuDate)) 
       // 获取成人数，调整出游人数量 end-----
         this.getPersonalMess1()
          this.getPersonalMess()
@@ -588,11 +598,6 @@
       if(this.tableData){
         this.setCurrent(this.tableData[0])
       };
-      // 格式化收货地址的 所在地区
-      for(let i=0;i<this.tableData.length;i++){
-      this.d_area.push(this.tableData[i].province.name+","+this.tableData[i].city.name+","+this.tableData[i].area.name)
-       this.tableData[i].isDefault = this.d_area[i]
-      }
       },
 
     destroyed () {

@@ -57,19 +57,19 @@
     <div class="container-fluid">
       <!-- 本地拍 -->
       <!-- <ShowHeader :showData="showHeader.localPhoto"></ShowHeader>
-      <ShowRows :span="3" :gutter="10" :showData="LocalWareList" :mapping="wareMapping"></ShowRows> -->
+      <ShowRows :span="3" :gutter="20" :showData="LocalWareList" :mapping="wareMapping"></ShowRows> -->
       <!-- 特别推荐 -->
       <ShowHeader :showData="showHeader.recommendPhoto"></ShowHeader>
-      <ShowRows :span="3" :gutter="10" :showData="recommendList" :mapping="wareMapping"></ShowRows>
+      <ShowRows :span="3" :gutter="20" :showData="recommendList" :mapping="wareMapping"></ShowRows>
       <!-- 亚洲拍 -->
       <ShowHeader :showData="showHeader.asiaPhoto"></ShowHeader>
-      <ShowRows :span="3" :gutter="10" :showData="AsiaWareList" :mapping="wareMapping"></ShowRows>
+      <ShowRows :span="3" :gutter="20" :showData="AsiaWareList" :mapping="wareMapping"></ShowRows>
       <!-- 全国排 -->
       <ShowHeader :showData="showHeader.nativePhoto"></ShowHeader>
-      <ShowRows :span="3" :gutter="10" :showData="NationalWareList" :mapping="wareMapping"></ShowRows>
+      <ShowRows :span="3" :gutter="20" :showData="NationalWareList" :mapping="wareMapping"></ShowRows>
       <!-- 全球拍 -->
       <ShowHeader :showData="showHeader.globalPhoto"></ShowHeader>
-      <ShowRows :span="3" :gutter="10" :showData="GlobalWareList" :mapping="wareMapping"></ShowRows>
+      <ShowRows :span="3" :gutter="20" :showData="GlobalWareList" :mapping="wareMapping"></ShowRows>
     </div>
     <!-- map -->
     <div>
@@ -231,7 +231,7 @@
     },
     methods: {
       handleCityClick(city) {
-        let { href } = this.$router.resolve('/ware/list?dstCityCode='+city.dstCityCode);
+        let { href } = this.$router.resolve('/ware/list?searchName='+city.name);
         window.open(href, '_blank')
       },
       getStore() {

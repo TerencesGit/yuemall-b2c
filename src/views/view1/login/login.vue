@@ -204,7 +204,12 @@ export default {
       memberLogin(data).then(res => {
         console.log(res);
         if (res.data.status == 1) {
-          this.$router.push("/index");
+          sessionStorage.setItem('isLogin', 1)
+          if(this.$fromPath.indexOf('register') === 1) {
+            this.$router.replace('/index')
+          } else {
+            window.history.back()
+          }
         } else {
           this.$message(res.data.msg)
         }
