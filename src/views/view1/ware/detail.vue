@@ -421,7 +421,7 @@
 					cancelWareCollection(data).then(res => {
 						if(res.data.status === 1) {
 							this.isCollected = false;
-							this.$message.success(res.data.msg)
+							this.$message.success('取消收藏成功')
 						} else {
 							this.$message.error(res.data.msg)
 						}
@@ -461,7 +461,7 @@
 		},
 		created() {
 			this.wareId = this.$route.query.id;
-			this.isLogin = 1 || Number(sessionStorage.getItem('isLogin'));
+			this.isLogin = Number(sessionStorage.getItem('isLogin'));
 			if(this.wareId) {
 				this.skuDate = this.$moment().format('YYYY-MM-DD');
 				this.isLogin === 1 && this.getSkuData()

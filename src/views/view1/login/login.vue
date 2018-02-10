@@ -1,442 +1,300 @@
 <template>
-  <div>
-    <div v-title :data-title="this.$route.name"></div>
-      <div class="dMain-container">
-          <div class="login-register" v-bind:style="{background: 'url('+bgImg+') no-repeat center bottom'}">
-              <div class="login-register-box container clearfix2">
-                  <div class="fr login-register-container">
-                      <h3 class="loginP-title">会员登录</h3>
-                      <ul class="loginP-main">
-                        <div>
-                            <li class="clearfix2 loginP-pBox">
-                                <a class="fl clearfix2" href="javascript:;" @click="telLogin">
-                                    <span class="fl loginP-pointer" :class="isChangeLoginType ? 'active' : ''"></span>
-                                    <span class="fl loginP-txt">普通登录</span>
-                                </a>
-                                <a class="fl clearfix2" href="javascript:;" @click="normalLogin">
-                                    <span class="fl loginP-pointer" :class="isChangeLoginType ? '' : 'active'"></span>
-                                    <span class="fl loginP-txt">手机动态密码登录</span>
-                                </a>
-                            </li>
-                            <div class="normalLogin" v-if="isChangeLoginType">
-                                <li class="clearfix2 loginP-nameBox">
-                                  <p class="fl">登录名</p>
-                                  <input class="loginP-name J_inputFocus" type="text" placeholder="用户名/手机号/邮箱" v-model="username" @blur="usernameValidate">
-                                  <span class="loginP-errorInfo">{{uernameErrorInfo}}</span>
-                                </li>
-                                <li class="clearfix2 loginP-nameBox">
-                                    <p class="fl">密　码</p>
-                                    <input class="loginP-name" type="password" placeholder="请输入密码" v-model="password" @blur="passwordValidate">
-                                    <span class="loginP-errorInfo">{{passwordErrorInfo}}</span>
-                                </li>
-                                <li class="loginP-go clearfix2">
-                                    <a id="loginGo" class="fr" href="javascript:void(0)" @click="login1">登录</a>
-                                </li>
-                            </div>
-                            <div class="normalLogin" v-else>
-                                <li class="clearfix2 loginP-nameBox">
-                                    <p class="fl">登录名</p>
-                                    <input class="fr loginP-name" type="text" placeholder="请输入手机号" v-model="telephone" @blur="teleValidate">
-                                    <span class="loginP-errorInfo">{{teleErrorInfo}}</span>
-                                </li>
-                                <li class="clearfix2 loginP-nameBox">
-                                    <p class="fl">验证码</p>
-                                    <input type="text" class="fl code-input" value="" placeholder="请输入验证码" v-model="codeInput1"  @blur="codeInput1Validate">
-                                    <input type="text" readonly="readonly" class="code_readOnly fl" v-model="randomCode" @click="randomCodeFn">
-                                    <span class="loginP-errorInfo">{{codeInput1ErrorInfo}}</span>
-                                </li>
-                                <li class="clearfix2 loginP-nameBox" style="position: relative;">
-                                    <p class="fl">动态码</p>
-                                    <input type="text" class="fl code-input" value="" placeholder="动态密码" v-model="codeInput2"  @blur="codeInput2Validate">
-                                    <input type="text" readonly="readonly" class="code_readOnly fl" placeholder="点击发送" v-model="sendCode" >
-                                    <div class="mengCeng hide cursor" style="width:101px;height:36px;position: absolute;z-index: 2;top:0;right:0;" @click="dynamicVerificationCode1()"></div>
-                                    <span class="loginP-errorInfo">{{codeInput2ErrorInfo}}</span>
-                                </li>
-                                <li class="loginP-go clearfix2">
-                                    <a id="loginGo" href="javascript:void(0)" @click="login2">登录</a>
-                                </li>
-                            </div>
-                        </div>    
-                           
-
-                        <!-- <div class="forgetPassword" v-show="isforgetPassword">
-                          <li class="clearfix2 loginP-nameBox">
-                                <p class="fl">手机号</p>
-                                <input class="fr loginP-name" type="text" placeholder="请输入手机号" v-model="telephoneForget" @blur="telephoneForgetValidate">
-                                <span class="loginP-errorInfo">{{teleForgetErrorInfo}}</span>
-                            </li>
-                            <li class="clearfix2 loginP-nameBox">
-                                <p class="fl">密　码</p>
-                                <input class="loginP-name" type="password" placeholder="请输入密码" v-model="passwordForget" @blur="passwordForgetValidate">
-                                <span class="loginP-errorInfo">{{passwordForgetErrorInfo}}</span>
-                            </li>
-                            <li class="clearfix2 loginP-nameBox" style="position: relative;">
-                                <p class="fl">动态码</p>
-                                <input type="text" class="fl code-input" value="" placeholder="动态密码" v-model="codeInput2Forget"  @blur="codeInput2ForgetValidate">
-                                <input type="text" readonly="readonly" class="code_readOnly fl" placeholder="点击发送" v-model="sendCode" >
-                                <div class="mengCeng hide cursor" style="width:101px;height:36px;position: absolute;z-index: 2;top:0;right:0;" @click="dynamicVerificationCode2()"></div>
-                                <span class="loginP-errorInfo">{{codeInput2ForgetErrorInfo}}</span>
-                            </li>
-                            <li class="loginP-go clearfix2">
-                                <a id="loginGo" href="javascript:void(0)" @click="login3">登录</a>
-                            </li>
-                        </div> -->
-                             <li class="clearfix2 loginP-nameBox">
-                              <span class="loginP-span"><router-link to="/register">尚未注册</router-link><em>|</em><a href="javascript:;" @click="forgetPswd">忘记密码</a>  </span>
-                            </li>
-                      </ul>
-                  </div>
-              </div>
+	<div class="login-page" :style="{background: 'url('+bgImg+') no-repeat center top'}">
+		<div v-title :data-title="this.$route.name"></div>
+		<div class="container relative">
+			<div class="login-box">
+				<div class="login-header">
+					<h3>会员登录</h3>
+				</div>
+				<el-form 
+					:model="form" 
+					:rules="rules" 
+					ref="loginForm" 
+					label-width="70px" 
+					label-position="left" 
+					class="login-form"
+					@submit.native.prevent>
+				  <el-form-item label="" class="login-type" label-width="0">
+				    <el-radio-group v-model="form.loginType">
+	       			<el-radio :label="1">普通登录</el-radio>
+	  					<el-radio :label="2">短信动态码登录</el-radio>
+	    			</el-radio-group>
+				  </el-form-item>
+				  <div v-show="form.loginType === 1">
+					  <el-form-item label="登录名" prop="username">
+					  	<el-input v-model="form.username" placeholder="用户名/手机号/邮箱"></el-input>
+					  </el-form-item>
+					  <el-form-item label="密  码" prop="password">
+					  	<el-input type="password" v-model="form.password" placeholder="请输入密码"></el-input>
+					  </el-form-item>
+				  </div>
+				  <div v-show="form.loginType === 2">
+				   	<el-form-item label="手机号" prop="mobile">
+					  	<el-input v-model="form.mobile" placeholder="请输入手机号"></el-input>
+					  </el-form-item>
+					  <el-form-item label="验证码" prop="authcode" :autofocus="true" class="authcode">
+	            <el-input type="text" v-model="form.authcode" placeholder="请输入验证码" style="width: 140px;"></el-input>
+	            <canvas id="canvasCode" width="95px" height="32px" class="canvas-code" @click="drawCode"></canvas>
+	          </el-form-item>
+	          <el-form-item label="动态码" prop="smscode" :autofocus="true" class="smscode">
+	            <el-input type="text" v-model="form.smscode" placeholder="请输入动态码" style="width: 140px;"></el-input>
+	            <button class="code-button" @click="getSmsCode" :disabled="disabled">{{buttonText}}</button>
+	          </el-form-item>
           </div>
-      </div>
-  </div>
+				  <el-form-item label-width="0">
+				    <el-button type="primary" @click="submitForm" class="submit-button" :loading="loading">提 交</el-button>
+				  </el-form-item>
+				</el-form>
+				<div class="login-footer">
+					<router-link to="/register">尚未注册</router-link>
+					<span>|</span>
+					<a href="javascript:;">忘记密码</a>
+				</div>
+			</div>
+		</div>
+	</div>
 </template>
-
 <script>
-import { memberLogin, forgetPassword } from "@/api";
-export default {
-  data() {
-    return {
-      storeId: '',
-      isChangeLoginType: true,
-      isforgetPassword: true,
-      username: "",
-      password: "",
-      telephone: "",
-      codeInput1: "",
-      codeInput2: "",
-      randomCode: '',
-      sendCode: "",
-      count: '',
-      timer: null,
-      uernameErrorInfo: '',
-      passwordErrorInfo: '',
-      teleErrorInfo: '',
-      codeInput1ErrorInfo: '',
-      codeInput2ErrorInfo: '',
-      isChecked:true,
-      telephoneForget: '',
-      passwordForget: '',
-      codeInput2Forget: '',
-      teleForgetErrorInfo: '',
-      passwordForgetErrorInfo: '',
-      codeInput2ForgetErrorInfo: '',
-      bgImg: 'http://pai.yueshijue.com/assets/img/img/background.png'
-    };
-  },
-  methods: {
-    randomCodeFn() {
-      this.randomCode = ''
-      var codeLength = 4;
-      var random = new Array(
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        "A",
-        "B",
-        "C",
-        "D",
-        "E",
-        "F",
-        "G",
-        "H",
-        "I",
-        "J",
-        "K",
-        "L",
-        "M",
-        "N",
-        "O",
-        "P",
-        "Q",
-        "R",
-        "S",
-        "T",
-        "U",
-        "V",
-        "W",
-        "X",
-        "Y",
-        "Z"
-      );
-      for (var i = 0; i < codeLength; i++) {
-        var index = Math.floor(Math.random() * 36);
-        this.randomCode += random[index];
+	import Utils from '@/assets/js/utils'
+	import { findStoreByPcDoMain, memberLogin, sendSmsCode } from "@/api";
+	export default {
+		data() {
+			const validateMobile = (rule, value, callback) => {
+        if (!value.match(/^(13|14|15|17|18)\d{9}$/)) {
+           callback(new Error('手机号码格式不正确'))
+        } else {
+          callback()
+        }
       }
-    },
-    getCreateUser() {
-            let data = {
-                phone: this.telephone
-            }
-            createuser(data).then( res => {
-                if(res.data.status == 1){
-                    this.$message('验证码发送成功')
-                }else{
-                    this.$message('验证码发送失败')
-                }
-            })
-    },
-    normalLogin() {
-      this.isChangeLoginType = false;
-    },
-    telLogin() {
-      this.isChangeLoginType = true;
-    },
-    login1() {
-      this.usernameValidate();
-      this.passwordValidate();
-      if(this.username == '' || this.password == '') return false
-      
-      let data = {
-        username: this.username,
-        loginType: '1',
-        password: this.password,
-        storeId: this.storeId,
-        autoLogin: '1',
-      };
-      memberLogin(data).then(res => {
-        console.log(res);
-        if (res.data.status == 1) {
-          sessionStorage.setItem('isLogin', 1)
-          if(this.$fromPath.indexOf('register') === 1) {
-            this.$router.replace('/index')
+      const validateCode = (rule, value, callback) => {
+        if (value.toUpperCase() !== this.authCode.toUpperCase()) {
+          callback(new Error('验证码错误'))
+        } else {
+          callback()
+        }
+      }
+			return {
+				form: {
+					loginType: 1,
+					username: '',
+	        password: '',
+	        storeId: '',
+	        autoLogin: 1,
+	        mobile: '',
+	        authcode: '',
+	        smscode: '',
+				},
+				rules: {
+					username: [
+						{ required: true, message: '请输入登录名', trigger: 'blur' },
+					],
+					password: [
+						{ required: true, message: '请输入密码', trigger: 'blur' },
+					],
+					mobile: [
+						{ required: true, message: '请输入手机号', trigger: 'blur' },
+						{ validator: validateMobile, trigger: 'blur'}
+					],
+					authcode: [
+						{ required: true, message: '请输入验证码', trigger: 'blur' },
+						{ validator: validateCode, trigger: 'blur'}
+					],
+					smscode: [
+						{ required: true, message: '请输入动态码', trigger: 'blur' },
+					],
+				},
+				storeId: '',
+				autoLogin: 1,
+				authCode: '',
+				loading: false,
+				disabled: false,
+				buttonText: '获取动态码',
+				bgImg: 'http://pai.yueshijue.com/assets/img/img/background.png'
+			}
+		},
+		methods: {
+			drawCode () {
+        this.authCode = Utils.canvasCode('canvasCode')
+      },
+      getStore() {
+        findStoreByPcDoMain().then(res => {
+          if(res.data.status === 1) {
+            this.storeId = res.data.data;
+            sessionStorage.setItem('storeId', this.storeId)
           } else {
-            window.history.back()
+            this.$message.error(res.data.msg)
           }
-        } else {
-          this.$message(res.data.msg)
-        }
-      });
-    },
-    login2() {
-      this.teleValidate();
-      this.codeInput1Validate();
-      this.codeInput2Validate();
-      if (!(this.codeInput1.toUpperCase() == this.randomCode.toUpperCase())) return false
-      if(this.telephone == '' || this.codeInput1 == '' || this.codeInput2 == '') return false
-      let data = {
-        username: this.telephone,
-        loginType: '2',
-        code: this.codeInput2,
-        storeId: sessionStorage.getItem("providerId"),
-        autoLogin: '1'
-      };
-      memberLogin(data).then(res => {
-        console.log(res);
-        if (res.data.status == 1) {
-          this.$message("登录成功");
-          this.$router.push("/index");
-        } else {
-          this.$message('res.data.msg')
-        }
-      });
-    },
-    login3() {
-      this.telephoneForgetValidate();
-      this.passwordForgetValidate();
-      this.codeInput2ForgetValidate();
-      if(this.telephoneForget == '' && this.passwordForget == '' && this.codeInput2Forget == '') return false
-      let data = {
-        username: this.telephoneForget,
-        password: this.passwordForget,
-        loginType: '3',
-        code: this.codeInput2,
-        storeId: sessionStorage.getItem("providerId"),
-        autoLogin: '1'
-      };
-      memberLogin(data).then(res => {
-        console.log(res);
-        if (res.data.status == 1) {
-          this.$message("登录成功");
-          this.$router.push("/index");
-        } else {
-        }
-      });
-    },
-    timerFn() {
-        clearInterval(this.timer)
-        this.timer = null;
-        const TIME_COUNT = 60;
-        if (!this.timer) {
-          this.count = TIME_COUNT;
-          // this.show = false;
-          this.timer = setInterval(() => {
-          if (this.count > 0 && this.count <= TIME_COUNT) {
-              this.count--;
-          } else {
-              this.show = true;
-              clearInterval(this.timer);
-              this.timer = null;
-          }
-          // console.log(this.count)
-              this.sendCode = this.count + 's'
-              if(this.count == 0){
-                  this.sendCode = '点击发送'
-              }
-          }, 1000)
-        }
-    },
-    dynamicVerificationCode1() {
-      this.teleValidate();
-      if(this.telephone == '') return false
-      let data = {
-          phone: this.telephone,
-          storeId: sessionStorage.getItem("providerId"),
-        };
-        forgetPassword(data).then(res => {
-          console.log(res)
-          if (res.data.status == 1) {
-            this.$message('验证码发送成功')
-            this.timerFn() 
-          }else{
-            this.$message(res.data.msg)
-            return false
-          }
-        });
-      
-    },
-    dynamicVerificationCode2() {
-     
-      let data = {
-          phone: this.telephoneForget,
-          storeId: sessionStorage.getItem("providerId")
-        };
-        forgetPassword(data).then(res => {
-          console.log(res)
-          if (res.data.status == 1) {
-            this.$message('验证码发送成功')
-             this.timerFn();
-          }else{
-            this.$message(res.data.msg)
-            return false
-          }
-        });
-
-    },
-    usernameValidate() {
-      if (this.username.trim().length == "") return this.uernameErrorInfo = "用户名不能为空";
-      var uernameReg = /^([\u4e00-\u9fa5]{0,}|[a-zA-Z0-9_-]{2,6}|1[3|4|5|7|8][0-9]\d{8}|(\w-*\.*)+@(\w-?)+(\.\w{2,})+)$/; //中文、英文、手机号码、邮箱
-      if (!uernameReg.test(this.username)) return this.uernameErrorInfo = "用户名格式不对";
-      this.uernameErrorInfo = ''
-    },
-    passwordValidate() {
-      if (this.password.trim().length == "") return this.passwordErrorInfo = "密码不能为空";
-      this.passwordErrorInfo = ''
-    },
-    teleValidate() {
-      if (this.telephone.trim().length == "") return this.teleErrorInfo = "手机号码不能为空";
-      var telephoneReg = /^1[3|4|5|7|8][0-9]\d{8}$/;
-      if (!telephoneReg.test(this.telephone))
-      return this.teleErrorInfo = "请输入正确的手机格式";
-      this.teleErrorInfo = ''
-    },
-    codeInput1Validate() {
-      if (this.codeInput1.trim().length == "") return this.codeInput1ErrorInfo = "验证码不能为空";
-      if (this.codeInput1.toUpperCase() !== this.randomCode.toUpperCase()) return this.codeInput1ErrorInfo = "验证码不正确";
-      this.codeInput1ErrorInfo = ''
-    },
-    codeInput2Validate() {
-      if (this.codeInput2.trim().length == "") return this.codeInput2ErrorInfo = "动态码不能为空";
-      this.codeInput2ErrorInfo = ''
-    },
-    telephoneForgetValidate() {
-      if (this.telephoneForget.trim().length == "") return this.teleForgetErrorInfo = "手机号码不能为空";
-      var telephoneForgetReg = /^1[3|4|5|7|8][0-9]\d{8}$/;
-      if (!telephoneForgetReg.test(this.telephoneForget))
-      return this.teleForgetErrorInfo = "请输入正确的手机格式";
-      this.teleForgetErrorInfo = ''
-    },
-    passwordForgetValidate() {
-      if (this.passwordForget.trim().length == "") return this.passwordForgetErrorInfo = "密码不能为空";
-      this.passwordForgetErrorInfo = ''
-    },
-    codeInput2ForgetValidate() {
-      if (this.codeInput2Forget.trim().length == "") return this.codeInput2ForgetErrorInfo = "动态码不能为空";
-      this.codeInput2ForgetErrorInfo = ''
-    },
-    forgetPswd() {
-      this.isforgetPassword = !this.isforgetPassword;
-    }
-  },
-  created() {
-    this.randomCodeFn();
-    this.storeId = sessionStorage.getItem('providerId')
-  }
-};
+        }).catch(err => {
+        	console.log(err)
+        })
+      },
+      countDown() {
+				let count = 60;
+				let timer = null;
+				this.disabled = true;
+				timer = setInterval(() => {
+					if(count > 0) {
+						this.buttonText = `重新获取 ${count}s`
+						count --;
+					} else {
+						this.buttonText = '重新获取';
+						this.disabled = false;
+						clearInterval(timer)
+					}
+				}, 1000)	
+			},
+      getSmsCode() {
+      	this.$refs.loginForm.validateField('mobile', error => {
+					if(error) return;
+					let data = {
+						phone: this.form.mobile,
+						storeId: this.storeId,
+					}
+					sendSmsCode(data).then(res => {
+						if(res.data.status === 1) {
+							this.countDown()
+							this.$message.success('短信动态码已发送，请注意查收')
+						} else {
+							this.$message.error(res.data.msg)
+						}
+					})
+				})
+      },
+      userLogin() {
+      	let data = {}
+      	if(this.form.loginType === 1) {
+      		data = {
+      			username: this.form.username,
+						password: this.form.password,
+						loginType: this.form.loginType,
+						autoLogin: this.autoLogin,
+						storeId: this.storeId,
+      		}
+      	} else {
+      		data = {
+      			username: this.form.mobile,
+						loginType: this.form.loginType,
+						autoLogin: this.autoLogin,
+						storeId: this.storeId,
+						code: this.form.smscode,
+      		}
+      	}
+      	this.loading = true;
+				memberLogin(data).then(res => {
+					this.loading = false;
+					if(res.data.status === 1) {
+						this.$message.success(res.data.msg)
+					} else {
+						this.$message.error(res.data.msg)
+					}
+				})
+      },
+			submitForm() {
+				if(this.form.loginType === 1) {
+					this.$refs.loginForm.validateField('username', error => {
+						if(error) return;
+						this.$refs.loginForm.validateField('password', error => {
+							if(error) return;
+							this.userLogin()
+						})
+					})
+						
+				} else if(this.form.loginType === 2) {
+					this.$refs.loginForm.validateField('mobile', error => {
+						if(error) return;
+						this.$refs.loginForm.validateField('authcode', error => {
+							if(error) return;
+							this.$refs.loginForm.validateField('smscode', error => {
+								if(error) return;
+								this.userLogin()
+							})
+						})
+					})
+				} else {
+					this.$message.error('提交有误！')
+				}
+			},
+		},
+		mounted() {
+			this.storeId = Number(sessionStorage.getItem('storeId'));
+			if(!this.storeId) {
+				this.getStore()
+			}
+			this.drawCode()
+		}
+	}
 </script>
-
-<style lang="scss" scoped>
-.dMain-container {
-  .login-register {
-    .login-register-container {
-      .loginP-main {
-        padding-bottom: 10px;
-        .forgetPassword{
-          margin-top: 35px;
-        }
-        .loginP-pBox {
-          margin-left: 12px;
-        }
-        .loginP-nameBox {
-          input {
-            width: 220px;
-            height: 30px;
-            line-height: 30px;
-            border: none;
-            padding-left: 20px;
-          }
-          span{
-            color: #ff4949;
-            height: 30px;
-            line-height: 30px;
-            padding-left: 70px;
-          }
-          .loginP-span{
-            height: 40px;
-            line-height: 40px;
-            color: #fff;
-            a{
-              color: #fff;
-              padding: 0 10px;
-              &:hover{
-                text-decoration: underline;
-              }
-            }
-          }
-          .code-input {
-            width: 130px;
-            height: 30px;
-           
-          }
-          .code_readOnly {
-               width: 80px;
-              height: 30px;
-              padding-left: 0;
-          }
-        }
-        .loginP-go {
-          width: 290px;
-          margin: 0 auto;
-          a {
-            display: block;
-            color: #fff;
-            font-size: 16px;
-            width: 290px;
-            height: 36px;
-            text-align: center;
-            line-height: 36px;
-            background-color: #19a9e8;
-          }
-        }
-      }
-    }
-  }
-}
+<style scoped lang="scss">
+	.login-page {
+		width: 100%;
+		height: 813px;
+		background-size: cover;
+		@at-root .login-box {
+			position: absolute;
+			top: 100px;
+			right: 100px;
+			width: 400px;
+			padding: 20px 30px;
+			background: rgba(0,0,0,.5);
+			.login-header {
+				padding-bottom: 10px;
+				margin-bottom: 20px;
+				border-bottom: 1px solid #fff;
+				h3 {
+					color: #fff;
+					font-size: 18px;
+					font-weight: normal;
+				}
+			}
+			.login-form {
+				padding: 0 10px;
+				.login-type {
+					.el-radio {
+						color: #fff;
+					}
+				}
+				.el-form-item {
+					.el-form-item__label {
+						color: #fff;
+						font-size: 16px;
+						vertical-align: middle;
+					}
+				}
+				.canvas-code {
+					margin-left: 10px;
+			    vertical-align: middle;
+			    border-radius: 0;
+			    box-shadow: none;
+			    letter-spacing: 4px;
+			    background: rgba(255,255,255,.8);
+			    cursor: pointer;
+				}
+				.code-button {
+					width: 95px;
+					height: 32px;
+					margin-left: 10px;
+					line-height: 32px;
+					text-align: center;
+					color: #fff;
+					background: #909399;
+				}
+				.submit-button {
+					width: 100%;
+					padding: 8px 20px;
+					margin-top: 10px;
+				}
+			}
+			.login-footer {
+				text-align: center;
+				color: #fff;
+				a {
+					color: #fff;
+				}
+				span {
+					margin: 0 5px;
+					line-height: 0;
+				}
+			}
+		}
+	}
 </style>
