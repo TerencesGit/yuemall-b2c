@@ -166,6 +166,7 @@
 					return;
 				}
 				let _wareKinds = {
+					'110555123666456': 'LocalPhoto',
 	        '415057355555522': 'TourismPhoto',
 	        '415057355808314': 'Tourism',
 	        '715060598102532': 'DomesticPhoto',
@@ -250,14 +251,15 @@
 	    		if(res.data.status === 1) {
 	    			this.wareKinds = res.data.data.wareKinds;
 	    			let _wareKinds = {
-				        '415057355555522': '一价全包',
-				        '415057355808314': '旅游',
-				        '715060598102532': '国内旅拍',
-				        '715060598613714': '国外旅拍',
+				        '415057355555522': '特别推荐',
+				        '415057355808314': '蜜月旅游',
+				        '715060598102532': '全国拍',
+				        '715060598613714': '全球拍',
 				    }
 				    this.wareKinds.forEach((kind) => {
 				      kind.kindName = _wareKinds[kind.id]
 				    })
+				    this.wareKinds.unshift({id: '110555123666456', kindName: '本地拍'})
 	    		} else {
 	    			this.$message.error(res.data.msg)
 	    		}
@@ -390,7 +392,8 @@
 	    	if(this.wareType === 'Recommend') {
 	    		this.getRecommendWare()
 	    		this.getHotCityList()
-	    	} else if(this.wareType === 'Local') {
+	    	} else if(this.wareType === 'LocalPhoto') {
+	    		this.wareKind = '110555123666456'
 	    		this.getLocalWareList()
 	    		this.dstCities = []
 	    		// this.getHotCityList()
@@ -536,7 +539,7 @@
     width: 1200px;
     margin: 50px auto 20px;
     line-height: 36px;
-    border: 1px solid #ddd;
+    border-bottom: 1px solid #ddd;
     li {
     	float: left;
       width: 90px;

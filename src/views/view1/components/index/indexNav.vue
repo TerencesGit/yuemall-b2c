@@ -25,35 +25,35 @@
 			return {
 				dstNav: [
           { 
-            name: '特别推荐',
-            englishName: 'Recommend',
+            name: '本地拍',
+            englishName: 'Local Photo',
             imgSrc: '/static/image/bg-1.png',
             icon: '/static/image/icon-1.png',
             url: '/ware/list?type=Recommend',
           },
           {
-            name: '一价全包',
-            englishName: 'Tourism Photo',
+            name: '特别推荐',
+            englishName: 'Recommend',
             imgSrc: '/static/image/bg-2.png',
             icon: '/static/image/icon-2.png',
             url: '/ware/list?type=TourismPhoto',
           },
           {
-            name: '国内旅拍',
+            name: '全国拍',
             englishName: 'domestic photo',
             imgSrc: '/static/image/bg-3.png',
             icon: '/static/image/icon-3.png',
             url: '/ware/list?type=DomesticPhoto',
           },
           {
-            name: '国外旅拍',
+            name: '全球拍',
             englishName: 'abroad photo',
             imgSrc: '/static/image/bg-4.png',
             icon: '/static/image/icon-4.png',
             url: '/ware/list?type=AbroadPhoto',
           },
           {
-            name: '旅游',
+            name: '蜜月旅游',
             englishName: 'Tourism',
             imgSrc: '/static/image/bg-5.png',
             icon: '/static/image/icon-5.png',

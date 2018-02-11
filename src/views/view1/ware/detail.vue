@@ -13,6 +13,7 @@
 					:firstDayOfWeek="0"
 					:endDate="endDate"
 					:selectedDay="selectedDay" 
+					:headerBg="calendarBg"
 					@dayClick="dayClick"
 					@prevMonth="handlePrevMonth"
 					@nextMonth="handleNextMonth">
@@ -191,6 +192,7 @@
 				serviceLoading: false,
 				isCollected: false,
 				bannerLoading: false,
+				calendarBg: '#009ce8',
 			}
 		},
 		methods: {
@@ -230,10 +232,15 @@
 			},
 			scrollEvent() {
 				this.tabTop = this.$refs.tabsContent.offsetTop - 84;
-				this.isTabFixed = document.body.scrollTop >= this.tabTop ? true : false;
+				// console.log('tabTop----'+this.tabTop)
+				// console.log('document.body.scrollTop----'+document.body.scrollTop)
+				// console.log('document.documentElement.scrollTop----'+document.documentElement.scrollTop)
+				// console.log('window.pageYOffset----'+window.pageYOffset)
+				let scrollTop = window.pageYOffset || document.documentElement.scrollTop || document.body.scrollTop;
+				this.isTabFixed = scrollTop >= this.tabTop ? true : false;
 				this.panesTop.length < 2 && this.getTabPanesTop();
 				for(let i = 0; i < this.panesTop.length; i++) {
-					if(this.panesTop[i] <= document.body.scrollTop && this.panesTop[i+1] > document.body.scrollTop) {
+					if(this.panesTop[i] <= scrollTop && this.panesTop[i+1] > scrollTop) {
 						this.tabActive = i;
 						return;
 					}
@@ -459,7 +466,7 @@
 			},
 		},
 		mounted() {
-			document.addEventListener('scroll', this.scrollEvent)
+			
 		},
 		created() {
 			this.wareId = this.$route.query.id;
@@ -468,6 +475,7 @@
 				this.getWareDetail()
 				this.getWareAttribute()
 			}
+			document.addEventListener('scroll', this.scrollEvent)
 		},
 		beforeDestroy() {
 			document.removeEventListener('scroll', this.scrollEvent)
@@ -475,6 +483,7 @@
 	}
 </script>
 <style scoped lang="scss">
+	$color: #009ce8;
 	.ware-detail-wrap {
 		display: flex;
 		justify-content: space-between;
@@ -547,7 +556,7 @@
 						.trip-day {
 							font-size: 12px;
 							color: #fff;
-							background: #c60c1a;
+							background: $color;
 						}
 						.trip-name {
 							padding: 0 10px;
@@ -681,7 +690,7 @@
 		color: #fff;
 		font-size: 14px;
 		font-family: 'Microsoft Yahei';
-		background: #c60c1a;
+		background: $color;
 	}
 	.ware-desc-tabs {
 		margin-bottom: 50px;

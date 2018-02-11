@@ -14,7 +14,7 @@
     <div class="destination-wrap container">
       <Searchbar class="header-search" :recommendList="globalDst['Hot'].cityList"></Searchbar>
       <IndexNav></IndexNav>
-      <IndexTitle :title="'全球100+旅拍目的地'" :EnTitle="'global travel destinations'"></IndexTitle>
+      <IndexTitle :title="'全球100+目的地'" :EnTitle="'global destinations'"></IndexTitle>
       <div class="global-dst">
         <DstList 
           v-for="(item, index) in globalDst" 
@@ -56,14 +56,15 @@
     <!-- warelist -->
     <div class="container-fluid">
       <!-- 本地拍 -->
-      <!-- <ShowHeader :showData="showHeader.localPhoto"></ShowHeader>
-      <ShowRows :span="3" :gutter="20" :showData="LocalWareList" :mapping="wareMapping"></ShowRows> -->
+      <ShowHeader :showData="showHeader.localPhoto"></ShowHeader>
+      <ShowRows :span="3" :gutter="20" :showData="LocalWareList" :mapping="wareMapping"></ShowRows>
       <!-- 特别推荐 -->
       <ShowHeader :showData="showHeader.recommendPhoto"></ShowHeader>
       <ShowRows :span="3" :gutter="20" :showData="recommendList" :mapping="wareMapping"></ShowRows>
-      <!-- 亚洲拍 -->
-      <ShowHeader :showData="showHeader.asiaPhoto"></ShowHeader>
-      <ShowRows :span="3" :gutter="20" :showData="AsiaWareList" :mapping="wareMapping"></ShowRows>
+      
+       <!-- 亚洲拍 -->
+      <!-- <ShowHeader :showData="showHeader.asiaPhoto"></ShowHeader>
+      <ShowRows :span="3" :gutter="20" :showData="AsiaWareList" :mapping="wareMapping"></ShowRows> -->
       <!-- 全国排 -->
       <ShowHeader :showData="showHeader.nativePhoto"></ShowHeader>
       <ShowRows :span="3" :gutter="20" :showData="NationalWareList" :mapping="wareMapping"></ShowRows>
@@ -87,7 +88,7 @@
     <!-- 12项高端定制旅游 -->
     <div class="travel-wrap">
       <div class="container"> 
-        <IndexTitle :title="'12项高端定制旅游'" :EnTitle="'global travel destinations'"></IndexTitle>
+        <IndexTitle :title="'12项高端定制'" :EnTitle="'global travel destinations'"></IndexTitle>
         <div class="content">
           <img src="../../assets/img/icon12.png" alt="">
           <!-- <ul class="travel-list clearfix">
@@ -173,7 +174,7 @@
         showHeader: {
           recommendPhoto: {
             title: '特别推荐',
-            moreUrl: '/ware/list?type=Recommend',
+            moreUrl: '/ware/list?type=TourismPhoto',
             headerBg: '/static/image/Journeytake.png'
           },
           localPhoto: {
@@ -182,17 +183,17 @@
             headerBg: '/static/image/Localfilm.png'
           },
           nativePhoto: {
-            title: '国内旅拍',
+            title: '全国拍',
             moreUrl: '/ware/list?type=DomesticPhoto',
             headerBg: '/static/image/Thenational.png',
           },
-          asiaPhoto: {
-            title: '一价全包',
-            moreUrl: '/ware/list?type=TourismPhoto',
-            headerBg: '/static/image/Asiashooting.png',
-          },
+          // asiaPhoto: {
+          //   title: '亚洲拍',
+          //   moreUrl: '/ware/list?type=TourismPhoto',
+          //   headerBg: '/static/image/Asiashooting.png',
+          // },
           globalPhoto: {
-            title: '国外旅拍',
+            title: '全球拍',
             moreUrl: '/ware/list?type=AbroadPhoto',
             headerBg: '/static/image/Globalfilm.png',
           },
