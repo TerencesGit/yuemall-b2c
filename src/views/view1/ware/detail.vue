@@ -147,7 +147,6 @@
 		data () {
 			return {
 				wareId: '',
-				isLogin: '',
 				bannerList: [],
 				wareDetail: {},
 				selectedDay: '',
@@ -336,7 +335,6 @@
 				})
 			},
 			handleReserve() {
-				console.log(this.isLogin)
 				if(!this.isLogin) {
 					this.$notify({
 					 	type: 'warning',
@@ -376,9 +374,9 @@
           activityPrice: this.activityTotalPrice,
           totalAmount: this.totalPrice,
 				}
-				console.log(wareOrderInfo)
+				// console.log(wareOrderInfo)
 				advanceOrder(wareOrderInfo).then(res => {
-					console.log(res)
+					// console.log(res)
 					// sessionStorage.setItem('orderInfo', JSON.stringify(wareOrderInfo))
 					// this.$router.push('/ware/fillInfo?orderId=415177136070425')
 					if(res.data.status === 1) {
@@ -390,6 +388,7 @@
 					}
 				}).catch(err => {
 					console.log(err)
+					this.$catchError(err)
 				})
 			},
 			handleCollect() {
@@ -432,6 +431,12 @@
 			}
 		},
 		computed: {
+			isLogin() {
+				if(this.$store.getters.isLogin === 1 && this.skuData.length === 0) {
+					this.getSkuData()
+				}
+				return this.$store.getters.isLogin;
+			},
 			totalPrice() {
 				return this.baseNum * this.basePrice + this.singleTotalPrice + this.serviceTotalPrice + this.activityTotalPrice;
 			},
@@ -456,15 +461,10 @@
 		mounted() {
 			document.addEventListener('scroll', this.scrollEvent)
 		},
-		updated() {
-			this.isLogin = Number(sessionStorage.getItem('isLogin'));
-		},
 		created() {
 			this.wareId = this.$route.query.id;
-			this.isLogin = Number(sessionStorage.getItem('isLogin'));
+			this.skuDate = this.$moment().format('YYYY-MM-DD');
 			if(this.wareId) {
-				this.skuDate = this.$moment().format('YYYY-MM-DD');
-				this.isLogin === 1 && this.getSkuData()
 				this.getWareDetail()
 				this.getWareAttribute()
 			}

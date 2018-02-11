@@ -227,8 +227,8 @@
 </template>
 
 <script>
+  import { mapActions, mapGetters } from 'vuex'
   import {findchinaarea,create_user_address,find_user_address,perfectInformation,findOrderInfomation,personalCenter,orderList} from '@/api'  
-
   export default {
     name: "fillInfo",
     data() {
@@ -574,9 +574,11 @@
           }
       }
     },
-    computed:{
-
-        },
+    computed: {
+      ...mapGetters([
+        'isLogin',
+      ])
+    },
     created(){
       // 从地址栏获取goodsid
         var urlF=window.location.href.split("?")[1];
@@ -592,6 +594,10 @@
          this.getPersonalMess()
         },
     mounted () {
+      if(this.isLogin === 0) {
+        this.$router.push('/login')
+        return;
+      }
       // 滚动监听
       window.addEventListener('scroll', this.handleScroll);
       // 默认地址第一个

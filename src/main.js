@@ -1,10 +1,11 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
-// import Vuex from 'vuex'
+import Vuex from 'vuex'
 import Router from 'vue-router'
 import axios from 'axios'
 import App from './App'
+import store from './vuex/store'
 import routes from './router'
 import Mock from './mock'
 import moment from 'moment'
@@ -15,16 +16,14 @@ import 'element-ui/lib/theme-chalk/index.css'
 import 'font-awesome/css/font-awesome.min.css'
 import '@/assets/css/main.scss'
 import PriceCalendar from '@/components/pricecalendar'
-// import Utils from '@/assets/js/utils'
 // import LazyLoad from '@/components/lazyLoad'
-// Vue.use(Vuex)
+// Vue.use(LazyLoad)
+// Mock.bootstrap()
+Vue.use(Vuex)
 Vue.use(Router)
 Vue.use(ElementUI)
 Vue.use(PriceCalendar)
-// Vue.use(LazyLoad)
-Vue.prototype.$nprogress = NProgress;
 Vue.prototype.$moment = moment;
-// Mock.bootstrap()
 NProgress.configure({ ease: 'ease', speed: 500, minimum: 0.5, showSpinner: false})
 Vue.config.productionTip = false
 Vue.directive('title', {
@@ -34,7 +33,7 @@ Vue.directive('title', {
 })
 Vue.prototype.$catchError = (err) => {
   if(!err.data) {
-    ElementUI.Message('服务器响应错误')
+    ElementUI.Message.error('服务器响应错误')
     return;
   }
   if(err.data.code) {
@@ -72,5 +71,6 @@ axios.interceptors.response.use(res => {
 new Vue({
   el: '#app',
   router,
+  store,
   render: h => h(App)
 })

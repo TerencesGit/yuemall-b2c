@@ -292,7 +292,6 @@
 	        smscode: '',
 	        storeId: '',
 	        agreement: [],
-	        autoLogin: 1,
 				},
 				rules: {
 					mobile: [
@@ -315,6 +314,7 @@
           ]
 				},
 				checked: true,
+				loginType: '1',
 				registerType: '1',
 				storeId: '',
 				autoLogin: 1,
@@ -376,7 +376,7 @@
       },
       userLogin() {
       	let data = {
-    			username: this.form.username,
+    			username: this.form.mobile,
 					password: this.form.password,
 					loginType: this.form.loginType,
 					autoLogin: this.autoLogin,
@@ -386,7 +386,8 @@
 				memberLogin(data).then(res => {
 					this.loading = false;
 					if(res.data.status === 1) {
-						this.$message.success(res.data.msg)
+						this.$store.dispatch('changeLogin', 1)
+						this.$router.replace('/index')
 					} else {
 						this.$message.error(res.data.msg)
 					}
@@ -413,14 +414,14 @@
 			},
 		},
 		mounted() {
-			this.storeId = sessionStorage.getItem('storeId');
-			if(!this.storeId) {
-				this.getStore()
-			}
 			this.drawCode()
 		},
 		created() {
 			this.storeName = JSON.parse(sessionStorage.getItem('store')).storeName;
+			this.storeId = sessionStorage.getItem('storeId');
+			if(!this.storeId) {
+				this.getStore()
+			}
 		}
 	}
 </script>

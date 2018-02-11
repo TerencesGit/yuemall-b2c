@@ -123,8 +123,7 @@
 	export default {
 		data() {
 	    return {
-        providerId: '',
-        isLogin: 0,
+        storeId: '',
         wareKinds: [],
         dstCities: [],
         wareList: [],
@@ -244,7 +243,7 @@
 	    },
 	    getWareKindsAndDstCites() {
 	    	let data = {
-	    		providerId: this.providerId
+	    		providerId: this.storeId
 	    	}
 	    	findWareKindsAndDstCities(data).then(res => {
 	    		// console.log(res)
@@ -267,7 +266,7 @@
 	    	})
 	    },
 	    getDstCitiesByWareKind() {
-	    	let url = `/portal/api/waretripinfo/findSrcAndDstListByWareKind/${this.providerId}?wareKindId=${this.wareKind}`;
+	    	let url = `/portal/api/waretripinfo/findSrcAndDstListByWareKind/${this.storeId}?wareKindId=${this.wareKind}`;
 	    	axios.get(url).then(res => {
 	    		// console.log(res)
 	    		if(res.data.status === 1) {
@@ -279,7 +278,7 @@
 	    },
 	    getWareList() {
 	    	let data = {
-	    		providerId: this.providerId,
+	    		providerId: this.storeId,
 	    		wareKind: this.wareKind || '',
 	    		tripDays: this.tripDays || '',
 	    		srcCityCode: this.srcCItyCode || '',
@@ -312,7 +311,7 @@
 	    },
 	    getWareListBySearchName() {
 	    	let data = {
-	    		providerId: this.providerId,
+	    		providerId: this.storeId,
 	    		searchCondition: this.searchName,
 	    		page: {
 	    			currentPage: this.page.pageNo,
@@ -334,10 +333,9 @@
 	    	})
 	    },
 	    getHotCityList() {
-        let url = `/portal/api/waretripinfo/findSrcAndDstListByWareKind/${this.providerId}?wareKindId=415057355555522`;
-        console.log(url)
+        let url = `/portal/api/waretripinfo/findSrcAndDstListByWareKind/${this.storeId}?wareKindId=415057355555522`;
         axios.get(url).then(res => {
-          console.log(res)
+          // console.log(res)
           if(res.data.status === 1) {
             this.dstCities = res.data.data.dstCities;
           } else {
@@ -348,7 +346,7 @@
 	    getRecommendWare() {
         let data = {
           dstCityCode: '',
-          providerId: this.providerId,
+          providerId: this.storeId,
         }
         this.loading = true;
         recommendWare(data).then(res => {
@@ -363,7 +361,7 @@
       },
       getLocalWareList() {
         let data = {
-          storeId: this.providerId,
+          storeId: this.storeId,
         }
         localList(data).then(res => {
           if(res.data.status === 1){
@@ -376,7 +374,7 @@
       },
       getCityListByContinent() {
         let params = {
-          storeId: this.providerId,
+          storeId: this.storeId,
           continent: this.typeQuery.continent,
           exclude: this.typeQuery.exclude,
         }
@@ -440,7 +438,7 @@
 	    },
 	    getWareTypeList() {
         let data = {
-          storeId: this.providerId,
+          storeId: this.storeId,
           continent: this.typeQuery.continent,
           exclude: this.typeQuery.exclude,
         }
@@ -456,6 +454,9 @@
       },
 		},
 		computed: {
+			isLogin() {
+				return this.$store.getters.isLogin;
+			},
 		},
 		beforeRouteUpdate (to, from, next) {
 			if(to.query && to.query.type) {
@@ -464,14 +465,10 @@
 			this.handleWareType()
 			next()
 		},
-		updated() {
-			this.isLogin = Number(sessionStorage.getItem('isLogin'));
-		},
 		created() {
-			this.providerId = sessionStorage.getItem('providerId');
+			this.storeId = sessionStorage.getItem('storeId');
 			this.searchName = this.$route.query.searchName;
 			this.wareType = this.$route.query.type;
-			console.log(this.wareType)
 			// this.wareKind = this.$route.query.wareKind || 0;
 			// this.tripDays = this.$route.query.tripDays || 0;
 			// this.dstCityCode = this.$route.query.dstCityCode || 0;

@@ -78,8 +78,6 @@
 					loginType: 1,
 					username: '',
 	        password: '',
-	        storeId: '',
-	        autoLogin: 1,
 	        mobile: '',
 	        authcode: '',
 	        smscode: '',
@@ -104,12 +102,12 @@
 					],
 				},
 				storeId: '',
-				autoLogin: 1,
 				authCode: '',
+				autoLogin: '1',
 				loading: false,
 				disabled: false,
 				buttonText: '获取动态码',
-				bgImg: 'http://pai.yueshijue.com/assets/img/img/background.png'
+				bgImg: 'http://pai.yueshijue.com/assets/img/img/background.png',
 			}
 		},
 		methods: {
@@ -183,7 +181,14 @@
 				memberLogin(data).then(res => {
 					this.loading = false;
 					if(res.data.status === 1) {
-						this.$message.success(res.data.msg)
+						let userInfo = res.data.data;
+						this.$store.dispatch('changeLogin', 1)
+						this.$store.dispatch('saveUserInfo', userInfo)
+						if(this.$fromPath.indexOf('register') === 1) {
+	            this.$router.replace('/index')
+	          } else {
+	            window.history.back()
+	          }
 					} else {
 						this.$message.error(res.data.msg)
 					}
@@ -198,7 +203,6 @@
 							this.userLogin()
 						})
 					})
-						
 				} else if(this.form.loginType === 2) {
 					this.$refs.loginForm.validateField('mobile', error => {
 						if(error) return;
@@ -216,7 +220,7 @@
 			},
 		},
 		mounted() {
-			this.storeId = Number(sessionStorage.getItem('storeId'));
+			this.storeId = sessionStorage.getItem('storeId');
 			if(!this.storeId) {
 				this.getStore()
 			}

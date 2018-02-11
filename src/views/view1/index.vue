@@ -123,7 +123,7 @@
     },
     data() {
       return {
-        providerId: '',
+        storeId: '',
         storeLogo: '',
         kindCode: '',
         bannerList: [],
@@ -237,8 +237,7 @@
       getStore() {
         findStoreByPcDoMain().then(res => {
           if(res.data.status === 1) {
-            this.providerId = res.data.data;
-            sessionStorage.setItem('providerId', this.providerId)
+            this.storeId = res.data.data;
             window.location.reload()
           } else {
             this.$message.error(res.data.msg)
@@ -248,7 +247,7 @@
       getBannerList() {
         this.loading = true;
         let data = {
-          merchantId: this.providerId
+          merchantId: this.storeId
         }
         bannerList(data).then(res => {
           this.loading = false;
@@ -264,7 +263,7 @@
       },
       getDstCityList( ) {
         let params = {
-          storeId: this.providerId,
+          storeId: this.storeId,
           continent: '100-101',
         }
         dstCityByContinent(params).then(res => {
@@ -281,10 +280,8 @@
         })
       },
       getHotCityList() {
-        let url = `/portal/api/waretripinfo/findSrcAndDstListByWareKind/${this.providerId}?wareKindId=415057355555522`;
-        console.log(url)
+        let url = `/portal/api/waretripinfo/findSrcAndDstListByWareKind/${this.storeId}?wareKindId=415057355555522`;
         axios.get(url).then(res => {
-          console.log(res)
           if(res.data.status === 1) {
             this.globalDst['Hot'].cityList = res.data.data.dstCities;
           } else {
@@ -294,7 +291,7 @@
       },
       getLocalCityList() {
         let params = {
-          storeId: this.providerId,
+          storeId: this.storeId,
           continent: '100-101-000086',
         }
         dstCityByContinent(params).then(res => {
@@ -307,12 +304,12 @@
       },
       getAsiaCityList() {
         let params = {
-          storeId: this.providerId,
+          storeId: this.storeId,
           continent: '100',
           exclude: '100-101-000086',
         }
         dstCityByContinent(params).then(res => {
-          console.log(res)
+          // console.log(res)
           if(res.data.status === 1) {
             this.globalDst['Asia'].cityList = res.data.data;
           } else {
@@ -322,7 +319,7 @@
       },
       getEuropeCityList() {
         let params = {
-          storeId: this.providerId,
+          storeId: this.storeId,
           continent: '300',
         }
         dstCityByContinent(params).then(res => {
@@ -335,7 +332,7 @@
       },
       getAustraliaCityList() {
         let params = {
-          storeId: this.providerId,
+          storeId: this.storeId,
           continent: '400',
         }
         dstCityByContinent(params).then(res => {
@@ -348,7 +345,7 @@
       },
       getAmericaCityList() {
         let params = {
-          storeId: this.providerId,
+          storeId: this.storeId,
           continent: '400-101',
         }
         dstCityByContinent(params).then(res => {
@@ -366,7 +363,7 @@
       getRecommendWare() {
         let data = {
           dstCityCode: '',
-          providerId: this.providerId,
+          providerId: this.storeId,
         }
         recommendWare(data).then(res => {
           if(res.data.status === 1) {
@@ -378,7 +375,7 @@
       },
       getLocalWareList() {
         let data = {
-          storeId: this.providerId,
+          storeId: this.storeId,
         }
         localList(data).then(res => {
           if(res.data.status === 1){
@@ -390,7 +387,7 @@
       },
       getNationalWareList() {
         let data = {
-          storeId: this.providerId,
+          storeId: this.storeId,
           continent: '100-101-000086',
         }
         warelistByContinent(data).then(res => {
@@ -401,7 +398,7 @@
       },
       getAsiaWareList() {
         let data = {
-          storeId: this.providerId,
+          storeId: this.storeId,
           continent: '100-101',
           exclude: '100-101-000086',
         }
@@ -413,7 +410,7 @@
       },
       getGlobalWareList() {
         let data = {
-          storeId: this.providerId,
+          storeId: this.storeId,
           continent: '',
           exclude: '100',
         }
@@ -427,8 +424,8 @@
     mounted() {
       let store = JSON.parse(sessionStorage.getItem('store'));
       document.title = store && store.storeName || '首页';
-      this.providerId = sessionStorage.getItem('providerId');
-      if(this.providerId) {
+      this.storeId = sessionStorage.getItem('storeId');
+      if(this.storeId) {
         this.getBannerList()
         this.getDstCityList()
         this.getHotCityList()
