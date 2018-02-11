@@ -164,7 +164,7 @@
 				activityList: [],
 				wareAttribute: {},
 				attrOrder: [
-					'CHANPINJIESHAO',
+					// 'CHANPINJIESHAO',
 					'CHANPINCANSHU',
 					'FEIYONGSHUOMING',
 					'FEIYONGBAOHAN',
@@ -172,6 +172,7 @@
 					'ZILIFEIYONG',
 					'TUIGAIGUIZE',
 					'QIANZHENGQIANZHU',
+					'CHANPINJIESHAO',
 				],
 				attributeName: {
 					CHANPINJIESHAO: '产品介绍',

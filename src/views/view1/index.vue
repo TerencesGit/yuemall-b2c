@@ -73,14 +73,14 @@
       <ShowRows :span="3" :gutter="20" :showData="GlobalWareList" :mapping="wareMapping"></ShowRows>
     </div>
     <!-- map -->
-    <div>
+    <div style="margin-bottom: 100px;">
       <img src="/static/image/map.jpg" class="responsive-img">
     </div>
     <!-- show -->
-    <!-- <div class="container-fluid"> 
+    <div class="container-fluid"> 
       <ShowHeader :showData="showHeader.photoShow"></ShowHeader>
       <ShowRows :span="2" :gutter="10" :showData="showList" :mapping="showMapping"></ShowRows>
-    </div> -->
+    </div>
     <!-- ad2 -->
     <div>
       <img src="/static/image/ad.jpg" class="responsive-img" style="margin-top: 80px">
@@ -102,6 +102,7 @@
 
 <script>
   import axios from 'axios';
+  import { ShowList } from '@/mock/data/data'
   import { findStoreByPcDoMain, findmerchantStoreBystoreId, bannerList, dstCityByContinent, 
     wareList, recommendWare, warelistByContinent, localList } from '@/api'
   import HeaderBar from './components/index/headerBar'
@@ -134,6 +135,7 @@
         abroadDstCity: [],
         recommendList: [],
         wareList: [],
+        showList: [],
         globalDst: {
           'Hot': {
             name: '热门：',
@@ -167,13 +169,12 @@
         },
         showMapping: {
           id: 'id',
-          name: 'intro',
+          name: 'name',
           imgUrl: 'imgUrl',
-          desc: 'name',
         },
         showHeader: {
           recommendPhoto: {
-            title: '特别推荐',
+            title: '特别推荐(旅游+拍摄)',
             moreUrl: '/ware/list?type=TourismPhoto',
             headerBg: '/static/image/Journeytake.png'
           },
@@ -203,27 +204,6 @@
             headerBg: '/static/image/Samplesshow.png',
           }
         },
-        showList: [
-          { id: 207, name: '巴黎', englishName: 'Paris', url: 'Paris', region: 'oversea', 
-            imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095254612761.jpg', intro: '浪漫之都',
-            recommend: true, },
-          { id: 218, name: '京都', englishName: 'Kyoto', url: 'Kyoto', region: 'oversea', 
-            imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/01/415095296051782.jpg', intro: '日本京都',
-            recommend: true, },
-          { id: 210, name: '悉尼', englishName: 'Sydney', url: 'Sydney', region: 'oversea', 
-            imgUrl: 'http://fileserver.yueshijue.com/fileService/uploads/2017/11/17/15109115747544.jpg', intro: '异域风情，澳洲之旅',
-            recommend: true,
-          },
-          { id: 206, name: '罗马', englishName: 'Rome', url: 'Rome', region: 'oversea', 
-            imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097793509155.jpg', intro: '罗马假日',
-            recommend: true, },
-          { id: 201, name: '巴厘岛', englishName: 'Bali', url: 'Bali', region: 'oversea',
-            imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097791012752.jpg', intro: '度假胜地，天堂巴厘岛',
-            recommend: true, },
-          { id: 216, name: '马尔代夫', englishName: 'Maldives', url: 'Maldives', region: 'oversea', 
-            imgUrl: 'http://fileServer.yueshijue.com/fileService/uploads/2017/11/04/415097797423675.jpg', intro: '度假天堂',
-            recommend: true, },
-        ],
         LocalWareList: [],
         NationalWareList: [],
         AsiaWareList: [],
@@ -423,6 +403,7 @@
       },
     },
     mounted() {
+      this.showList = ShowList;
       let store = JSON.parse(sessionStorage.getItem('store'));
       document.title = store && store.storeName || '首页';
       this.storeId = sessionStorage.getItem('storeId');
@@ -450,7 +431,7 @@
   $color: #19A9E8;
   .header-wrap {
     position: relative;
-    top: -50px;
+    // top: -50px;
   }
   .header-search {
     width: 700px;

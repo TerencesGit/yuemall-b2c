@@ -58,7 +58,8 @@
 </script>
 <style scoped lang="scss">
 	.searchbar {
-		padding: 10px 30px 40px;
+		padding: 10px;
+		margin: 30px auto;
 		border-radius: 10px;
 		background: rgba(255,255,255,.5);
 		.dst-list {

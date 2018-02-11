@@ -29,7 +29,7 @@
             englishName: 'Local Photo',
             imgSrc: '/static/image/bg-1.png',
             icon: '/static/image/icon-1.png',
-            url: '/ware/list?type=Recommend',
+            url: '/ware/list?type=LocalPhoto',
           },
           {
             name: '特别推荐',
@@ -64,7 +64,7 @@
             englishName: 'photo show',
             imgSrc: '/static/image/bg-6.png',
             icon: '/static/image/icon-6.png',
-            url: '/',
+            url: '/show',
           },
         ]
 			}

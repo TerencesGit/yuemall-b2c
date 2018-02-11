@@ -17,6 +17,8 @@ import TourismStrategy from '@/pages/help/tourism_term'
 import Attentions from '@/pages/help/customer_complain'
 // view1
 import Index from '~/index'
+import Show from '~/show/index'
+import ShowDetail from '~/show/detail'
 import WareList from '~/ware/list'
 import WareDetail from '~/ware/detail'
 import WareFillOrder from '~/ware/fillOrder'
@@ -48,6 +50,8 @@ const routes = [
     component: Container,
     children: [
       { path: 'index', name: '首页', component: Index },
+      { path: 'show', name: '客片列表', component: Show },
+      { path: 'show/detail', name: '客片展示', component: ShowDetail },
       // { path: 'list', name: '列表页', component: List },
       // { path: 'native', name: 'native', component: Native },
       // { path: 'oversea', name: 'oversea', component: Oversea },

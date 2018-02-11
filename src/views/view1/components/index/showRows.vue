@@ -2,13 +2,13 @@
 	<div class="show-table">
     <ul class="show-row" v-for="(row, index) in showRows" :key="index" :style="{marginBottom: gutter+'px'}">
       <li v-for="(item, index) in row" :key="index" class="show-cell" :style="{marginRight: gutter+'px'}">
-        <a v-if="item.id" :href="'#/ware/detail?id='+item.id" target="_blank">
+        <router-link v-if="item.id" :to="item.isShow ? 'show/detail?destination='+item.url : 'ware/detail?id='+item.id" target="_blank">
           <img :src="item[mapping && mapping.imgUrl || 'imgUrl']">
           <div class="cell-text">
             <p class="cell-name ellipsis2">{{item[mapping && mapping.name || 'name']}}</p>
             <p class="cell-desc" v-if="item[mapping.desc || 'desc']">{{item[mapping && mapping.desc || 'desc']}}</p>
           </div>
-        </a>
+        </router-link>
       </li>
     </ul>
   </div>
@@ -39,7 +39,8 @@
 </script>
 <style scoped lang="scss">
 	.show-table {
-    margin: 30px 0;
+    min-height: 100px;
+    margin: 50px auto 100px;
     .show-row {
       display: flex;
       flex-wrap: wrap;

@@ -18,6 +18,7 @@
 	.ware-header {
     position: relative;
     padding: 5px 0;
+    // margin-top: 50px;
     text-align: center;
     color: #19A9E8;
     border-bottom: 1px solid #f0f0f0;

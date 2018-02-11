@@ -1,6 +1,6 @@
 <template>
   <section>
-  <div v-title :data-title="this.$route.name"></div>
+    <div v-title :data-title="this.$route.name"></div>
    <div class="fill_order">
     <div class="fill_steps_con">
         <el-steps :active="active" finish-status="success" class="fill_steps" align-center>
