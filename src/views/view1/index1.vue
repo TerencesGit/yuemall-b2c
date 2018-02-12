@@ -14,7 +14,8 @@
     <div class="destination-wrap container">
       <Searchbar class="header-search" :recommendList="recommendCities"></Searchbar>
       <IndexNav></IndexNav>
-      <IndexTitle :title="'全球100+目的地'" :EnTitle="'global destinations'"></IndexTitle>
+      <!-- <IndexTitle :title="'全球100+目的地'" :EnTitle="'global destinations'"></IndexTitle> -->
+      <ItemHeader :name="'全球100+目的地'" :enName="'global destinations'"></ItemHeader>
       <div class="global-dst">
         <DstList 
           v-for="(item, index) in globalDst" 
@@ -56,45 +57,47 @@
     <!-- warelist -->
     <div class="container-fluid">
       <!-- 本地拍 -->
-      <ShowHeader :showData="showHeader.localPhoto"></ShowHeader>
+      <!-- <ShowHeader :showData="showHeader.localPhoto"></ShowHeader> -->
+      <ItemHeader :name="'本地拍'" :enName="'local Photo'" :moreUrl="'/'"></ItemHeader>
       <ShowRows :span="3" :gutter="20" :showData="LocalWareList" :mapping="wareMapping"></ShowRows>
       <!-- 特别推荐 -->
-      <ShowHeader :showData="showHeader.recommendPhoto"></ShowHeader>
-      <ShowRows :span="3" :gutter="20" :showData="recommendList" :mapping="wareMapping"></ShowRows>
+      <!-- <ShowHeader :showData="showHeader.recommendPhoto"></ShowHeader> -->
+      <ItemHeader :name="'特别推荐(旅游+摄影)'" :enName="'recommend(tourism + photography)'" :moreUrl="'/ware/list?type=TourismPhoto'"></ItemHeader>
+      <ShowRows :span="4" :gutter="10" :showData="recommendList" :mapping="wareMapping"></ShowRows>
       
        <!-- 亚洲拍 -->
       <!-- <ShowHeader :showData="showHeader.asiaPhoto"></ShowHeader>
       <ShowRows :span="3" :gutter="20" :showData="AsiaWareList" :mapping="wareMapping"></ShowRows> -->
-      <!-- 全国排 -->
-      <ShowHeader :showData="showHeader.nativePhoto"></ShowHeader>
-      <ShowRows :span="3" :gutter="20" :showData="NationalWareList" :mapping="wareMapping"></ShowRows>
+      <!-- 全国拍 -->
+      <!-- <ShowHeader :showData="showHeader.nativePhoto"></ShowHeader> -->
+      <ItemHeader :name="'全国拍'" :enName="'domestic photo'" :moreUrl="'/ware/list?type=DomesticPhoto'"></ItemHeader>
+      <ShowRows :span="4" :gutter="10" :showData="NationalWareList" :mapping="wareMapping"></ShowRows>
       <!-- 全球拍 -->
-      <ShowHeader :showData="showHeader.globalPhoto"></ShowHeader>
-      <ShowRows :span="3" :gutter="20" :showData="GlobalWareList" :mapping="wareMapping"></ShowRows>
+      <!-- <ShowHeader :showData="showHeader.globalPhoto"></ShowHeader> -->
+      <ItemHeader :name="'全球拍'" :enName="'global photo'" :moreUrl="'/ware/list?type=AbroadPhoto'"></ItemHeader>
+      <ShowRows :span="4" :gutter="10" :showData="GlobalWareList" :mapping="wareMapping"></ShowRows>
     </div>
     <!-- map -->
     <div style="margin-bottom: 100px;">
-      <img src="/static/image/map.jpg" class="responsive-img">
+      <img src="/static/image/map1.jpg" class="responsive-img">
     </div>
     <!-- show -->
     <div class="container-fluid"> 
-      <ShowHeader :showData="showHeader.photoShow"></ShowHeader>
-      <ShowRows :span="2" :gutter="10" :showData="showList" :mapping="showMapping"></ShowRows>
+      <!-- <ShowHeader :showData="showHeader.photoShow"></ShowHeader> -->
+      <ItemHeader :name="'客片展示'" :enName="'photo show'" :moreUrl="'/show'"></ItemHeader>
+      <ShowRows :span="4" :gutter="10" :showData="showList" :mapping="showMapping"></ShowRows>
     </div>
     <!-- ad2 -->
     <div style="margin-top: -20px;">
-      <img src="/static/image/ad.jpg" class="responsive-img">
+      <img src="/static/image/ad02.jpg" class="responsive-img">
     </div>
     <!-- 12项高端定制旅游 -->
     <div class="travel-wrap">
-      <div class="container"> 
-        <IndexTitle :title="'12项高端定制'" :EnTitle="'Twelve high-end customizing'"></IndexTitle>
-        <div class="content">
-          <img src="../../assets/img/icon12.png" alt="">
-          <!-- <ul class="travel-list clearfix">
-            <li class="icon" v-for="index in 12"></li>
-          </ul> -->
-        </div>
+      <!-- <div class="container">  -->
+        <ItemHeader :name="'12项高端定制'" :enName="'12 high-end customizing'"></ItemHeader>
+      <!-- </div> -->
+      <div class="content">
+        <img src="/static/image/icon12_02.jpg" alt="">
       </div>
     </div>
   </section>
@@ -108,13 +111,15 @@
   import Searchbar from './components/index1/searchBar'
   import DstList from './components/index/dstList.vue'
   import IndexTitle from './components/index/indexTitle'
+  import ItemHeader from './components/index1/itemHeader'
   import IndexNav from './components/index/indexNav'
   import ShowHeader from './components/index/showHeader'
-  import ShowRows from './components/index/showRows'
+  import ShowRows from './components/index1/showRows'
   export default {
     name: "index",
     components: {
       Searchbar,
+      ItemHeader,
       IndexTitle,
       IndexNav,
       ShowHeader,
@@ -459,6 +464,9 @@
       margin: 50px 0 30px;
     }
   }
+  .global-dst {
+    margin: 50px 100px;
+  }
   .ad-box {
     display: flex;
     width: 100%;
@@ -474,7 +482,7 @@
   }
   .travel-wrap {
     padding: 60px 0;
-    background: #FAF8F8;
+    background: #fff;
     .content {
       margin: 50px 0;
       img {
