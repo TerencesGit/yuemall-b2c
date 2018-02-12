@@ -114,12 +114,14 @@
           color: #fff;
           text-align: center;
           h4 {
+            font-weight: normal;
             margin: 10px 0;
             font-size: 18px;
           }
           h5 {
             margin: 0;
             font-size: 12px;
+            font-weight: normal;
             text-transform: uppercase;
           }
           .line {

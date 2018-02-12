@@ -1,4 +1,4 @@
-# yueadmin-mall
+# yuemall-b2c
 
 > A Vue.js project
 

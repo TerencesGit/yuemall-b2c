@@ -115,7 +115,7 @@
 	</section>
 </template>
 <script>
-	import { Destinations } from '@/mock/data/data'
+	import { DstShowList } from '@/data'
 	export default {
 		data() {
 			return {
@@ -188,10 +188,7 @@
 			}
 		},
 		mounted() {
-			this.destinations = Destinations;
-			// this.destinations.sort(() => {
-  	// 		return 0.5 - Math.random()
-  	// 	})
+			this.destinations = DstShowList;
 		}
 	}
 </script>

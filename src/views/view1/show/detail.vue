@@ -12,7 +12,7 @@
 	</section>
 </template>
 <script>
-	import { ShowLists } from '@/mock/data/data'
+	import { ShowDetail } from '@/data'
 	export default {
 		data() {
 			return {
@@ -42,7 +42,7 @@
 			if(this.$route.query.destination) {
 				this.destination = this.$route.query.destination;
 				this.bgColor = this.bgColorList[this.destination];
-				this.imageList = ShowLists[this.destination];
+				this.imageList = ShowDetail[this.destination];
 				this.headerImg = this.imageList[0];
 				this.imageList.splice(0, 1);
 			} else {

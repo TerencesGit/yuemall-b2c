@@ -88,7 +88,10 @@
 						<label class="service-label">附加项</label>
 						<ul class="service-list">
 							<li v-for="(item, index) in serviceList" :key="item.id" class="service-item">
-								<div class="service-name">{{item.wareName}}</div>
+								<div class="service-name">
+									<span class="name">{{item.wareName}}</span>
+									<p class="desc">{{item.wareDesc}}</p>
+								</div>
 								<div class="service-price">单价 
 									<strong class="price"><i>￥</i>{{item.servicePrice}}</strong class="price">
 								</div>
@@ -668,6 +671,41 @@
 					}
 					.service-name {
 						width: 240px;
+						position: relative;
+						.name {
+							cursor: pointer;
+							&:hover {
+								+.desc{
+									opacity: 1;
+									visibility: visible;
+								}
+							}
+						}
+						.desc {
+							opacity: 0;
+							visibility: hidden;
+							position: absolute;
+							top: 32px;
+							left: 0;
+							z-index: 99;
+							width: 200px;
+							padding: 8px;
+							line-height: 1.2;
+							color: #fff;
+							background: #1aa8e9;
+							transition: all .3s;
+							&:before {
+								content: '';
+								position: absolute;
+								top: -7px;
+								left: 15px;
+								width: 0; 
+								height: 0; 
+								border-left: 5px solid transparent; 
+								border-right: 5px solid transparent; 
+								border-bottom: 8px solid #1aa8e9;
+							}
+						}
 					}
 					.service-price {
 						width: 240px;

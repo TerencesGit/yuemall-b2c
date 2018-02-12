@@ -7,18 +7,16 @@ import axios from 'axios'
 import App from './App'
 import store from './vuex/store'
 import routes from './router'
-import Mock from './mock'
 import moment from 'moment'
 import ElementUI from 'element-ui'
 import NProgress from 'nprogress'
+import PriceCalendar from '@/components/pricecalendar'
 import 'nprogress/nprogress.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'font-awesome/css/font-awesome.min.css'
 import '@/assets/css/main.scss'
-import PriceCalendar from '@/components/pricecalendar'
-// import LazyLoad from '@/components/lazyLoad'
-// Vue.use(LazyLoad)
-// Mock.bootstrap()
+import '@/assets/css/theme/light_blue.scss'
+import '@/assets/css/theme/orange.scss'
 Vue.use(Vuex)
 Vue.use(Router)
 Vue.use(ElementUI)
@@ -60,9 +58,6 @@ axios.interceptors.request.use(config => {
   return Promise.reject(error)
 })
 axios.interceptors.response.use(res => {
-  // if (res.data.code === '0000') {
-  //   router.replace('/login')
-  // } 
   return res; 
 }, err => {
   return Promise.reject(err)

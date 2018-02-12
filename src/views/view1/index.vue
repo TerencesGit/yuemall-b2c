@@ -2,7 +2,7 @@
   <section>
     <!-- header -->
     <div class="header-wrap">
-        <el-carousel height="880px">
+        <el-carousel height="800px">
           <el-carousel-item v-for="item in bannerList" :key="item.id">
             <!-- <img :src="item.urlAddr" alt=""> -->
             <router-link to="/" :style="{background: 'url('+item.urlAddr+') center center no-repeat'}">
@@ -82,13 +82,13 @@
       <ShowRows :span="2" :gutter="10" :showData="showList" :mapping="showMapping"></ShowRows>
     </div>
     <!-- ad2 -->
-    <div>
-      <img src="/static/image/ad.jpg" class="responsive-img" style="margin-top: 80px">
+    <div style="margin-top: -20px;">
+      <img src="/static/image/ad.jpg" class="responsive-img">
     </div>
     <!-- 12项高端定制旅游 -->
     <div class="travel-wrap">
       <div class="container"> 
-        <IndexTitle :title="'12项高端定制'" :EnTitle="'global travel destinations'"></IndexTitle>
+        <IndexTitle :title="'12项高端定制'" :EnTitle="'Twelve high-end customizing'"></IndexTitle>
         <div class="content">
           <img src="../../assets/img/icon12.png" alt="">
           <!-- <ul class="travel-list clearfix">
@@ -102,7 +102,7 @@
 
 <script>
   import axios from 'axios';
-  import { ShowList } from '@/mock/data/data'
+  import { ShowList } from '@/data'
   import { findStoreByPcDoMain, findmerchantStoreBystoreId, bannerList, dstCityByContinent, 
     wareList, recommendWare, warelistByContinent, localList } from '@/api'
   import HeaderBar from './components/index/headerBar'
@@ -431,7 +431,7 @@
   $color: #19A9E8;
   .header-wrap {
     position: relative;
-    // top: -50px;
+    top: -90px;
   }
   .header-search {
     width: 700px;
@@ -453,6 +453,8 @@
     margin: 50px;
   }
   .destination-wrap {
+    position: relative;
+    top: -90px;
     .index-title {
       margin: 50px 0 30px;
     }
@@ -460,7 +462,7 @@
   .ad-box {
     display: flex;
     width: 100%;
-    margin: 80px 0;
+    margin: 0 0 90px;
     .part1-1, .part1-2 {
       display: flex;
     }
@@ -471,7 +473,7 @@
     }
   }
   .travel-wrap {
-    padding: 30px 0;
+    padding: 60px 0;
     background: #FAF8F8;
     .content {
       margin: 50px 0;

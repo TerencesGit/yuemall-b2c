@@ -7,5 +7,7 @@ yarn-error.log*
 api
 assets
 src/components
+src/component
 data
+help
 static

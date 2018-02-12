@@ -290,7 +290,6 @@
 	        password: '',
 	        authcode: '',
 	        smscode: '',
-	        storeId: '',
 	        agreement: [],
 				},
 				rules: {
@@ -317,7 +316,7 @@
 				loginType: '1',
 				registerType: '1',
 				storeId: '',
-				autoLogin: 1,
+				autoLogin: '1',
 				authCode: '',
 				loading: false,
 				disabled: false,
@@ -378,7 +377,7 @@
       	let data = {
     			username: this.form.mobile,
 					password: this.form.password,
-					loginType: this.form.loginType,
+					loginType: this.loginType,
 					autoLogin: this.autoLogin,
 					storeId: this.storeId,
       	}
