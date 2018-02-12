@@ -12,13 +12,13 @@
     </div>
     <!-- destination -->
     <div class="destination-wrap container">
-      <Searchbar class="header-search" :recommendList="globalDst['Hot'].cityList"></Searchbar>
+      <Searchbar class="header-search" :recommendList="recommendCities"></Searchbar>
       <IndexNav></IndexNav>
       <IndexTitle :title="'全球100+目的地'" :EnTitle="'global destinations'"></IndexTitle>
       <div class="global-dst">
         <DstList 
           v-for="(item, index) in globalDst" 
-          v-if="item.cityList.length !== 0"
+          v-if="item.cityList.length !== 0" 
           :key="index" 
           :title="item.name"
           :dstList="item.cityList"
@@ -105,7 +105,7 @@
   import { ShowList } from '@/data'
   import { findStoreByPcDoMain, findmerchantStoreBystoreId, bannerList, dstCityByContinent, 
     wareList, recommendWare, warelistByContinent, localList } from '@/api'
-  import Searchbar from './components/index/searchBar'
+  import Searchbar from './components/index1/searchBar'
   import DstList from './components/index/dstList.vue'
   import IndexTitle from './components/index/indexTitle'
   import IndexNav from './components/index/indexNav'
@@ -206,6 +206,7 @@
         NationalWareList: [],
         AsiaWareList: [],
         GlobalWareList: [],
+        recommendCities: [],
       }
     },
     methods: {
@@ -263,6 +264,7 @@
         axios.get(url).then(res => {
           if(res.data.status === 1) {
             this.globalDst['Hot'].cityList = res.data.data.dstCities;
+            this.recommendCities = res.data.data.dstCities.filter((item, index) => index >=0 && index < 5);
           } else {
             this.$message.error(res.data.message)
           }
@@ -429,7 +431,7 @@
   $color: #19A9E8;
   .header-wrap {
     position: relative;
-    top: -90px;
+    // top: -90px;
   }
   .header-search {
     width: 700px;
@@ -441,7 +443,7 @@
       width: 100%;
       height: 100%;
     }
-    img{
+    img {
       display: block;
       width: 100%;
       height: 100%;
@@ -452,7 +454,7 @@
   }
   .destination-wrap {
     position: relative;
-    top: -90px;
+    // top: -90px;
     .index-title {
       margin: 50px 0 30px;
     }
