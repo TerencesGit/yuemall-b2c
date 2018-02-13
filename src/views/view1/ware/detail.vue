@@ -7,17 +7,22 @@
             <img :src="item.filePath" alt=""> 
           </el-carousel-item>
         </el-carousel>
-        <price-calendar 
-					:data="skuData"
-					style="margin-top: 20px;"
-					:firstDayOfWeek="0"
-					:endDate="endDate"
-					:selectedDay="selectedDay" 
-					:headerBg="calendarBg"
-					@dayClick="dayClick"
-					@prevMonth="handlePrevMonth"
-					@nextMonth="handleNextMonth">
-				</price-calendar>
+        <div class="ware-price-calendar">
+	        <price-calendar 
+						:data="skuData"
+						style="margin-top: 20px;"
+						:firstDayOfWeek="0"
+						:endDate="endDate"
+						:selectedDay="selectedDay" 
+						:headerBg="calendarBg"
+						@dayClick="dayClick"
+						@prevMonth="handlePrevMonth"
+						@nextMonth="handleNextMonth">
+					</price-calendar>
+					<div class="celendar-mask" v-if="isLogin === 0">
+						<router-link to="/login" class="login-button">登录后价格可见</router-link>
+					</div>
+				</div>
 			</div>
 			<div class="ware-detail-r">
 				<div class="ware-detail-item ware-code">
@@ -469,6 +474,11 @@
 				return totalPrice;
 			},
 		},
+		mounted() {
+			setTimeout(() => {
+				this.getTabPanesTop()
+			}, 3000)
+		},
 		created() {
 			this.wareId = this.$route.query.id;
 			this.skuDate = this.$moment().format('YYYY-MM-DD');
@@ -491,6 +501,30 @@
 		margin-top: 30px;
 		@at-root .ware-detail-l {
 			width: 570px;
+			.ware-price-calendar{
+				position: relative;
+				.celendar-mask {
+					position: absolute;
+					top: 0;
+					width: 100%;
+					height: 100%;
+					background: rgba(0,0,0,.5);
+					.login-button {
+						position: absolute;
+						top: 0;
+						left: 0;
+						right: 0;
+						bottom: 0;
+						margin: auto;
+						width: 150px;
+						height: 40px;
+						color: #fff;
+						text-align: center;
+						line-height: 40px;
+						// background: $color;
+					}
+				}
+			}
 		}
 		@at-root .ware-detail-r {
 			width: 600px;

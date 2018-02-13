@@ -56,8 +56,8 @@
     <!-- warelist -->
     <div class="container-fluid">
       <!-- 本地拍 -->
-      <ShowHeader :showData="showHeader.localPhoto"></ShowHeader>
-      <ShowRows :span="3" :gutter="20" :showData="LocalWareList" :mapping="wareMapping"></ShowRows>
+      <ShowHeader :showData="showHeader.localPhoto" v-if="LocalWareList.length > 0"></ShowHeader>
+      <ShowRows :span="3" :gutter="20" :showData="LocalWareList" :mapping="wareMapping" v-if="LocalWareList.length > 0"></ShowRows>
       <!-- 特别推荐 -->
       <ShowHeader :showData="showHeader.recommendPhoto"></ShowHeader>
       <ShowRows :span="3" :gutter="20" :showData="recommendList" :mapping="wareMapping"></ShowRows>
@@ -477,58 +477,6 @@
       margin: 50px 0;
       img {
         width: 100%;
-      }
-    }
-    .travel-list {
-      margin: 50px 0;
-      li {
-        float: left;
-        width: 191px;
-        height: 200px;
-        margin: 10px 10px 0 0;
-        transition: all .3s;
-        &:hover {
-          transform: scale(1.03);
-        }
-        &:nth-child(6n) {
-          margin-right: 0;
-        }
-        &:nth-child(1) {
-          background-position: 0 -260px;
-        }
-        &:nth-child(2) {
-          background-position: -191px -260px;
-        }
-        &:nth-child(3) {
-          background-position: -383px -260px;
-        }
-        &:nth-child(4) {
-          background-position: -575px -260px;
-        }
-        &:nth-child(5) {
-          background-position: -767px -260px;
-        }
-        &:nth-child(6) {
-          background-position: -959px -260px;
-        }
-        &:nth-child(7) {
-          background-position: 0 -460px;
-        }
-        &:nth-child(8) {
-          background-position: -191px -460px;
-        }
-        &:nth-child(9) {
-          background-position: -383px -460px;
-        }
-        &:nth-child(10) {
-          background-position: -575px -460px;
-        }
-        &:nth-child(11) {
-          background-position: -767px -460px;
-        }
-        &:nth-child(12) {
-          background-position: -959px -460px;
-        }
       }
     }
   }

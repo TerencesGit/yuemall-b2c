@@ -49,7 +49,7 @@
 			  </div>
 			</div>
       <div class="ware-wrap">
-      	<ul class="ware-header clearfix">
+      	<ul class="ware-list-header clearfix">
           <li @click="handleSaleSort" :class="{active: sortActive === 0}">
             <a href="javascript:;">
             	销量(<i v-show="saleSort === 0">↑</i><i v-show="saleSort === 1">↓</i>)
@@ -547,7 +547,7 @@
 		width: 900px;
 		margin-bottom: 50px;
 	}
-	.ware-header {
+	.ware-list-header {
     width: 1200px;
     margin: 50px auto 20px;
     line-height: 36px;
@@ -613,70 +613,4 @@
 			}
 		}
 	}
-	// .ware-list-horizontal {
-	// 	display: flex;
-	// 	width: 100%;
-	// 	flex-wrap: wrap;
-	// 	margin-bottom: 20px;
-	// 	> li {
-	// 		width: 232px;
-	// 		margin-right: 10px;
-	// 		margin-bottom: 15px;
-	// 		border: 1px solid #ddd;
-	// 		transition: all .2s linear;
-	// 		&:nth-child(5n) {
-	// 			margin-right: 0;
-	// 		}
-	// 		&:hover {
-	// 			// border: 1px solid #00a0e9;
-	// 			box-shadow: 0 15px 30px rgba(0,0,0,.1);
-	// 			transform: translate3d(0, -1px, 0);
-	// 		}
-	// 		.ware-detail {
-	// 			padding: 10px;
-	// 			.ware-name {
-	// 				height: 38px;
-	// 				overflow: hidden;
-	// 				color: #666;
-	// 				font-size: 13px;
-	// 				font-weight: normal;
-	// 			}
-	// 			.ware-keywords {
-	// 				height: 28px;
-	// 				margin: 5px 0;
-	// 				overflow: hidden;
-	// 				li {
-	// 					float: left;
-	// 					padding: 2px 5px;
-	// 					margin-left: 5px;
-	// 					margin-bottom: 5px;
-	// 					font-size: 13px;
-	// 					color: #999;
-	// 					border: 1px solid #ddd;
-	// 					&:first-child {
-	// 						margin-left: 0;
-	// 					}
-	// 				}
-	// 			}
-	// 			.ware-price {
-	// 				margin-top: 20px;
-	// 				font-size: 14px;
-	// 				.price {
-	// 					color: #FF6701;
-	// 				}
-	// 			}
-	// 			.ware-price-hidden {
-	// 				a {
-	// 					margin-top: 15px;
-	// 					font-size: 14px;
-	// 					color: #FF6701;
-	// 				}
-	// 			}
-	// 		}
-	// 		img {
-	// 			width: 100%;
-	// 			max-height: 160px;
-	// 		}
-	// 	}
-	// }
 </style>

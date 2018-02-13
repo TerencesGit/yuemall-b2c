@@ -6,7 +6,7 @@ import TourismStrategy from '@/views/help/tourism_term'
 import Attentions from '@/views/help/customer_complain'
 
 // view1
-import Index from '~/index1'
+import Index from '~/index'
 import UserLogin from '~/login/login'
 import UserRegister from '~/login/register'
 

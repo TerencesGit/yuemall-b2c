@@ -40,12 +40,11 @@
 <style scoped lang="scss">
 	.show-table {
     min-height: 100px;
-    margin: 50px auto 100px;
+    margin: 50px auto 80px;
     .show-row {
       display: flex;
       flex-wrap: wrap;
       width: 100%;
-      // margin-bottom: 20px;
       .show-cell {
         flex: 1;
         &:last-child {

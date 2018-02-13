@@ -24,7 +24,7 @@
 	$color1: #ff7900; 
 	$color2: #058D99; 
 	.item-header {
-		margin: 50px auto;
+		margin: 30px auto;
 		.header-title {
 			margin: auto;
 			text-align: center;

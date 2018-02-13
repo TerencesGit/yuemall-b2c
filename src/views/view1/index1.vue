@@ -13,7 +13,6 @@
     <!-- destination -->
     <div class="destination-wrap container">
       <Searchbar class="header-search" :recommendList="recommendCities"></Searchbar>
-      <IndexNav></IndexNav>
       <!-- <IndexTitle :title="'全球100+目的地'" :EnTitle="'global destinations'"></IndexTitle> -->
       <ItemHeader :name="'全球100+目的地'" :enName="'global destinations'"></ItemHeader>
       <div class="global-dst">
@@ -28,7 +27,7 @@
       </div>
     </div>
     <!-- ad1 -->
-    <div class="ad-box">
+    <!-- <div class="ad-box">
       <div class="part1">
         <div class="part1-1">
           <div class="part-1-1-1">
@@ -53,13 +52,14 @@
       <div class="part2">
         <img src="/static/image/ad1-3.jpg" alt="">
       </div>
-    </div>
+    </div> -->
+    <IndexNav></IndexNav>
     <!-- warelist -->
     <div class="container-fluid">
       <!-- 本地拍 -->
       <!-- <ShowHeader :showData="showHeader.localPhoto"></ShowHeader> -->
-      <ItemHeader :name="'本地拍'" :enName="'local Photo'" :moreUrl="'/'"></ItemHeader>
-      <ShowRows :span="3" :gutter="20" :showData="LocalWareList" :mapping="wareMapping"></ShowRows>
+      <ItemHeader :name="'本地拍'" :enName="'local Photo'" :moreUrl="'/'" v-if="LocalWareList.length > 0"></ItemHeader>
+      <ShowRows :span="3" :gutter="20" :showData="LocalWareList" :mapping="wareMapping" v-if="LocalWareList.length > 0"></ShowRows>
       <!-- 特别推荐 -->
       <!-- <ShowHeader :showData="showHeader.recommendPhoto"></ShowHeader> -->
       <ItemHeader :name="'特别推荐(旅游+摄影)'" :enName="'recommend(tourism + photography)'" :moreUrl="'/ware/list?type=TourismPhoto'"></ItemHeader>
@@ -78,7 +78,7 @@
       <ShowRows :span="4" :gutter="10" :showData="GlobalWareList" :mapping="wareMapping"></ShowRows>
     </div>
     <!-- map -->
-    <div style="margin-bottom: 100px;">
+    <div style="margin-top: -60px;">
       <img src="/static/image/map1.jpg" class="responsive-img">
     </div>
     <!-- show -->
@@ -88,7 +88,7 @@
       <ShowRows :span="4" :gutter="10" :showData="showList" :mapping="showMapping"></ShowRows>
     </div>
     <!-- ad2 -->
-    <div style="margin-top: -20px;">
+    <div style="margin-top: -50px;">
       <img src="/static/image/ad02.jpg" class="responsive-img">
     </div>
     <!-- 12项高端定制旅游 -->
@@ -112,7 +112,7 @@
   import DstList from './components/index/dstList.vue'
   import IndexTitle from './components/index/indexTitle'
   import ItemHeader from './components/index1/itemHeader'
-  import IndexNav from './components/index/indexNav'
+  import IndexNav from './components/index1/indexNav'
   import ShowHeader from './components/index/showHeader'
   import ShowRows from './components/index1/showRows'
   export default {
