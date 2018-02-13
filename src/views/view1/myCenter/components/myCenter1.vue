@@ -6,7 +6,9 @@
 		        	<img :src="userInfo.picUrl" alt="头像">
 		        </div>
 		        <span>{{userInfo.nickname}}</span>
-		        <el-button type="danger" plain  class="my-address">我的收货地址</el-button>
+		        <router-link to="deliveryAddress">
+		        	<el-button type="danger" plain  class="my-address">我的收货地址</el-button>
+				</router-link>
             </div>
             <el-tabs v-model="activeName" @tab-click="handleClick" class="my-tab" >
 			    <el-tab-pane label="全部订单" name="1" class="my-tab-item1">
@@ -206,10 +208,14 @@
       }},
     methods:{
        formatProData(data){
-           let cMess = data;
-          	 if(cMess == ""){
+
+           let cMess = data;      
+          	 if(cMess.customerOrders == ""){
           	 	 this.myItem = true;
+          	 }else{
+          	 	 this.myItem = false;
           	 }
+          	 console.log(this.myItem);
           	 for(let i = 0;i < cMess.customerOrders.length;i++){
           	 	cMess.customerOrders[i].customerOrderItem.dateDepart = this.fmtDate(cMess.customerOrders[i].customerOrderItem.dateDepart);
           	 	cMess.customerOrders[i].customerOrderItem.dateReturn = this.fmtDate(
@@ -290,12 +296,18 @@
 	       return y+"-"+m.substring(m.length-2,m.length)+"-"+d.substring(d.length-2,d.length);
       },
       getProStatu(n){
+      	 let m = n;
+      	 sessionStorage.setItem("status",m);
+      	 console.log(m); 
+      	 if(n = 0){
+      	 	m = "";
+      	 }
          let data = {
           page:{
           	currentPage: "1", 
           	pageSize: "5"
           },
-          status:n,
+          status:m,
         }
         orderList(data).then(res => {
 	      if(res.data.status === 1) { 
@@ -304,8 +316,10 @@
 	       })
       },
       handleClick(tab, event) {
-        console.log(tab.index);
-        if(tab.index == 1){
+        if(tab.index == 0){
+         this.getProStatu(0)
+        }
+        else if(tab.index == 1){
          this.getProStatu(1)
         }else if(tab.index == 2){
          this.getProStatu(2)  

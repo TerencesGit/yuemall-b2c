@@ -18,6 +18,7 @@ import WareDetail from '~/ware/detail'
 import WareFillOrder from '~/ware/fillOrder'
 
 import OrderFillInfo from '~/ware/fillInfo'
+import OrderDetail from '~/ware/orderDetail'
 import OrderPay from '~/ware/pay'
 
 import MyCenter from '~/myCenter/myCenter'
@@ -26,6 +27,10 @@ import myCenter2 from '~/myCenter/components/myCenter2'
 import myCenter3 from '~/myCenter/components/myCenter3'
 import myCenter4 from '~/myCenter/components/myCenter4'
 import myCenter5 from '~/myCenter/components/myCenter5'
+import deliveryAddress from '~/myCenter/components/deliveryAddress'
+import addressDetail from '~/myCenter/components/addressDetail'
+import addressEdit from '~/myCenter/components/addressEdit'
+import addressAdd from '~/myCenter/components/addressAdd'
 
 const routes = [
 	{
@@ -52,6 +57,10 @@ const routes = [
           { path: 'myCenter3', name: 'myCenter3', component: myCenter3 },
           { path: 'myCenter4', name: 'myCenter4', component: myCenter4 },
           { path: 'myCenter5', name: 'myCenter5', component: myCenter5 },
+          { path: 'deliveryAddress', name: 'deliveryAddress', component: deliveryAddress },
+          { path: 'addressDetail', name: 'addressDetail', component: addressDetail },
+          { path: 'addressEdit', name: 'addressEdit', component: addressEdit },
+          { path: 'addressAdd', name: 'addressAdd', component: addressAdd },
         ]
       },
     ]
@@ -66,6 +75,7 @@ const routes = [
       { path: 'reserve', name: '商品预定页', component: WareFillOrder },
       { path: 'pay', name: '订单支付页', component: OrderPay },
       { path: 'fillInfo', name: '订单完善信息页', component: OrderFillInfo },
+      { path: 'orderDetail', name: '订单详情页', component: OrderDetail },
     ]
   },
   {

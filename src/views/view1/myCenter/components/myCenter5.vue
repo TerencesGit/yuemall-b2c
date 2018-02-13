@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="clearfix">
         <div class="personSafe fr">
             <div class="header">
                 <ul>
@@ -28,7 +28,7 @@
                 </div>
             </div>
         </div>
-        <div class="personInfo fr">
+        <div class="personInfo fl">
             <div class="header">
                     <ul>
                         <li>
@@ -40,21 +40,7 @@
                 <ul>
                     <li>
                         <span>头像</span>
-                        <img v-show="!isEdit" :src="imageUrl || 'http://fileserver.yueshijue.com/fileService/uploads/2018/01/19/415163553783837.jpg'" alt="">
-                        <div class="edit" v-show="isEdit">
-                            <div class="avators">
-                                <el-upload
-                                class="avatar-uploader"
-                                action="https://jsonplaceholder.typicode.com/posts/"
-                                :show-file-list="false"
-                                :on-success="handleAvatarSuccess"
-                                :before-upload="beforeAvatarUpload">
-                                <img v-if="imageUrl" :src="imageUrl" class="avatar">
-                                <i v-else class="el-icon-plus avatar-uploader-icon"></i>
-                                </el-upload>
-
-                            </div>
-                        </div>
+                        <img :src="imageUrl || 'http://fileserver.yueshijue.com/fileService/uploads/2018/01/19/415163553783837.jpg'" alt="">
                     </li>
                     <li>
                         <span>手机</span> 
@@ -260,10 +246,11 @@ export default {
             }else if(this.radio == '2'){
                 this.radio = '女'
             }
+            
             let data = {
                 nickname: this.nickname,
                 realName: this.username,
-                picUrl: this.imageUrl,
+                picUrl: 'http://fileserver.yueshijue.com/fileService/uploads/2018/01/19/415163553783837.jpg',
                 sex: this.sex
             }
             perfect(data).then( res => {
@@ -273,12 +260,6 @@ export default {
                     this.$message(res.data.msg)
                 }
             })
-        },
-        telephoneEdit() {
-
-        },
-        binding() {
-
         },
         handleSex() {
             if(this.radio == '1') {
@@ -294,10 +275,18 @@ export default {
 
 <style lang="scss" scoped>
 .personInfo{
-    // width: 1028px;
+    width: 500px;
     height: 600px;
     border: 1px solid #dedede;
     margin-bottom: 50px;
+    float: left;
+}
+.personSafe{
+    width: 500px;
+    height: 600px;
+    border: 1px solid #dedede;
+    margin-left: 25px;
+    float: right;
 }
     .header{
         height: 57px;
@@ -396,9 +385,8 @@ export default {
                 }
                 .info-edit {
                     display: inline;
+                    float: right;
                     button {
-                        // padding: 0;
-                        
                     }
                     .telIpt {
                         width: 300px;
@@ -415,10 +403,5 @@ export default {
        
     }
 
-.personSafe{
-    width: 500px;
-    height: 600px;
-    border: 1px solid #dedede;
-    margin-left: 25px;
-}
+
 </style>

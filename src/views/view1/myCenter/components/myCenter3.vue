@@ -4,31 +4,26 @@
             <div class="header">
                 <ul id="header-ul" @click="active">
                     <li>
-                        <el-badge :value="12" class="item"></el-badge>
-                        <span :class="isActive ? 'active' : ''" @click="all">全部{{allNum}}</span>  
+                        <span :class="isActive ? 'active' : ''" @click="all">全部( <em>{{allNum}}</em> )</span>  
                     </li>
                     <li>
-                        <el-badge :value="2" class="item"></el-badge>
-                        <span @click="photography">全球旅拍{{photographyNum}}</span>  
+                        <span @click="photography">全球旅拍( <em>{{photographyNum}}</em> )</span>  
                     </li>
                     <li>
-                        <el-badge :value="4" class="item"></el-badge>
-                        <span @click="domesticPhotography">国内摄影{{domesticPhotographyNum}}</span>  
+                        <span @click="domesticPhotography">国内摄影( <em>{{domesticPhotographyNum}}</em> )</span>  
                     </li>
                     <li>
-                        <el-badge :value="5" class="item"></el-badge>
-                        <span @click="foreignPhotography"> 国外摄影{{foreignPhotographyNum}}</span>  
+                        <span @click="foreignPhotography"> 国外摄影( <em>{{foreignPhotographyNum}}</em> )</span>  
                     </li>
                     <li>
-                        <el-badge :value="5" class="item"></el-badge>
-                        <span @click="tourism">旅游{{tourismNum}}</span>  
+                        <span @click="tourism">旅游( <em>{{tourismNum}}</em> )</span>  
                     </li>
                 </ul>
             </div>
             <div class="content">
                 <ul>
                     <li v-for="item in collectList" :key="item.id">
-                        <router-link :to="'#/ware/detail?id=' + item.id" target="_blank">
+                        <router-link :to="'../../ware/detail?id=' + item.customerWareMainImgInfo.wareId" target="_blank">
                         <img :src="item.customerWareMainImgInfo.filePath" alt="">
                         <p>{{item.wareTripInfo.wareName}}</p>
                         <span class="price">
@@ -37,113 +32,15 @@
                         <span>{{item.wareTripInfo.suggestedPrice}}</span><em>/起</em>
                         </router-link>
                     </li>
-                     <li>
-                        <!-- <router-link :to="'#/ware/detail?id=' + item.id" target="_blank"> -->
-                            <img src="http://fileServer.yueshijue.com/fileService/uploads/2017/10/31/415094392283953.jpg" alt="">
-                            <p>海南三亚旅拍婚纱摄影1天套系</p>
-                            <span class="price">
-                                <i class="icon-rmb">￥</i><strong></strong>
-                            </span>
-                            <span>56666</span><em>/起</em>
-                        <!-- </router-link> -->
-                    </li>
-                    <li>
-                        <img src="http://fileServer.yueshijue.com/fileService/uploads/2017/10/31/415094392283953.jpg" alt="">
-                        <p>海南三亚旅拍婚纱摄影1天套系</p>
-                        <span class="price">
-                            <i class="icon-rmb">￥</i><strong></strong>
-                        </span>
-                        <span>56666</span>/起
-                    </li>
-                    <li>
-                        <img src="http://fileServer.yueshijue.com/fileService/uploads/2017/10/31/415094392283953.jpg" alt="">
-                        <p>海南三亚旅拍婚纱摄影1天套系</p>
-                        <span class="price">
-                            <i class="icon-rmb">￥</i><strong></strong>
-                        </span>
-                        <span>56666</span>/起
-                    </li>
-                    <li>
-                        <img src="http://fileServer.yueshijue.com/fileService/uploads/2017/10/31/415094392283953.jpg" alt="">
-                        <p>海南三亚旅拍婚纱摄影1天套系</p>
-                        <span class="price">
-                            <i class="icon-rmb">￥</i><strong></strong>
-                        </span>
-                        <span>56666</span><em>/起</em>
-                    </li>
-                    <li>
-                        <img src="http://fileServer.yueshijue.com/fileService/uploads/2017/10/31/415094392283953.jpg" alt="">
-                        <p>海南三亚旅拍婚纱摄影1天套系</p>
-                        <span class="price">
-                            <i class="icon-rmb">￥</i><strong></strong>
-                        </span>
-                        <span>56666</span><em>/起</em>
-                    </li>
-                    <li>
-                        <img src="http://fileServer.yueshijue.com/fileService/uploads/2017/10/31/415094392283953.jpg" alt="">
-                        <p>海南三亚旅拍婚纱摄影1天套系</p>
-                        <span class="price">
-                            <i class="icon-rmb">￥</i><strong></strong>
-                        </span>
-                        <span>56666</span><em>/起</em>
-                    </li>
-                    <li>
-                        <img src="http://fileServer.yueshijue.com/fileService/uploads/2017/10/31/415094392283953.jpg" alt="">
-                        <p>海南三亚旅拍婚纱摄影1天套系</p>
-                        <span class="price">
-                            <i class="icon-rmb">￥</i><strong></strong>
-                        </span>
-                        <span>56666</span><em>/起</em>
-                    </li>
-                    <li>
-                        <img src="http://fileServer.yueshijue.com/fileService/uploads/2017/10/31/415094392283953.jpg" alt="">
-                        <p>海南三亚旅拍婚纱摄影1天套系</p>
-                        <span class="price">
-                            <i class="icon-rmb">￥</i><strong></strong>
-                        </span>
-                        <span>56666</span><em>/起</em>
-                    </li>
-                    <li>
-                        <img src="http://fileServer.yueshijue.com/fileService/uploads/2017/10/31/415094392283953.jpg" alt="">
-                        <p>海南三亚旅拍婚纱摄影1天套系</p>
-                        <span class="price">
-                            <i class="icon-rmb">￥</i><strong></strong>
-                        </span>
-                        <span>56666</span><em>/起</em>
-                    </li>
-                    <li>
-                        <img src="http://fileServer.yueshijue.com/fileService/uploads/2017/10/31/415094392283953.jpg" alt="">
-                        <p>海南三亚旅拍婚纱摄影1天套系</p>
-                        <span class="price">
-                            <i class="icon-rmb">￥</i><strong></strong>
-                        </span>
-                        <span>56666</span><em>/起</em>
-                    </li>
-                    <li>
-                        <img src="http://fileServer.yueshijue.com/fileService/uploads/2017/10/31/415094392283953.jpg" alt="">
-                        <p>海南三亚旅拍婚纱摄影1天套系</p>
-                        <span class="price">
-                            <i class="icon-rmb">￥</i><strong></strong>
-                        </span>
-                        <span>56666</span><em>/起</em>
-                    </li>
-                    <li>
-                        <img src="http://fileServer.yueshijue.com/fileService/uploads/2017/10/31/415094392283953.jpg" alt="">
-                        <p>海南三亚旅拍婚纱摄影1天套系</p>
-                        <span class="price">
-                            <i class="icon-rmb">￥</i><strong></strong>
-                        </span>
-                       <span>56666</span> <em>/起</em>
-                    </li> 
                 </ul>
             </div>
 
-            <div class="block">
+            <div class="block" v-show="isShow">
                 <el-pagination
                 @current-change="handleCurrentChange"
                 :page-size="12"
                 layout="total, prev, pager, next"
-                :total="14">
+                :total="allNum">
                 </el-pagination>
             </div>
         </div>
@@ -166,7 +63,8 @@ export default {
             nextPage: '',
             prePage:'',
             kindId: '',
-            isActive: ''
+            isActive: '',
+            isShow: false
         }
     },
     created() {
@@ -187,6 +85,9 @@ export default {
                     this.collectList = customer.customerUsermemberCollectDos;
                     this.nextPage = page.nextPage;
                     this.prePage = page.prePage;
+                    if(this.allNum > 12) {
+                        this.isShow = true
+                    }
                 }
             })
         },
@@ -236,7 +137,7 @@ export default {
             this.getFindListByMemId(data)
         },
         handleCurrentChange(val) {
-            this.currentPage = "'" + val + "'"
+            this.currentPage = '' + val + ''
             console.log(this.currentPage)
             let data = {
                 kindId: this.kindId,
@@ -276,14 +177,6 @@ export default {
             &:hover{
                 border-bottom: 3px solid #19A9E8;
             }
-            .el-badge{
-                position: absolute;
-                top: 20px;
-                right: -10px;
-                sup{
-                    line-height: 0px;
-                }
-            }
             span{
                 display: inline-block;
                 width: 100%;
@@ -292,7 +185,9 @@ export default {
                 padding: 0 20px;
                 font-size: 16px;
                 cursor: pointer;
-               
+               em {
+                   color: #19A9E8;
+               }
             } 
         }
         .active {
@@ -301,19 +196,24 @@ export default {
 
     }
     .content{
-        // margin: 20px;
         width: 100%;
         display: flex;
         justify-content: space-around;
         ul{
+            width: 100%;
             li{
                 display: inline-block;
                 width: 23%;
                 margin: 14px;
                 margin-right: 0;
                 cursor: pointer;
+                p {
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                }
                 img{
-                    height: auto;
+                    height: 132px;
                     width: 100%;
                 }
                 span{

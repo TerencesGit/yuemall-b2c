@@ -112,6 +112,14 @@ export default {
                 }
             }  
         }
+        .msgContent {
+            p {
+                font-size: 26px;
+                color: #ddd;
+                text-align: center;
+                margin-top: 150px;
+            }
+        }
         
     }
 }

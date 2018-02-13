@@ -4,8 +4,9 @@
         <el-row class="myOrder-title">
 		  <el-col :span="10">商品信息</el-col>
 		  <el-col :span="6">服务信息</el-col>
-		  <el-col :span="4">金额</el-col>
-		  <el-col :span="4">操作</el-col>
+		  <el-col :span="3">金额</el-col>
+		  <el-col :span="3">状态</el-col>
+		  <el-col :span="2">操作</el-col>
 		</el-row>
         <el-row class="myOrder-txt"  v-for="item in orderList.customerOrders" :key="orderList.customerOrders.id">
 		  <el-col :span="24">
@@ -15,8 +16,8 @@
 				</el-row>
           </el-col>
           <el-col :span="24" class="order-txt"> 
-			  <router-link :to="'/ware/orderDetail?'+item.orderCode" >
-			  	<el-col :span="10" class="c-info">
+			  <el-col :span="10" class="c-info">
+               <router-link :to="'/ware/orderDetail?'+item.orderCode" >
 			  	 <el-row>
 					  <el-col :span="12">
 					  	<p class="order-img">
@@ -28,15 +29,17 @@
 					  	{{item.customerOrderItem.wareName}}
 					  </el-col>
 				 </el-row>
+                </router-link>
 			  </el-col>
-			</router-link>
 			  <el-col :span="6" class="service-message">
                   <p>开始：{{item.customerOrderItem.dateDepart}}</p>
                   <p>结束：{{item.customerOrderItem.dateReturn}}</p>
 			  </el-col>
-			  <el-col :span="4" class="m-money">¥ {{item.customerOrderInfoPay.payCashValue}}
+			  <el-col :span="3" class="m-money">¥ {{item.customerOrderInfoPay.payCashValue}}
 			  </el-col>
-			  <el-col :span="4" class="m-operation">
+			  <el-col :span="3" class="m-status">{{item.statusDesc}}
+			  </el-col>
+			  <el-col :span="2" class="m-operation">
 			  	  <el-button type="primary" v-show="item.b_status1" size="small" class="my-btn" @click="payBtn(item.customerOrderInfoPay.id)">立即支付</el-button>
 		          <el-button type="info" v-show="item.b_status1" size="small"  class="my-btn" @click="cancelOpen(item.orderCode)">取消订单</el-button>
 		          <el-button type="danger" v-show="item.b_status0" size="small" class="my-btn my-btn1 " @click="deleteOpen(item.orderCode)">删除订单</el-button>
@@ -47,7 +50,7 @@
 		  </el-col>	
 		</el-row>    
         <el-row class="myOrder-page">
-		  <el-col :span="24">
+		  <el-col :span="24" style="text-align:center">
 		  	  <div class="block">
 			    <el-pagination
 			      @size-change="handleSizeChange"
@@ -71,7 +74,6 @@
 	  :visible.sync="deleteMess"
 	  width="25%"
 	  center
-      class="cancel-mess"
 	  >
 	  <span class="can-title"><span class="el-icon-error can-icon"></span>您确定要删除记录吗？</span>
 	  <span slot="footer" class="dialog-footer">
@@ -242,9 +244,6 @@
        },
        orderFillBtn(id){
            this.$router.push('/ware/fillInfo?'+id)
-       },
-       goOrderDetil(id){
-           this.$router.push('/ware/goOrderDetil'+id)
        }
 
     }
@@ -285,6 +284,9 @@
 	     	.m-money{
 	     		margin-top:30px;
 	     		color:#e4393c;
+	     	}
+	     	.m-status{
+	     		margin-top:31px;
 	     	}
 	     	.m-operation{
 	     		text-align:right;
