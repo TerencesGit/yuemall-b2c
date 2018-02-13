@@ -9,8 +9,8 @@
 			</dl>
 		</div>
 		<div class="search-inner">
-			<i class="el-icon-location"></i>
 			<input type="text" class="search-input" v-model="searchValue" placeholder="搜索你想要去的目的地/行程">
+			<i class="el-icon-location"></i>
 			<button class="search-button" @click="handleSearch"><i class="el-icon-search"></i>搜索</button>
 		</div>
 	</div>
@@ -99,6 +99,11 @@
 				padding: 10px 10px 10px 30px;
 				border: 1px solid #ccc;
 				border-right: 0;
+				&:focus {
+					+.el-icon-location {
+						color: $color1;
+					}
+				}
 			}
 			.search-button {
 				padding: 5px 20px;

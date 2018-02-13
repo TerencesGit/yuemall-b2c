@@ -485,7 +485,6 @@
 				    color: #fff;
 				  }
 					.show {
-						color: #20a0ff;
 						cursor: pointer;
 					}
 				}

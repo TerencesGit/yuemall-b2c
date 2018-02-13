@@ -235,7 +235,7 @@
 				this.panesTop = panesTop;
 			},
 			scrollEvent() {
-				this.tabTop = this.$refs.tabsContent.offsetTop - 84;
+				this.tabTop = this.$refs.tabsContent.offsetTop;
 				// console.log('tabTop----'+this.tabTop)
 				// console.log('document.body.scrollTop----'+document.body.scrollTop)
 				// console.log('document.documentElement.scrollTop----'+document.documentElement.scrollTop)
@@ -469,9 +469,6 @@
 				return totalPrice;
 			},
 		},
-		mounted() {
-			
-		},
 		created() {
 			this.wareId = this.$route.query.id;
 			this.skuDate = this.$moment().format('YYYY-MM-DD');
@@ -560,7 +557,6 @@
 						.trip-day {
 							font-size: 12px;
 							color: #fff;
-							background: $color;
 						}
 						.trip-name {
 							padding: 0 10px;
@@ -729,7 +725,7 @@
 		color: #fff;
 		font-size: 14px;
 		font-family: 'Microsoft Yahei';
-		background: $color;
+		// background: $color;
 	}
 	.ware-desc-tabs {
 		margin-bottom: 50px;
@@ -749,7 +745,7 @@
 					display: block;
 				}
 			}
-			.tabs-nav {
+			@at-root .tabs-nav {
 				display: flex;
 				height: 42px;
 				border-bottom: 1px solid #ccc;
@@ -768,13 +764,9 @@
 						&:first-child {
 							border-left-width: 0;
 						}
-						a {
-							color: #20a0ff;
-						}
 					}
 					a {
 						display: block;
-						color: #444;
 						font-size: 16px;
 					}
 				}
@@ -807,7 +799,7 @@
 				font-size: 16px;
 				font-weight: normal;
 				vertical-align: top;
-				background: #6bc2fa;
+				// background: #6bc2fa;
 			}
 			.tabs-content-detail {
 				display: inline-block;

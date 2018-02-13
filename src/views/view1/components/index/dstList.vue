@@ -31,9 +31,9 @@ export default {
         .dst-title {
           width: 64px;
           line-height: 30px;
-          color: $color;
           font-size: 16px;
           font-weight: normal;
+          // color: $color;
         }
         .dst-list {
           display: flex;
@@ -51,8 +51,8 @@ export default {
               border: 1px solid #ccc;
               border-radius: 5px;
               &:hover, &.active {
-                color: #00a0e9;
-                border: 1px solid #00a0e9;
+                // color: #00a0e9;
+                // border: 1px solid #00a0e9;
               }
             }
           }

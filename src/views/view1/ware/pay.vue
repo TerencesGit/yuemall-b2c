@@ -75,13 +75,16 @@
           orderPayId: this.payId,
         }
         yueInstalment(params).then(res => {
-          if(res.data && res.data.url) {
-             window.location.href = res.data.url;
+          if(res.data.status === 1) {
+            if(res.data.url) {
+              window.location.href = res.data.url;
+            }
           } else {
             this.$message.error(res.data.msg)
           }
         }).catch(err => {
           console.log(err)
+          this.$catchError(err)
         })
       },
       queryOrderTimer() {
@@ -102,7 +105,7 @@
               if(this.queryNum === 10) {
                 clearInterval(this.timer)
                 this.payQrCodeVisible = false;
-                this.$message.success('支付超时，请重试')
+                this.$message.warning('支付超时，请重试')
               }
             }
           } else {

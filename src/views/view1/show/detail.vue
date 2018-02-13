@@ -56,7 +56,7 @@
 	  .show-header {
 	    width: 100%;
 	    min-height: 400px;
-	    margin-top: 11px;
+	    // margin-top: 11px;
 	    img {
 	      display: block;
 	      width: 100%;

@@ -50,12 +50,16 @@
 			</div>
       <div class="ware-wrap">
       	<ul class="ware-header clearfix">
-          <li @click="saleSort = false">
-              销量(<span>↑</span>)
+          <li @click="handleSaleSort" :class="{active: sortActive === 0}">
+            <a href="javascript:;">
+            	销量(<i v-show="saleSort === 0">↑</i><i v-show="saleSort === 1">↓</i>)
+            </a>
           </li>
-          <li @click="handleSaleSort">
-              价格(<span v-show="saleSort === 0">↑</span><span v-show="saleSort === 1">↓</span>)
-          </li> 
+          <li @click="handlePriceSort" :class="{active: sortActive === 1}">
+            <a href="javascript:;">
+            	价格(<i v-show="priceSort === 0">↑</i><i v-show="priceSort === 1">↓</i>)
+            </a>
+          </li>
         </ul>
         <div class="ware-list-box" v-loading="loading">
 	        <div v-if="wareTypeList.length === 0" class="ware-box-empty">
@@ -147,7 +151,8 @@
         typeQuery: {
         	continent: '',
         	exclude: '',
-        }
+        },
+        sortActive: -1,
 	    }
 		},
 		methods: {
@@ -238,7 +243,14 @@
 				})
 			},
 	    handleSaleSort() {
+	    	this.sortActive = 0;
 	      this.saleSort = this.saleSort === 0 ? 1 : 0;
+	      // console.log(this.saleSort)
+	      // this.getWareList()
+	    },
+	    handlePriceSort() {
+	    	this.sortActive = 1;
+	      this.priceSort = this.priceSort === 0 ? 1 : 0;
 	      // console.log(this.saleSort)
 	      this.getWareList()
 	    },
@@ -550,10 +562,6 @@
       font-weight: bold;
       cursor: pointer;
       margin-right: 20px;
-      border-bottom: 3px solid #fff;
-      &:hover{
-        border-bottom: 3px solid #00a0e9;
-      }
     }
   }
   .ware-list {
@@ -605,70 +613,70 @@
 			}
 		}
 	}
-	.ware-list-horizontal {
-		display: flex;
-		width: 100%;
-		flex-wrap: wrap;
-		margin-bottom: 20px;
-		> li {
-			width: 232px;
-			margin-right: 10px;
-			margin-bottom: 15px;
-			border: 1px solid #ddd;
-			transition: all .2s linear;
-			&:nth-child(5n) {
-				margin-right: 0;
-			}
-			&:hover {
-				// border: 1px solid #00a0e9;
-				box-shadow: 0 15px 30px rgba(0,0,0,.1);
-				transform: translate3d(0, -1px, 0);
-			}
-			.ware-detail {
-				padding: 10px;
-				.ware-name {
-					height: 38px;
-					overflow: hidden;
-					color: #666;
-					font-size: 13px;
-					font-weight: normal;
-				}
-				.ware-keywords {
-					height: 28px;
-					margin: 5px 0;
-					overflow: hidden;
-					li {
-						float: left;
-						padding: 2px 5px;
-						margin-left: 5px;
-						margin-bottom: 5px;
-						font-size: 13px;
-						color: #999;
-						border: 1px solid #ddd;
-						&:first-child {
-							margin-left: 0;
-						}
-					}
-				}
-				.ware-price {
-					margin-top: 20px;
-					font-size: 14px;
-					.price {
-						color: #FF6701;
-					}
-				}
-				.ware-price-hidden {
-					a {
-						margin-top: 15px;
-						font-size: 14px;
-						color: #FF6701;
-					}
-				}
-			}
-			img {
-				width: 100%;
-				max-height: 160px;
-			}
-		}
-	}
+	// .ware-list-horizontal {
+	// 	display: flex;
+	// 	width: 100%;
+	// 	flex-wrap: wrap;
+	// 	margin-bottom: 20px;
+	// 	> li {
+	// 		width: 232px;
+	// 		margin-right: 10px;
+	// 		margin-bottom: 15px;
+	// 		border: 1px solid #ddd;
+	// 		transition: all .2s linear;
+	// 		&:nth-child(5n) {
+	// 			margin-right: 0;
+	// 		}
+	// 		&:hover {
+	// 			// border: 1px solid #00a0e9;
+	// 			box-shadow: 0 15px 30px rgba(0,0,0,.1);
+	// 			transform: translate3d(0, -1px, 0);
+	// 		}
+	// 		.ware-detail {
+	// 			padding: 10px;
+	// 			.ware-name {
+	// 				height: 38px;
+	// 				overflow: hidden;
+	// 				color: #666;
+	// 				font-size: 13px;
+	// 				font-weight: normal;
+	// 			}
+	// 			.ware-keywords {
+	// 				height: 28px;
+	// 				margin: 5px 0;
+	// 				overflow: hidden;
+	// 				li {
+	// 					float: left;
+	// 					padding: 2px 5px;
+	// 					margin-left: 5px;
+	// 					margin-bottom: 5px;
+	// 					font-size: 13px;
+	// 					color: #999;
+	// 					border: 1px solid #ddd;
+	// 					&:first-child {
+	// 						margin-left: 0;
+	// 					}
+	// 				}
+	// 			}
+	// 			.ware-price {
+	// 				margin-top: 20px;
+	// 				font-size: 14px;
+	// 				.price {
+	// 					color: #FF6701;
+	// 				}
+	// 			}
+	// 			.ware-price-hidden {
+	// 				a {
+	// 					margin-top: 15px;
+	// 					font-size: 14px;
+	// 					color: #FF6701;
+	// 				}
+	// 			}
+	// 		}
+	// 		img {
+	// 			width: 100%;
+	// 			max-height: 160px;
+	// 		}
+	// 	}
+	// }
 </style>

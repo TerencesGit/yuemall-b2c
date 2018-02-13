@@ -218,6 +218,9 @@
 					this.$message.error('提交有误！')
 				}
 			},
+			handleEnter(e) {
+				e.keyCode === 13 && this.submitForm()
+			}
 		},
 		mounted() {
 			this.storeId = sessionStorage.getItem('storeId');
@@ -225,7 +228,9 @@
 				this.getStore()
 			}
 			this.drawCode()
-		}
+			console.log(document.querySelectorAll('.el-input__inner')[1])
+			document.querySelectorAll('.el-input__inner')[1].addEventListener('keydown', this.handleEnter)
+		},
 	}
 </script>
 <style scoped lang="scss">
