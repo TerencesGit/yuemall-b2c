@@ -1,7 +1,7 @@
 <template>
   <section>
     <!-- header -->
-    <div class="header-wrap">
+    <div class="header-wrap min-width">
         <el-carousel height="800px">
           <el-carousel-item v-for="item in bannerList" :key="item.id">
             <!-- <img :src="item.urlAddr" alt=""> -->
@@ -12,7 +12,7 @@
     </div>
     <!-- destination -->
     <div class="destination-wrap container">
-      <Searchbar class="header-search" :recommendList="recommendCities"></Searchbar>
+      <!-- <Searchbar class="header-search" :recommendList="recommendCities"></Searchbar> -->
       <!-- <IndexTitle :title="'全球100+目的地'" :EnTitle="'global destinations'"></IndexTitle> -->
       <ItemHeader :name="'全球100+目的地'" :enName="'global destinations'"></ItemHeader>
       <div class="global-dst">
@@ -53,7 +53,7 @@
         <img src="/static/image/ad1-3.jpg" alt="">
       </div>
     </div> -->
-    <IndexNav></IndexNav>
+    <IndexNav class="min-width"></IndexNav>
     <!-- warelist -->
     <div class="container-fluid">
       <!-- 本地拍 -->
@@ -78,7 +78,7 @@
       <ShowRows :span="4" :gutter="10" :showData="GlobalWareList" :mapping="wareMapping"></ShowRows>
     </div>
     <!-- map -->
-    <div style="margin-top: -60px;">
+    <div style="margin-top: -60px;" class="min-width">
       <img src="/static/image/map1.jpg" class="responsive-img">
     </div>
     <!-- show -->
@@ -88,11 +88,11 @@
       <ShowRows :span="4" :gutter="10" :showData="showList" :mapping="showMapping"></ShowRows>
     </div>
     <!-- ad2 -->
-    <div style="margin-top: -50px;">
+    <div style="margin-top: -50px;" class="min-width">
       <img src="/static/image/ad02.jpg" class="responsive-img">
     </div>
     <!-- 12项高端定制旅游 -->
-    <div class="travel-wrap">
+    <div class="travel-wrap min-width">
       <!-- <div class="container">  -->
         <ItemHeader :name="'12项高端定制'" :enName="'12 high-end customizing'"></ItemHeader>
       <!-- </div> -->
@@ -104,7 +104,7 @@
 </template>
 
 <script>
-  import axios from 'axios';
+  import axios from 'axios'
   import { ShowList } from '@/data'
   import { findStoreByPcDoMain, findmerchantStoreBystoreId, bannerList, dstCityByContinent, 
     wareList, recommendWare, warelistByContinent, localList } from '@/api'
@@ -455,7 +455,7 @@
     }
   }
   .container-fluid {
-    margin: 50px;
+    margin: 50px 10px;
   }
   .destination-wrap {
     position: relative;

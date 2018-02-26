@@ -261,7 +261,6 @@
 					skuDate: this.skuDate,
 				}
 				wareSkuOfMonth(data).then(res => {
-					// console.log(res)
 					if(res.data.status === 1) {
 						this.skuData = res.data.data.currentMonthSku;
 						this.endDate = res.data.data.sellSkuPeriod.maxDate;
@@ -278,7 +277,6 @@
 				wareDetail(data).then(res => {
 					this.bannerLoading = false;
 					if(res.data.status === 1) {
-						 // console.log(res.data.data)
 						 this.wareDetail = res.data.data;
 						 document.title = this.wareDetail.wareName;
 						 this.keyWords = this.wareDetail.keyWords.split(',');

@@ -169,6 +169,22 @@ export default {
                     findchinaarea(data).then( res => {
                         if(res.data.status === 1) {
                             this.city = res.data.data
+                            this.cityName = res.data.data[0].name
+                            for(var j in this.city) {
+                                if(this.city[j].name == this.cityName) {
+                                    this.cityId = this.city[j].id
+                                    let data = {
+                                        id: this.cityId
+                                    }
+                                    findchinaarea(data).then( res => {
+                                        if(res.data.status === 1) {
+                                            this.area = res.data.data
+                                            this.areaName = res.data.data[0].name
+                                        }
+                                    })
+                                }
+                                
+                            }
                         }
                     })
                 }
@@ -184,6 +200,7 @@ export default {
                     findchinaarea(data).then( res => {
                         if(res.data.status === 1) {
                             this.area = res.data.data
+                            this.areaName = res.data.data[0].name
                         }
                     })
                 }

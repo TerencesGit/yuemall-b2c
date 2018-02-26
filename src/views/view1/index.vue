@@ -401,7 +401,7 @@
       },
     },
     mounted() {
-      this.showList = ShowList;
+      this.showList = ShowList.filter((show, index) => index >= 0 && index < 6);
       let store = JSON.parse(sessionStorage.getItem('store'));
       document.title = store && store.storeName || '首页';
       this.storeId = sessionStorage.getItem('storeId');
@@ -429,7 +429,7 @@
   $color: #19A9E8;
   .header-wrap {
     position: relative;
-    top: -90px;
+    // top: -90px;
   }
   .header-search {
     width: 700px;
@@ -452,7 +452,7 @@
   }
   .destination-wrap {
     position: relative;
-    top: -90px;
+    // top: -90px;
     .index-title {
       margin: 50px 0 30px;
     }

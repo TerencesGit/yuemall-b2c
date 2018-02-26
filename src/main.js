@@ -15,8 +15,8 @@ import 'nprogress/nprogress.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'font-awesome/css/font-awesome.min.css'
 import '@/assets/css/main.scss'
-import '@/assets/css/theme/light_blue.scss'
-// import '@/assets/css/theme/orange.scss'
+// import '@/assets/css/theme/light_blue.scss'
+import '@/assets/css/theme/orange.scss'
 Vue.use(Vuex)
 Vue.use(Router)
 Vue.use(ElementUI)
