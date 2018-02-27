@@ -202,6 +202,7 @@
 				isCollected: false,
 				bannerLoading: false,
 				calendarBg: '#009ce8',
+				isSkuDataLoad: 0,
 			}
 		},
 		methods: {
@@ -261,6 +262,7 @@
 					skuDate: this.skuDate,
 				}
 				wareSkuOfMonth(data).then(res => {
+					this.isSkuDataLoad = 1
 					if(res.data.status === 1) {
 						this.skuData = res.data.data.currentMonthSku;
 						this.endDate = res.data.data.sellSkuPeriod.maxDate;
@@ -446,7 +448,7 @@
 		},
 		computed: {
 			isLogin() {
-				if(this.$store.getters.isLogin === 1 && this.skuData.length === 0) {
+				if(this.$store.getters.isLogin === 1 && this.isSkuDataLoad === 0) {
 					this.getSkuData()
 				}
 				return this.$store.getters.isLogin;

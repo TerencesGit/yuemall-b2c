@@ -228,7 +228,6 @@
 				this.getStore()
 			}
 			this.drawCode()
-			console.log(document.querySelectorAll('.el-input__inner')[1])
 			document.querySelectorAll('.el-input__inner')[1].addEventListener('keydown', this.handleEnter)
 		},
 	}

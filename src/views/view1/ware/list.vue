@@ -122,8 +122,8 @@
 </template>
 
 <script>
-	import axios from 'axios';
-	import { findWareKindsAndDstCities, findWareList, findWareListBySearch, recommendWare, warelistByContinent, datalist, findSrcAndDstListByWareKind, dstCityByContinent, localList } from '@/api'
+	import axios from 'axios'
+	import { findStoreByPcDoMain, findWareKindsAndDstCities, findWareList, findWareListBySearch, recommendWare, warelistByContinent, datalist, findSrcAndDstListByWareKind, dstCityByContinent, localList } from '@/api'
 	export default {
 		data() {
 	    return {
@@ -467,6 +467,24 @@
           }
         })
       },
+      getStore() {
+        findStoreByPcDoMain().then(res => {
+          if(res.data.status === 1) {
+            this.storeId = res.data.data;
+            this.$store.dispatch('saveStoreId', this.storeId)
+            this.getWareKindsAndDstCites()
+						if(this.searchName) {
+							this.getWareListBySearchName()
+						} else {
+							this.handleWareType()
+						}
+          } else {
+            this.$message.error(res.data.msg)
+          }
+        }).catch(err => {
+        	console.log(err)
+        })
+      },
 		},
 		computed: {
 			isLogin() {
@@ -480,14 +498,18 @@
 			this.handleWareType()
 			next()
 		},
-		created() {
-			this.storeId = sessionStorage.getItem('storeId');
+		mounted() {
+			this.storeId = sessionStorage.getItem('storeId')
 			this.searchName = this.$route.query.searchName;
 			this.wareType = this.$route.query.type;
 			// this.wareKind = this.$route.query.wareKind || 0;
 			// this.tripDays = this.$route.query.tripDays || 0;
 			// this.dstCityCode = this.$route.query.dstCityCode || 0;
 			// this.getDstCitiesByWareKind()
+			if(!this.storeId) {
+				this.getStore()
+				return;
+			}
 			this.getWareKindsAndDstCites()
 			if(this.searchName) {
 				this.getWareListBySearchName()

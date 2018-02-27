@@ -1,7 +1,7 @@
 <template>
   <section>
     <!-- header -->
-    <div class="header-wrap min-width">
+    <div class="header-wrap">
         <el-carousel height="800px">
           <el-carousel-item v-for="item in bannerList" :key="item.id">
             <!-- <img :src="item.urlAddr" alt=""> -->
@@ -53,7 +53,7 @@
         <img src="/static/image/ad1-3.jpg" alt="">
       </div>
     </div> -->
-    <IndexNav class="min-width"></IndexNav>
+    <IndexNav></IndexNav>
     <!-- warelist -->
     <div class="container-fluid">
       <!-- 本地拍 -->
@@ -78,7 +78,7 @@
       <ShowRows :span="4" :gutter="10" :showData="GlobalWareList" :mapping="wareMapping"></ShowRows>
     </div>
     <!-- map -->
-    <div style="margin-top: -60px;" class="min-width">
+    <div style="margin-top: -60px;">
       <img src="/static/image/map1.jpg" class="responsive-img">
     </div>
     <!-- show -->
@@ -88,11 +88,11 @@
       <ShowRows :span="4" :gutter="10" :showData="showList" :mapping="showMapping"></ShowRows>
     </div>
     <!-- ad2 -->
-    <div style="margin-top: -50px;" class="min-width">
+    <div style="margin-top: -50px;">
       <img src="/static/image/ad02.jpg" class="responsive-img">
     </div>
     <!-- 12项高端定制旅游 -->
-    <div class="travel-wrap min-width">
+    <div class="travel-wrap">
       <!-- <div class="container">  -->
         <ItemHeader :name="'12项高端定制'" :enName="'12 high-end customizing'"></ItemHeader>
       <!-- </div> -->
@@ -487,58 +487,6 @@
       margin: 50px 0;
       img {
         width: 100%;
-      }
-    }
-    .travel-list {
-      margin: 50px 0;
-      li {
-        float: left;
-        width: 191px;
-        height: 200px;
-        margin: 10px 10px 0 0;
-        transition: all .3s;
-        &:hover {
-          transform: scale(1.03);
-        }
-        &:nth-child(6n) {
-          margin-right: 0;
-        }
-        &:nth-child(1) {
-          background-position: 0 -260px;
-        }
-        &:nth-child(2) {
-          background-position: -191px -260px;
-        }
-        &:nth-child(3) {
-          background-position: -383px -260px;
-        }
-        &:nth-child(4) {
-          background-position: -575px -260px;
-        }
-        &:nth-child(5) {
-          background-position: -767px -260px;
-        }
-        &:nth-child(6) {
-          background-position: -959px -260px;
-        }
-        &:nth-child(7) {
-          background-position: 0 -460px;
-        }
-        &:nth-child(8) {
-          background-position: -191px -460px;
-        }
-        &:nth-child(9) {
-          background-position: -383px -460px;
-        }
-        &:nth-child(10) {
-          background-position: -575px -460px;
-        }
-        &:nth-child(11) {
-          background-position: -767px -460px;
-        }
-        &:nth-child(12) {
-          background-position: -959px -460px;
-        }
       }
     }
   }

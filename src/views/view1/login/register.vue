@@ -386,7 +386,11 @@
 					this.loading = false;
 					if(res.data.status === 1) {
 						this.$store.dispatch('changeLogin', 1)
-						this.$router.replace('/index')
+						if(this.$fromPath.indexOf('login') === 1) {
+	            this.$router.replace('/index')
+	          } else {
+	            window.history.back()
+	          }
 					} else {
 						this.$message.error(res.data.msg)
 					}
