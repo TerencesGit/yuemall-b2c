@@ -2,15 +2,23 @@
 	<div class="container">
 		<div class="ware-detail-wrap">
 			<div class="ware-detail-l">
-				<el-carousel height="320px" v-loading="bannerLoading">
+				<el-carousel ref="elCarousel" height="320px" indicator-position="none" v-loading="bannerLoading" @change="handleChange">
           <el-carousel-item v-for="item in bannerList" :key="item.id">
             <img :src="item.filePath" alt=""> 
           </el-carousel-item>
         </el-carousel>
+        <roll-carousel 
+	        :carousels="bannerList" 
+	        :activeIndex="carouselIndex" 
+	        :itemWidth="62"
+	        :itemMargin="5"
+	        style="margin-top: 10px;" 
+	        @change="handleCarouselChange">
+        </roll-carousel>
         <div class="ware-price-calendar">
 	        <price-calendar 
 						:data="skuData"
-						style="margin-top: 20px;"
+						style="margin-top: 15px;"
 						:firstDayOfWeek="0"
 						:endDate="endDate"
 						:selectedDay="selectedDay" 
@@ -203,14 +211,21 @@
 				bannerLoading: false,
 				calendarBg: '#009ce8',
 				isSkuDataLoad: 0,
+				carouselIndex: 0,
 			}
 		},
 		methods: {
+			handleChange(val) {
+				this.carouselIndex = val;
+			},
+			handleCarouselChange(val) {
+				this.$refs.elCarousel.setActiveItem(val)
+			},
 			dayClick(cell) {
 				if(cell.date === this.selectedDay) return;
 				if(cell.data) {
 					this.selectedDay = cell.date;
-					console.log(Object.assign({}, cell.data))
+					// console.log(Object.assign({}, cell.data))
 					this.basePrice = cell.data.adultPrice;
 					this.baseStorageNum = cell.data.skuStock.storageNum;
 					this.singlePrice = cell.data.singlePrice;
@@ -282,7 +297,7 @@
 						 this.wareDetail = res.data.data;
 						 document.title = this.wareDetail.wareName;
 						 this.keyWords = this.wareDetail.keyWords.split(',');
-						 this.bannerList = this.wareDetail.wareImgInfos;
+						 this.bannerList = this.wareDetail.wareImgInfos.concat(this.wareDetail.wareImgInfos);
 						 this.getTabPanesTop();
 					}
 				})

@@ -11,6 +11,7 @@ import moment from 'moment'
 import ElementUI from 'element-ui'
 import NProgress from 'nprogress'
 import PriceCalendar from '@/components/pricecalendar'
+import RollCarousel from '@/components/rollcarousel'
 import 'nprogress/nprogress.css'
 import 'element-ui/lib/theme-chalk/index.css'
 import 'font-awesome/css/font-awesome.min.css'
@@ -21,6 +22,7 @@ Vue.use(Vuex)
 Vue.use(Router)
 Vue.use(ElementUI)
 Vue.use(PriceCalendar)
+Vue.use(RollCarousel)
 Vue.prototype.$moment = moment;
 NProgress.configure({ ease: 'ease', speed: 500, minimum: 0.5, showSpinner: false})
 Vue.config.productionTip = false
