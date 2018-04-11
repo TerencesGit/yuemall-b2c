@@ -86,13 +86,13 @@
 						</li>
 					</ul> -->
 					<ul class="ware-list-horizontal">
-						<li v-for="ware in wareTypeList" :index="ware.id" class="ware-item">
+						<li v-for="ware in wareTypeList" :key="ware.id" class="ware-item">
 							<router-link :to="'/ware/detail?id='+ware.id" target="_blank">
 								<img :src="ware.mainImg" class="ware-img">
 								<div class="ware-detail">
 									<h4 class="ware-name">{{ware.wareName}}</h4>
 									<ul class="ware-keywords clearfix">
-										<li v-for="item in ware.keyWords.split(',')">{{item}}</li>
+										<li v-for="(item, index) in ware.keyWords.split(',')" :key="index">{{item}}</li>
 									</ul>
 									<p v-if="isLogin === 1" class="ware-price">
 										<span class="price">
@@ -118,6 +118,31 @@
 		      :total="page.total">
 		    </el-pagination>
       </div>
+			<div class="similar-ware" v-if="similarWareList.length > 0">
+				<h3 class="title">相似产品</h3>
+				<ul class="ware-list-horizontal">
+						<li v-for="ware in similarWareList" :key="ware.id" class="ware-item">
+							<router-link :to="'/ware/detail?id='+ware.id" target="_blank">
+								<img :src="ware.mainImg" class="ware-img">
+								<div class="ware-detail">
+									<h4 class="ware-name">{{ware.wareName}}</h4>
+									<ul class="ware-keywords clearfix">
+										<li v-for="(item, index) in ware.keyWords.split(',')" :key="index">{{item}}</li>
+									</ul>
+									<p v-if="isLogin === 1" class="ware-price">
+										<span class="price">
+											<i class="icon-rmb">￥</i><strong>{{ware.suggestedPrice}}</strong>
+										</span>
+										<span>{{ware.unit}}</span>/起
+									</p>
+									<p v-else class="ware-price-hidden">
+										<router-link to="/login">登录后价格可见</router-link>	
+									</p>
+								</div>
+							</router-link>
+						</li>
+					</ul>
+			</div>
   </div>
 </template>
 
@@ -152,7 +177,8 @@
         	continent: '',
         	exclude: '',
         },
-        sortActive: -1,
+				sortActive: -1,
+				similarWareList: [],
 	    }
 		},
 		methods: {
@@ -166,12 +192,14 @@
 			},
 			handleWareKindChange(val) {
 				this.wareKind = val;
+				this.similarWareList.length = 0;
+				this.dstCityCode = 0;
 				if(val === 0) {
 					this.getWareList()
 					return;
 				}
 				let _wareKinds = {
-					'110555123666456': 'LocalPhoto',
+					'415193834363537': 'LocalPhoto',
 	        '415057355555522': 'TourismPhoto',
 	        '415057355808314': 'Tourism',
 	        '715060598102532': 'DomesticPhoto',
@@ -194,6 +222,11 @@
 			handleDstCityChange(val) {
 				// this.handlePageJump()
 				this.getWareList()
+				if(val === 0) {
+					this.similarWareList.length = 0;
+				} else {
+					this.getSimilarWareList()
+				}
 			},
 			handleStartDate(val){
 				this.startDate = val;
@@ -266,12 +299,13 @@
 				        '415057355555522': '特别推荐',
 				        '415057355808314': '蜜月旅游',
 				        '715060598102532': '全国拍',
-				        '715060598613714': '全球拍',
+								'715060598613714': '全球拍',
+								'415193834363537': '本地拍',
 				    }
 				    this.wareKinds.forEach((kind) => {
 				      kind.kindName = _wareKinds[kind.id]
 				    })
-				    this.wareKinds.unshift({id: '110555123666456', kindName: '本地拍'})
+				    // this.wareKinds.unshift({id: '415193834363537', kindName: '本地拍'})
 	    		} else {
 	    			this.$message.error(res.data.msg)
 	    		}
@@ -315,6 +349,41 @@
 	    			// console.log(res.data.data)
 	    			this.wareTypeList = res.data.data.wares;
 	    			this.page.total =  res.data.data.page.totalCount;
+	    		} else {
+						this.$message.error(res.data.msg)
+	    		}
+	    	}).catch(err => {
+	    		this.loading = false;
+	    		console.log(err)
+	    	})
+			},
+			getSimilarWareList() {
+	    	let data = {
+	    		providerId: this.storeId,
+	    		wareKind: '',
+	    		tripDays: '',
+	    		srcCityCode: this.srcCItyCode || '',
+	    		dstCityCode: this.dstCityCode || '',
+	    		startDate: '',
+	    		endDate: '',
+	    		page: {
+	    			currentPage: 1,
+	    			pageSize: 6,
+	    		},
+	    		// query: {
+	    		// 	salesSort: this.salesSort,
+	    		// 	priceSort: this.priceSort,
+	    		// }
+	    	}
+	    	this.loading = true;
+	    	findWareList(data).then(res => {
+	    		this.loading = false;
+	    		if(res.data.status === 1) {
+	    			console.log(this.wareKind)
+	    			console.log(res.data.data.wares)
+	    			this.similarWareList = res.data.data.wares.filter(ware => ware.wareKind != this.wareKind);
+	    			console.log(this.similarWareList)
+	    			// this.page.total =  res.data.data.page.totalCount;
 	    		} else {
 						this.$message.error(res.data.msg)
 	    		}
@@ -405,7 +474,7 @@
 	    		this.getRecommendWare()
 	    		this.getHotCityList()
 	    	} else if(this.wareType === 'LocalPhoto') {
-	    		this.wareKind = '110555123666456'
+	    		this.wareKind = '415193834363537'
 	    		this.getLocalWareList()
 	    		this.dstCities = []
 	    		// this.getHotCityList()
@@ -633,6 +702,13 @@
 					color: #FF6701;
 				}
 			}
+		}
+	}
+	.similar-ware {
+		.title {
+			padding-bottom: 15px;
+			margin-bottom: 20px;
+			border-bottom: 1px solid #ddd;
 		}
 	}
 </style>
