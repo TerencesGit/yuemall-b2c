@@ -2,11 +2,14 @@
   <section>
     <!-- header -->
     <div class="header-wrap">
-        <el-carousel height="800px">
+        <el-carousel :height="bannerHeight">
           <el-carousel-item v-for="item in bannerList" :key="item.id">
+            <a :href="item.linkAddr"  target="_blank" >
+                <img :src="item.urlAddr" width="100%">
+            </a>
             <!-- <img :src="item.urlAddr" alt=""> -->
-            <router-link to="/" :style="{background: 'url('+item.urlAddr+') center center no-repeat'}">
-            </router-link>
+            <!-- <router-link to="/" :style="{background: 'url('+item.urlAddr+') center center no-repeat'}">
+            </router-link> -->
           </el-carousel-item>
         </el-carousel>
     </div>
@@ -212,6 +215,7 @@
         AsiaWareList: [],
         GlobalWareList: [],
         recommendCities: [],
+        bannerHeight: '700px',
       }
     },
     methods: {
@@ -406,8 +410,15 @@
           }
         })
       },
+      getBannerHeight() {
+        this.bannerHeight = document.body.clientWidth / 2.74 + 'px';
+      }
     },
     mounted() {
+      window.onresize = () => {
+        this.getBannerHeight()
+      }
+      this.getBannerHeight();
       this.showList = ShowList;
       let store = JSON.parse(sessionStorage.getItem('store'));
       document.title = store && store.storeName || '首页';
@@ -428,12 +439,12 @@
       } else {
         this.getStore()
       }
-    }
+    },
   }
 </script>
 
 <style lang="scss" scoped>
-  $color: #19A9E8;
+  $color: rgb(48, 87, 104);
   .header-wrap {
     position: relative;
     // top: -90px;

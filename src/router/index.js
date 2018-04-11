@@ -1,11 +1,11 @@
 import Container from '@/components/Container'
 
-// help page
-import PhotoStrategy from '@/views/help/photo_term'
-import TourismStrategy from '@/views/help/tourism_term'
-import Attentions from '@/views/help/customer_complain'
+// help
+import PhotoStrategy from '~/help/photo_term'
+import TourismStrategy from '~/help/tourism_term'
+import Attentions from '~/help/customer_complain'
 
-// view1
+// view
 import Index from '~/index1'
 import UserLogin from '~/login/login'
 import UserRegister from '~/login/register'

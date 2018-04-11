@@ -289,14 +289,14 @@
 					left: 9px;
 					width: 10px;
 					height: 12px;
-					background: url(../../../assets/img/coordinate.png) no-repeat center;
+					background: url(../../assets/img/coordinate.png) no-repeat center;
 				}
 				&:hover {
 					color: #fff;
 					background: #009FE9;
 					border: none;
 					&::before {
-						background: url(../../../assets/img/coordinate_hover.png) no-repeat center;
+						background: url(../../assets/img/coordinate_hover.png) no-repeat center;
 					}
 				}
 			}

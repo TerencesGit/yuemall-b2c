@@ -5,18 +5,18 @@
       <ul class="pay-method-list clearfix">
         <li :class="{'active': payChannel === 'WXP'}">
           <el-radio v-model="payChannel" label="WXP">
-            <img src="../../../assets/img/logo_wxpay.png">
+            <img src="../../assets/img/logo_wxpay.png">
           </el-radio>
         </li>
        <!--  <li :class="{'active': payChannel === 'ALP'}">
           <el-radio v-model="payChannel" label="ALP">
-            <img src="../../../assets/img/logo_alipay.png">
+            <img src="../../assets/img/logo_alipay.png">
           </el-radio>
         </li> -->
         <li class="payway-ybf" :class="{'active': payChannel === 'YBF'}">
           <el-radio v-model="payChannel" label="YBF">
-            <img src="../../../assets/img/logo_ybfpay1.png">
-            <img src="../../../assets/img/logo_ybfpay2.png" class="icon-ybf2">
+            <img src="../../assets/img/logo_ybfpay1.png">
+            <img src="../../assets/img/logo_ybfpay2.png" class="icon-ybf2">
           </el-radio>
         </li>
       </ul>
