@@ -49,18 +49,29 @@
 			  </div>
 			</div>
       <div class="ware-wrap">
-      	<ul class="ware-list-header clearfix">
-          <li @click="handleSaleSort" :class="{active: sortActive === 0}">
-            <a href="javascript:;">
-            	销量(<i v-show="saleSort === 0">↑</i><i v-show="saleSort === 1">↓</i>)
-            </a>
-          </li>
-          <li @click="handlePriceSort" :class="{active: sortActive === 1}">
-            <a href="javascript:;">
-            	价格(<i v-show="priceSort === 0">↑</i><i v-show="priceSort === 1">↓</i>)
-            </a>
-          </li>
-        </ul>
+				<div class="ware-box-header">
+					<ul class="ware-list-header clearfix">
+						<li @click="handleSaleSort" :class="{active: sortActive === 0}">
+							<a href="javascript:;">
+								销量(<i v-show="saleSort === 0">↑</i><i v-show="saleSort === 1">↓</i>)
+							</a>
+						</li>
+						<li @click="handlePriceSort" :class="{active: sortActive === 1}">
+							<a href="javascript:;">
+								价格(<i v-show="priceSort === 0">↑</i><i v-show="priceSort === 1">↓</i>)
+							</a>
+						</li>
+					</ul>
+					<el-pagination
+						@size-change="handleSizeChange"
+						@current-change="handleCurrentChange"
+						:current-page="page.pageNo"
+						:page-sizes="[10, 20, 30, 40]"
+						:page-size="10"
+						layout="total, sizes, prev, pager, next, jumper"
+						:total="page.total">
+					</el-pagination>
+				</div>
         <div class="ware-list-box" v-loading="loading">
 	        <div v-if="wareTypeList.length === 0" class="ware-box-empty">
 	        	未查询到满足条件的商品
@@ -108,18 +119,9 @@
 						</li>
 					</ul>
         </div>
-        <el-pagination
-		      @size-change="handleSizeChange"
-		      @current-change="handleCurrentChange"
-		      :current-page="page.pageNo"
-		      :page-sizes="[10, 20, 30, 40]"
-		      :page-size="10"
-		      layout="total, sizes, prev, pager, next, jumper"
-		      :total="page.total">
-		    </el-pagination>
       </div>
 			<div class="similar-ware" v-if="similarWareList.length > 0">
-				<h3 class="title">相似产品</h3>
+				<h3 class="title">相似推荐</h3>
 				<ul class="ware-list-horizontal">
 						<li v-for="ware in similarWareList" :key="ware.id" class="ware-item">
 							<router-link :to="'/ware/detail?id='+ware.id" target="_blank">
@@ -329,7 +331,7 @@
 	    		providerId: this.storeId,
 	    		wareKind: this.wareKind || '',
 	    		tripDays: this.tripDays || '',
-	    		srcCityCode: this.srcCItyCode || '',
+	    		srcCityCode: this.srcCityCode || '',
 	    		dstCityCode: this.dstCityCode || '',
 	    		startDate: this.startDate,
 	    		endDate: this.endDate,
@@ -362,27 +364,24 @@
 	    		providerId: this.storeId,
 	    		wareKind: '',
 	    		tripDays: '',
-	    		srcCityCode: this.srcCItyCode || '',
+	    		srcCityCode: this.srcCityCode || '',
 	    		dstCityCode: this.dstCityCode || '',
 	    		startDate: '',
 	    		endDate: '',
 	    		page: {
 	    			currentPage: 1,
-	    			pageSize: 6,
+	    			pageSize: 5,
 	    		},
-	    		// query: {
-	    		// 	salesSort: this.salesSort,
-	    		// 	priceSort: this.priceSort,
-	    		// }
 	    	}
 	    	this.loading = true;
 	    	findWareList(data).then(res => {
 	    		this.loading = false;
 	    		if(res.data.status === 1) {
+	    			console.log('this.wareKind')
 	    			console.log(this.wareKind)
-	    			console.log(res.data.data.wares)
+	    			// console.log(res.data.data.wares)
 	    			this.similarWareList = res.data.data.wares.filter(ware => ware.wareKind != this.wareKind);
-	    			console.log(this.similarWareList)
+	    			// console.log(this.similarWareList)
 	    			// this.page.total =  res.data.data.page.totalCount;
 	    		} else {
 						this.$message.error(res.data.msg)
@@ -628,6 +627,7 @@
 	.ware-list-box {
 		width: 1200px;
 		overflow: hidden;
+		border-bottom: 1px solid #ddd;
 		.ware-box-empty {
 			min-height: 100px;
 			line-height: 100px;
@@ -635,17 +635,22 @@
 		}
 	}
 	.ware-wrap {
-		width: 900px;
-		margin-bottom: 50px;
+		// width: 900px;
+		margin-bottom: 20px;
+		.ware-box-header {
+			display: flex;
+			justify-content: space-between;
+			width: 1200px;
+			margin: 0 auto 20px;
+			line-height: 36px;
+			border-bottom: 1px solid #ddd;
+		}
 	}
 	.ware-list-header {
-    width: 1200px;
-    margin: 50px auto 20px;
-    line-height: 36px;
-    border-bottom: 1px solid #ddd;
     li {
     	float: left;
       width: 90px;
+			height: 40px;
       // padding-bottom: 10px;
       text-align: center;
       font-size: 16px;

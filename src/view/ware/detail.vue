@@ -57,7 +57,7 @@
 				<div class="ware-detail-item ware-trip">
 					<label>日程概述：</label>
 					<ul class="trip-list">
-						<li v-for="(item, index) in wareDetail.customerWareTripDetailDos">
+						<li v-for="(item, index) in wareDetail.customerWareTripDetailDos" :key="index">
 							<span class="trip-day">D{{index+1}}</span>
 							<span class="trip-name">{{item.programTitle}}</span>
 							<i v-if="index < wareDetail.customerWareTripDetailDos.length - 1" class="el-icon-arrow-right">	</i>
@@ -67,7 +67,7 @@
 				<div class="ware-detail-item ware-feature">
 					<label>产品特色：</label>
 					<ul class="feature-list">
-						<li v-for="item in keyWords">{{item}}</li>
+						<li v-for="(item, index) in keyWords" :key="index">{{item}}</li>
 					</ul>
 				</div>
 				<div class="ware-detail-item ware-recommend">
@@ -100,13 +100,13 @@
 					<div class="additional-service" v-show="serviceList.length > 0">
 						<label class="service-label">附加项</label>
 						<ul class="service-list">
-							<li v-for="(item, index) in serviceList" :key="item.id" class="service-item">
+							<li v-for="(item, index) in serviceList" :key="index" class="service-item">
 								<div class="service-name">
 									<span class="name">{{item.wareName}}</span>
 									<p class="desc">{{item.wareDesc}}</p>
 								</div>
 								<div class="service-price">单价 
-									<strong class="price"><i>￥</i>{{item.servicePrice}}</strong class="price">
+									<strong class="price"><i>￥</i>{{item.servicePrice}}</strong>
 								</div>
 								<el-input-number v-model="item.serviceNum" size="small" :min="0" :max="10"></el-input-number>
 								<div class="total-price"><strong class="price"><i>￥</i>{{item.serviceNum * item.servicePrice}}</strong></div>
@@ -116,10 +116,10 @@
 					<div class="additional-service" v-show="activityList.length > 0">
 						<label class="service-label">附加项</label>
 						<ul class="service-list">
-							<li v-for="(item, index) in activityList" :key="item.id" class="service-item">
+							<li v-for="(item, index) in activityList" :key="index" class="service-item">
 								<div class="service-name">{{item.wareName}}</div>
 								<div class="service-price">单价 
-									<strong class="price"><i>￥</i>{{item.servicePrice}}</strong class="price">
+									<strong class="price"><i>￥</i>{{item.servicePrice}}</strong>
 								</div>
 								<el-input-number v-model="item.activityNum" size="small" :min="0" :max="10"></el-input-number>
 								<div class="total-price"><strong class="price"><i>￥</i>{{item.activityNum * item.servicePrice}}</strong></div>
@@ -143,8 +143,11 @@
 		<div class="ware-desc-tabs">
 			<div ref="tabsHeader" class="tabs-header relative" :class="{fixed : isTabFixed}">
 				<ul class="tabs-nav">
-					<li v-for="(item, index) in  attributeList" :key="index" :class="{active : index === tabActive}" @click="tabClick(index)">
+					<li v-for="(item, index) in attributeList" :key="index" :class="{active : index === tabActive}" @click="tabClick(index)">
 						<a href="javascript:;">{{attributeName[item.title]}}</a>
+					</li>
+					<li v-if="this.wareAttribute['KEPIANZHANSHI']" v-html="this.wareAttribute['KEPIANZHANSHI']">
+						<!-- <p><a href="#/show/detail?destination=Kyoto" target="_blank" title="客片展示">客片展示</a></p> -->
 					</li>
 				</ul>
 				<button class="reserve-button pull-right" @click="handleReserve">立即预定</button>
@@ -189,6 +192,7 @@
 					'TUIGAIGUIZE',
 					'QIANZHENGQIANZHU',
 					'CHANPINJIESHAO',
+					// 'KEPIANZHANSHI',
 				],
 				attributeName: {
 					CHANPINJIESHAO: '产品介绍',
@@ -199,6 +203,7 @@
 					ZILIFEIYONG: '自理费用',
 					TUIGAIGUIZE: '退改规则',
 					QIANZHENGQIANZHU: '签证/签注',
+					// KEPIANZHANSHI: '客片展示',
 				},
 				tabTop: 900,
 				tabActive: 0,
@@ -308,6 +313,7 @@
 				}
 				wareAttribut(data).then(res => {
 					if(res.data.status === 1) {
+						this.wareAttribute = res.data.data;
 						this.attrOrder.forEach(attr => {
 							let attrObj = {
 								title: attr,

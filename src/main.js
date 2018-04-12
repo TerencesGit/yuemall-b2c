@@ -43,6 +43,7 @@ Vue.prototype.$catchError = (err) => {
   }
 }
 const router = new Router({
+  // mode: 'history',
 	routes
 })
 router.beforeEach((to, from, next) => {
