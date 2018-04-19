@@ -51,6 +51,7 @@ const routes = [
         path: 'myCenter',
         name: '个人中心',
         component: MyCenter,
+        meta: {required: true},
         children : [
           { path: 'myCenter1', name: '个人中心1', component: myCenter1 },
           { path: 'myCenter2', name: 'myCenter2', component: myCenter2 },
@@ -72,10 +73,10 @@ const routes = [
     children: [
       { path: 'list', name: '商品列表页', component: WareList },
       { path: 'detail', name: '商品详情页', component: WareDetail },
-      { path: 'reserve', name: '商品预定页', component: WareFillOrder },
-      { path: 'pay', name: '订单支付页', component: OrderPay },
-      { path: 'fillInfo', name: '订单完善信息页', component: OrderFillInfo },
-      { path: 'orderDetail', name: '订单详情页', component: OrderDetail },
+      { path: 'reserve', name: '商品预定页', component: WareFillOrder, meta: {required: true} },
+      { path: 'pay', name: '订单支付页', component: OrderPay, meta: {required: true} },
+      { path: 'fillInfo', name: '订单完善信息页', component: OrderFillInfo, meta: {required: true} },
+      { path: 'orderDetail', name: '订单详情页', component: OrderDetail, meta: {required: true} },
     ]
   },
   {

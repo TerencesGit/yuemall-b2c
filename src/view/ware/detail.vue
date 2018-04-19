@@ -146,9 +146,7 @@
 					<li v-for="(item, index) in attributeList" :key="index" :class="{active : index === tabActive}" @click="tabClick(index)">
 						<a href="javascript:;">{{attributeName[item.title]}}</a>
 					</li>
-					<li v-if="this.wareAttribute['KEPIANZHANSHI']" v-html="this.wareAttribute['KEPIANZHANSHI']">
-						<!-- <p><a href="#/show/detail?destination=Kyoto" target="_blank" title="客片展示">客片展示</a></p> -->
-					</li>
+					<li v-if="wareAttribute['KEPIANZHANSHI']" v-html="wareAttribute['KEPIANZHANSHI']"></li>
 				</ul>
 				<button class="reserve-button pull-right" @click="handleReserve">立即预定</button>
 			</div>
@@ -376,7 +374,7 @@
 					this.$notify({
 					 	type: 'warning',
 					 	title: '提示',
-					 	message: '请登录先',
+					 	message: '请先登录',
 					 })
 					 return;
 				}
@@ -433,7 +431,7 @@
 					this.$notify({
 					 	type: 'warning',
 					 	title: '提示',
-					 	message: '请登录先',
+					 	message: '请先登录',
 					})
 					return;
 				}
@@ -695,8 +693,6 @@
 				width: 1000px;
 				.additional-service {
 					position: relative;
-					.service-list {
-					}
 				}
 				.single-content {
 					position: relative;
