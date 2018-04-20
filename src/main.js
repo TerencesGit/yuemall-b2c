@@ -48,7 +48,19 @@ const router = new Router({
 })
 router.beforeEach((to, from, next) => {
   NProgress.start()
-  next()
+  if(to.meta && to.meta.requireAuth) {
+    let checkLogin = async () => {
+      const isLogin = await store.dispatch('loadUserInfo')
+      if(isLogin === 1) {
+        next()
+      } else {
+        next(`/login?redirect=${to.fullPath}`)
+      }
+    }
+    checkLogin()
+  } else {
+    next()
+  }
 })
 router.afterEach((to, from) => {
   Vue.prototype.$fromPath = from.path;

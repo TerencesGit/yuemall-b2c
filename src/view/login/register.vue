@@ -321,7 +321,7 @@
 				loading: false,
 				disabled: false,
 				buttonText: '获取动态码',
-				bgImg: 'http://pai.yueshijue.com/assets/img/img/background.png',
+				bgImg: 'http://ums.yueshijue.com/UmsUpload/resource/201803/C724A039E6324DFC929D8FCEDD6A574F_1520413574591.jpg',
 				storeName: '',
 				dialogVisible: false,
 			}
