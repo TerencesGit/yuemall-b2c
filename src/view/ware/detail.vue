@@ -28,7 +28,7 @@
 						@nextMonth="handleNextMonth">
 					</price-calendar>
 					<div class="celendar-mask" v-if="isLogin === 0">
-						<router-link to="/login" class="login-button">登录后价格可见</router-link>
+						<router-link :to="'/login?redirect='+$route.fullPath" class="login-button">登录后价格可见</router-link>
 					</div>
 				</div>
 			</div>
@@ -46,7 +46,7 @@
 						<span>{{wareDetail.unit}}起</span>
 					</p>
 					<p v-else class="ware-price-hidden">
-						<router-link to="/login">登录</router-link>	
+						<router-link :to="'/login?redirect='+$route.fullPath">登录</router-link>	
 						后价格可见
 					</p>
 					<button class="collect-button" @click="handleCollect">

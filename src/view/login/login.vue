@@ -46,7 +46,7 @@
 				  </el-form-item>
 				</el-form>
 				<div class="login-footer">
-					<router-link to="/register">尚未注册</router-link>
+					<router-link :to="redirectUrl ? '/register?redirect='+redirectUrl : '/login'">尚未注册</router-link>
 					<span>|</span>
 					<a href="javascript:;">忘记密码</a>
 				</div>
@@ -101,6 +101,7 @@
 						{ required: true, message: '请输入动态码', trigger: 'blur' },
 					],
 				},
+				redirectUrl: '',
 				storeId: '',
 				authCode: '',
 				autoLogin: '1',
@@ -184,11 +185,16 @@
 						let userInfo = res.data.data;
 						this.$store.dispatch('changeLogin', 1)
 						this.$store.dispatch('saveUserInfo', userInfo)
-						if(this.$fromPath.indexOf('register') === 1) {
-	            this.$router.replace('/index')
-	          } else {
-	            window.history.back()
-	          }
+						// if(this.$fromPath.indexOf('register') === 1) {
+	          //   this.$router.replace('/index')
+	          // } else {
+	          //   window.history.back()
+	          // }
+						if(this.redirectUrl) {
+							this.$router.replace(this.redirectUrl)
+						} else {
+							thsi.$router.replace('/index')
+						}
 					} else {
 						this.$message.error(res.data.msg)
 					}
@@ -223,6 +229,8 @@
 			}
 		},
 		mounted() {
+			this.redirectUrl = this.$route.query.redirect;
+			console.log(this.redirectUrl)
 			this.storeId = sessionStorage.getItem('storeId');
 			if(!this.storeId) {
 				this.getStore()

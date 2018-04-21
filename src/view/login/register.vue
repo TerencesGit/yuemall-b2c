@@ -39,7 +39,7 @@
 				  </el-form-item>
 				</el-form>
 				<div class="login-footer">
-					<span>已有账号？</span><router-link to="/login">立即登录</router-link>
+					<span>已有账号？</span><router-link :to="redirectUrl ? '/login?redirect='+redirectUrl : '/login'">立即登录</router-link>
 				</div>
 			</div>
 		</div>
@@ -271,26 +271,26 @@
 	export default {
 		data() {
 			const validateMobile = (rule, value, callback) => {
-        if (!value.match(/^(13|14|15|17|18)\d{9}$/)) {
-           callback(new Error('手机号码格式不正确'))
-        } else {
-          callback()
-        }
-      }
-      const validateCode = (rule, value, callback) => {
-        if (value.toUpperCase() !== this.authCode.toUpperCase()) {
-          callback(new Error('验证码错误'))
-        } else {
-          callback()
-        }
-      }
+				if (!value.match(/^(13|14|15|17|18)\d{9}$/)) {
+				callback(new Error('手机号码格式不正确'))
+				} else {
+				callback()
+				}
+			}
+			const validateCode = (rule, value, callback) => {
+				if (value.toUpperCase() !== this.authCode.toUpperCase()) {
+				callback(new Error('验证码错误'))
+				} else {
+				callback()
+				}
+			}
 			return {
 				form: {
-	        mobile: '',
-	        password: '',
-	        authcode: '',
-	        smscode: '',
-	        agreement: [],
+					mobile: '',
+					password: '',
+					authcode: '',
+					smscode: '',
+					agreement: [],
 				},
 				rules: {
 					mobile: [
@@ -309,8 +309,8 @@
 						{ required: true, message: '请输入动态码', trigger: 'blur' },
 					],
 					agreement: [
-            { type: 'array', required: true, message: '请同意注册协议', trigger: 'change' }
-          ]
+						{ type: 'array', required: true, message: '请同意注册协议', trigger: 'change' }
+					]
 				},
 				checked: true,
 				loginType: '1',
@@ -324,25 +324,26 @@
 				bgImg: 'http://ums.yueshijue.com/UmsUpload/resource/201803/C724A039E6324DFC929D8FCEDD6A574F_1520413574591.jpg',
 				storeName: '',
 				dialogVisible: false,
+				redirectUrl: '',
 			}
 		},
 		methods: {
 			drawCode () {
-        this.authCode = Utils.canvasCode('canvasCode')
-      },
-      getStore() {
-        findStoreByPcDoMain().then(res => {
-          if(res.data.status === 1) {
-            this.storeId = res.data.data;
-            sessionStorage.setItem('storeId', this.storeId)
-          } else {
-            this.$message.error(res.data.msg)
-          }
-        }).catch(err => {
-        	console.log(err)
-        })
-      },
-      countDown() {
+				this.authCode = Utils.canvasCode('canvasCode')
+			},
+			getStore() {
+				findStoreByPcDoMain().then(res => {
+				if(res.data.status === 1) {
+					this.storeId = res.data.data;
+					sessionStorage.setItem('storeId', this.storeId)
+				} else {
+					this.$message.error(res.data.msg)
+				}
+				}).catch(err => {
+					console.log(err)
+				})
+			},
+			countDown() {
 				let count = 60;
 				let timer = null;
 				this.disabled = true;
@@ -357,8 +358,8 @@
 					}
 				}, 1000)	
 			},
-      getSmsCode() {
-      	this.$refs.loginForm.validateField('mobile', error => {
+			getSmsCode() {
+				this.$refs.loginForm.validateField('mobile', error => {
 					if(error) return;
 					let data = {
 						phone: this.form.mobile,
@@ -372,30 +373,35 @@
 						}
 					})
 				})
-      },
-      userLogin() {
-      	let data = {
-    			username: this.form.mobile,
+			},
+			userLogin() {
+				let data = {
+					username: this.form.mobile,
 					password: this.form.password,
 					loginType: this.loginType,
 					autoLogin: this.autoLogin,
 					storeId: this.storeId,
-      	}
-      	this.loading = true;
+				}
+				this.loading = true;
 				memberLogin(data).then(res => {
 					this.loading = false;
 					if(res.data.status === 1) {
 						this.$store.dispatch('changeLogin', 1)
-						if(this.$fromPath.indexOf('login') === 1) {
-	            this.$router.replace('/index')
-	          } else {
-	            window.history.back()
-	          }
+						// if(this.$fromPath.indexOf('login') === 1) {
+						// 	this.$router.replace('/index')
+						// } else {
+						// 	window.history.back()
+						// }
+						if(this.redirectUrl) {
+							this.$router.replace(this.redirectUrl)
+						} else {
+							thsi.$router.replace('/index')
+						}
 					} else {
 						this.$message.error(res.data.msg)
 					}
 				})
-      },
+			},
 			submitForm() {
 				this.$refs.loginForm.validate(valid => {
 					if(!valid) return;
@@ -420,6 +426,7 @@
 			this.drawCode()
 		},
 		created() {
+			this.redirectUrl = this.$route.query.redirect;
 			this.storeName = JSON.parse(sessionStorage.getItem('store')).storeName;
 			this.storeId = sessionStorage.getItem('storeId');
 			if(!this.storeId) {

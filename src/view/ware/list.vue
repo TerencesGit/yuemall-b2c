@@ -112,7 +112,7 @@
 										<span>{{ware.unit}}</span>/起
 									</p>
 									<p v-else class="ware-price-hidden">
-										<router-link to="/login">登录后价格可见</router-link>	
+										<router-link :to="'/login?redirect='+$route.fullPath">登录后价格可见</router-link>	
 									</p>
 								</div>
 							</router-link>
@@ -138,7 +138,7 @@
 										<span>{{ware.unit}}</span>/起
 									</p>
 									<p v-else class="ware-price-hidden">
-										<router-link to="/login">登录后价格可见</router-link>	
+										<router-link :to="'/login?redirect='+$route.fullPath">登录后价格可见</router-link>	
 									</p>
 								</div>
 							</router-link>
